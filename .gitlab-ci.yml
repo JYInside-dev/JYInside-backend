@@ -1,0 +1,9 @@
+stages:
+  - test
+
+runner-test:
+  stage: test
+  tags:
+    - saas-linux-small-arm64
+  script:
+    - echo "backend runner connected"
