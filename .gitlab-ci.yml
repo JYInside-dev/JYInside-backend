@@ -1,7 +1,7 @@
 stages:
   - test
 
-docker_test:
+backend_docker_test:
   stage: test
   image: docker:24.0.5-cli
   services:

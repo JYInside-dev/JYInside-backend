@@ -1,11 +1,13 @@
 spring:
   application:
     name: community-backend
+    config:
+      import: optional:file:.env[.properties]
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/community_db
-    username: najeungyoon
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
