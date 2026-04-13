@@ -11,6 +11,8 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle settings.gradle ./
 
+# gradlew 실행 권한 부여
+RUN chmod +x gradlew
 
 RUN ./gradlew dependencies --no-daemon
 # 소스 복사 및 빌드
