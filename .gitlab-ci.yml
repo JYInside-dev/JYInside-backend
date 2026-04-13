@@ -12,7 +12,7 @@ build_backend:
     DOCKER_TLS_CERTDIR: ""
     IMAGE_TAG: $CI_REGISTRY_IMAGE/backend:ci-test
   tags:
-    - saas-linux-small-arm64
+    - saas-linux-small-amd64
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
     - docker build --pull -t "$IMAGE_TAG" .
