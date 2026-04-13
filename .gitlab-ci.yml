@@ -1,8 +1,8 @@
 stages:
-  - test
+  - build
 
-backend_docker_test:
-  stage: test
+build_backend:
+  stage: build
   image: docker:24.0.5-cli
   services:
     - name: docker:24.0.5-dind
@@ -13,4 +13,4 @@ backend_docker_test:
   tags:
     - saas-linux-small-arm64
   script:
-    - docker info
+    - docker build --pull -t backend-image .
