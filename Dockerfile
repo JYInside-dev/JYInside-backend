@@ -24,6 +24,8 @@ RUN ./gradlew bootJar --no-daemon
 FROM amazoncorretto:21.0.10-al2023-headless
 WORKDIR /app
 
+
+
 # jar 만 빼와서 컨테이너에 싣기
 COPY --from=build /app/build/libs/*.jar community-backend.jar
 EXPOSE 8080
