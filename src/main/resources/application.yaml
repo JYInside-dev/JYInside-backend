@@ -6,9 +6,10 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    # docker compose에서 db 변수 소스를 주지 않았을 때 로컬로 실행해보기 위해서
+    url: ${SPRING_DATASOURCE_URL:${DB_URL}}
+    username: ${SPRING_DATASOURCE_USERNAME:${DB_USERNAME}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD}}
 
   jpa:
     hibernate:
@@ -23,9 +24,6 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
-
-
-
 
 server:
   port: 8080

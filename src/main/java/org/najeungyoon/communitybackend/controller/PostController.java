@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/community")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin({"http://localhost:5173","http://localhost:3000"})
 @Slf4j
 public class PostController {
 
