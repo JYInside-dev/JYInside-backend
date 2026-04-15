@@ -13,7 +13,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 서버의 모든 API 경로에 대해
-                .allowedOrigins("http://localhost:5173","http://localhost:3030") // React 서버의 접근을 허용 + nginx도
+                .allowedOrigins("http://localhost:5173","http://localhost:3000") // React 서버의 접근을 허용 + nginx도
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 권한들
                 .allowedHeaders("*")
                 .allowCredentials(true)
