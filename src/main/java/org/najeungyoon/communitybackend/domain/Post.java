@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,16 +31,17 @@ public class Post {
     @Column(nullable = false)
     private String password;
 
+    @CreationTimestamp
     @Column(updatable = false, nullable = false) // 생성 시간은 업데이트되지 않도록 막습니다.
     private LocalDateTime createAt;
 
 
-    public Post(String title, String content, String authorName, String password,LocalDateTime createAt) {
+
+    public Post(String title, String content, String authorName, String password) {
         this.title = title;
         this.content = content;
         this.authorName = authorName;
         this.password = password;
-        this.createAt = createAt;
     }
 
 }

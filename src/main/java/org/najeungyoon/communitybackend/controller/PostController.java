@@ -29,14 +29,15 @@ public class PostController {
 
     /* 글 작성 */
     @PostMapping("/write")
-    public ResponseEntity<String> writePost(@RequestBody PostCreateRequestDTO dto){
+    public ResponseEntity<String> writePost(
+            @RequestBody PostCreateRequestDTO dto
+            ){
         log.info("글 작성 post 요청 들어옴.");
         postService.createPost(dto);
         return ResponseEntity.ok("성공적으로 게시글 저장 완료됐습니다!");
     }
 
 
-    
     /* 클릭했을 때 글 상세 페이지로 이동 */
     @GetMapping("/post/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable Long id){

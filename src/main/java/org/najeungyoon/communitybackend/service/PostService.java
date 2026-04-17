@@ -22,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+
     /* 모든 게시글 조회하는 api  */
     public List<PostDTO> getAllPost(){
 
@@ -37,17 +38,16 @@ public class PostService {
     /* 글 생성 API*/
     @Transactional
     public void createPost(PostCreateRequestDTO dto){
+        log.info("갤러리에 게시글 저장 시작");
 
-        log.info("게시글 저장 시작");
         // 평문비밀번호 해싱
         String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
         // 해싱된 비밀번호로 Entity 만들어서 DB에 insert
         Post post = dto.toEntity(hashedPassword);
         postRepository.save(post);
 
-        log.info("게시글 저장 완료");
+        log.info("갤러리에 게시글 저장 완료");
     }
-
 
     /* 글 삭제 APi */
     @Transactional

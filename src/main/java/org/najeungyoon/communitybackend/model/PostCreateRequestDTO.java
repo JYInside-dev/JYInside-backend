@@ -2,8 +2,6 @@ package org.najeungyoon.communitybackend.model;
 
 import org.najeungyoon.communitybackend.domain.Post;
 
-import java.time.LocalDateTime;
-
 
 /* 글 작성할 때 입력된 데이터들을 프론트-> 백엔드로 쏴주는 DTO입니다. */
 public record PostCreateRequestDTO(
@@ -21,8 +19,7 @@ public record PostCreateRequestDTO(
                 this.title,
                 this.content,
                 this.authorName,
-                hashedPassword,
-                LocalDateTime.now()
+                hashedPassword
         );
     }
 }
