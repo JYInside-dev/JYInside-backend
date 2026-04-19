@@ -27,6 +27,7 @@ public class PostController {
     }
 
 
+
     /* 글 작성 */
     @PostMapping("/write")
     public ResponseEntity<String> writePost(
