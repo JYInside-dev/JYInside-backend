@@ -35,13 +35,17 @@ public class Post {
     @Column(updatable = false, nullable = false) // 생성 시간은 업데이트되지 않도록 막습니다.
     private LocalDateTime createAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 
 
-    public Post(String title, String content, String authorName, String password) {
+    public Post(String title, String content, String authorName, String password,Board board) {
         this.title = title;
         this.content = content;
         this.authorName = authorName;
         this.password = password;
+        this.board=board;
     }
 
 }

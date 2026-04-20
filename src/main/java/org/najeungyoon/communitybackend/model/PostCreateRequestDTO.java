@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend.model;
 
+import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.domain.Post;
 
 
@@ -14,12 +15,13 @@ public record PostCreateRequestDTO(
     /* DTO를 Entity로 바로 바꿔주는 함수
     * hashedPassword는 service에서 해쉬된걸로 바로 넣어줘서 조립합니다
     * DTO의 평문 password -> service에서 해쉬한걸로 조립.*/
-    public Post toEntity(String hashedPassword){
+    public Post toEntity(String hashedPassword, Board board){
         return new Post(
                 this.title,
                 this.content,
                 this.authorName,
-                hashedPassword
+                hashedPassword,
+                board
         );
     }
 }
