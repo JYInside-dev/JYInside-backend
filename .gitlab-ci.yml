@@ -1,5 +1,5 @@
 include:
   - project: 'sku-sw-academy-group/community-deploy'
-    ref: chore/compose-automation
+    ref: main
     # deploy 레포지토리에 있는 yml파일 실행. -> 이미지화
     file: '/backend-ci.yml'
