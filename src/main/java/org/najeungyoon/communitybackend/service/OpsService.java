@@ -22,14 +22,16 @@ public class OpsService {
 
         String backendBlue = checkHealth("http://backend-blue:8080/actuator/health");
         String backendGreen = checkHealth("http://backend-green:8080/actuator/health");
-        String frontend = checkHealth("http://frontend");
+        String frontendBlue = checkHealth("http://frontend-blue");
+        String frontendGreen = checkHealth("http://frontend-green");
         String nginx = checkHealth("http://nginx");
         String activeBackend = resolveActiveBackend(backendBlue, backendGreen);
         String db = checkDatabaseStatus();
 
         return new OpsDTO(
                 activeBackend,
-                frontend,
+                frontendBlue,
+                frontendGreen,
                 backendBlue,
                 backendGreen,
                 db,
