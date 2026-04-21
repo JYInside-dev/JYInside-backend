@@ -3,7 +3,7 @@ package org.najeungyoon.communitybackend.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.PostCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.PostDTO;
+import org.najeungyoon.communitybackend.model.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.service.BoardService;
 import org.najeungyoon.communitybackend.service.PostService;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/{urlPath}")
+@RequestMapping("/api/community/board/{urlPath}")
 @RequiredArgsConstructor
 @Slf4j
 public class PostController {
@@ -23,10 +23,10 @@ public class PostController {
 
     /* 특정 커뮤니티의 모든 글 보기 */
     @GetMapping("/allPost")
-    public ResponseEntity<List<PostDTO>> getAllPost(
+    public ResponseEntity<List<PostResponseDTO>> getAllPost(
             @PathVariable String urlPath
     ) {
-        List<PostDTO> posts = postService.getAllPostsByBoard(urlPath);
+        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath);
 
         // 200ok
         return ResponseEntity.ok(posts);
@@ -48,11 +48,11 @@ public class PostController {
 
     /* 클릭했을 때 글 상세 페이지로 이동 */
     @GetMapping("/post/{id}")
-    public ResponseEntity<PostDTO> getPost(
+    public ResponseEntity<PostResponseDTO> getPost(
             @PathVariable String urlPath,
             @PathVariable Long id){
         log.info("{}커뮤니티 {}번 글 상세페이지 요청 들어옴.",urlPath,id);
-        PostDTO dto = postService.getPostById(urlPath,id);
+        PostResponseDTO dto = postService.getPostById(urlPath,id);
         return ResponseEntity.ok(dto);
     }
 

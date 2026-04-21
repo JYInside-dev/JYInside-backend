@@ -6,13 +6,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.domain.Post;
 import org.najeungyoon.communitybackend.model.PostCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.PostDTO;
+import org.najeungyoon.communitybackend.model.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,13 +35,13 @@ public class PostService {
 
     /* 특정 커뮤니티의 모든글을 조회하는 API  */
     @Transactional(readOnly = true)
-    public List<PostDTO> getAllPostsByBoard(String urlPath){
+    public List<PostResponseDTO> getAllPostsByBoard(String urlPath){
 
         List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
         log.info("{} 에서 조회한 게시글 수: {}",urlPath, allPosts.size());
         return allPosts.stream().map(
                 post -> {
-                    return PostDTO.from(post);
+                    return PostResponseDTO.from(post);
                 }
         ).collect(Collectors.toList());
     }
@@ -97,7 +96,7 @@ public class PostService {
 
     /* 해당 ID 의 글 불러오기 */
     @Transactional(readOnly = true) // 클래스 전체에 적용
-    public PostDTO getPostById(String urlPath,Long id) {
+    public PostResponseDTO getPostById(String urlPath, Long id) {
         log.info("{}커뮤니티의 {} 번호 글 상세보기 요청 들어옴.",urlPath,id);
 
         Post post = postRepository.findById(id)
@@ -109,7 +108,7 @@ public class PostService {
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
 
-        return PostDTO.from(post);
+        return PostResponseDTO.from(post);
     }
 
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/community")
+@RequestMapping("/api/community/board")
 public class BoardController {
 
     private final BoardService boardService;
@@ -27,7 +27,7 @@ public class BoardController {
 
 
     /* url인 커뮤니티(Board) 정보를 불러오는 요청 */
-    @GetMapping("/{urlPath}/board")
+    @GetMapping("/{urlPath}")
     public Board getBoardByUrlPath(
             @PathVariable String urlPath
     ){

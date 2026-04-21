@@ -3,7 +3,7 @@ package org.najeungyoon.communitybackend.model;
 import org.najeungyoon.communitybackend.domain.Post;
 import java.time.LocalDateTime;
 
-public record PostDTO(
+public record PostResponseDTO(
         Long id,
         String title,
         String content,
@@ -11,8 +11,8 @@ public record PostDTO(
         LocalDateTime createAt
 ){
 
-    public static PostDTO from(Post post){
-        return new PostDTO(
+    public static PostResponseDTO from(Post post){
+        return new PostResponseDTO(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
