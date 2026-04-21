@@ -19,16 +19,16 @@ public record CommentResponseDTO(
     /* Entity를 DTO로 변환하는 from */
     public static CommentResponseDTO from (Comment comment){
 
-        List<CommentResponseDTO> childsDTO;
+        List<CommentResponseDTO> childDTOs;
 
         if(comment.getChildren() != null){
-            childsDTO = comment.getChildren().stream().map(
+            childDTOs = comment.getChildren().stream().map(
                     child ->{
                         return CommentResponseDTO.from(child);
                     }
             ).toList();
         }else {
-            childsDTO = List.of(); // null 대신 빈 리스트를 반환하여 프론트엔드의 렌더링 에러 방지
+            childDTOs = List.of(); // null 대신 빈 리스트를 반환하여 프론트엔드의 렌더링 에러 방지
         }
 
 
@@ -37,7 +37,7 @@ public record CommentResponseDTO(
                 comment.getContent(),
                 comment.getAuthorName(),
                 comment.getMentionedName(),
-                childsDTO
+                childDTOs
         );
         return dto;
     }
