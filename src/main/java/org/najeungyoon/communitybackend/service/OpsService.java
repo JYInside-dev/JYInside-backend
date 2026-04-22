@@ -50,9 +50,14 @@ public class OpsService {
 
         try {
             Path requestPath = Paths.get("/app/ops/deploy-request.txt");
+            log.info("요청 파일 절대 경로: {}", requestPath.toAbsolutePath());
 
             Files.createDirectories(requestPath.getParent());
-            Files.writeString(requestPath, "REQUESTED");
+            log.info("부모 디렉토리 생성/확인 완료: {}", requestPath.getParent());
+
+            String content = "REQUESTED " + System.currentTimeMillis();
+            Files.writeString(requestPath, content);
+            log.info("파일 쓰기 완료. 내용: {}", content);
 
             return new DeployResponseDTO(true, "배포 요청 등록됨");
         } catch (Exception e) {
