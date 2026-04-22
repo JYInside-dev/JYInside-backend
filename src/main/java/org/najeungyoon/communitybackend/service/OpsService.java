@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -44,11 +48,17 @@ public class OpsService {
     public DeployResponseDTO deploy() {
         log.info("무중단 배포 실행 service 진입");
 
-        // 지금은 임시 응답 반환
-        return new DeployResponseDTO(
-                true,
-                "무중단 배포 요청이 실행되었습니다."
-        );
+        try {
+            Path requestPath = Paths.get("/app/ops/deploy-request.txt");
+
+            Files.createDirectories(requestPath.getParent());
+            Files.writeString(requestPath, "REQUESTED");
+
+            return new DeployResponseDTO(true, "배포 요청 등록됨");
+        } catch (Exception e) {
+            log.error("배포 요청 파일 생성 실패", e);
+            return new DeployResponseDTO(false, "배포 요청 등록 실패: " + e.getMessage());
+        }
     }
 
     private String checkHealth(String url){
