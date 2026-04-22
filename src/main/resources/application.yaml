@@ -19,7 +19,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -36,25 +36,25 @@ spring:
 
 
 
-  # redis config
-  data:
-    redis:
-      host: localhost
-      port: 6379
-
-  # rabbitmq config
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: ${RABBIT_USER}
-    password: ${RABBIT_PASSWORD}
-
-  # 제미나이 설정
-  gemini:
-    api:
-      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
-      key: ${GEMINI_API_KEY}
-
+#  # redis config
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+#
+#  # rabbitmq config
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: ${RABBIT_USER}
+#    password: ${RABBIT_PASSWORD}
+#
+#  # 제미나이 설정
+#  gemini:
+#    api:
+#      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+#      key: ${GEMINI_API_KEY}
+#
 
 
 

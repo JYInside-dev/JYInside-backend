@@ -1,0 +1,69 @@
+2026-04-22 11:43:23.535 [main] INFO  o.n.c.CommunityBackendApplication - Starting CommunityBackendApplication using Java 21.0.10 with PID 24100 (C:\Users\najy1\cicd-project\community-backend\build\classes\java\main started by najy1 in C:\Users\najy1\cicd-project\community-backend)
+2026-04-22 11:43:23.537 [main] INFO  o.n.c.CommunityBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-22 11:43:24.077 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-22 11:43:24.114 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 30 ms. Found 3 JPA repository interfaces.
+2026-04-22 11:43:24.629 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-22 11:43:24.637 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-22 11:43:24.640 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-22 11:43:24.640 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-04-22 11:43:24.707 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1135 ms
+2026-04-22 11:43:24.915 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-22 11:43:24.949 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-22 11:43:25.283 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-22 11:43:25.304 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-22 11:43:25.528 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3f6a9ba0
+2026-04-22 11:43:25.529 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-22 11:43:25.592 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/community_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: community_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-22 11:43:26.307 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-22 11:43:26.371 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-22 11:43:26.485 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-22 11:43:26.739 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-22 11:43:27.207 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-22 11:43:27.258 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-22 11:43:27.270 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-22 11:43:27.276 [main] INFO  o.n.c.CommunityBackendApplication - Started CommunityBackendApplication in 4.195 seconds (process running for 4.753)
+2026-04-22 11:43:27.517 [RMI TCP Connection(3)-172.16.1.220] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-22 11:43:27.517 [RMI TCP Connection(3)-172.16.1.220] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-22 11:43:27.520 [RMI TCP Connection(3)-172.16.1.220] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-04-22 11:43:37.516 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllBoards | Args: []
+2026-04-22 11:43:38.018 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllBoards | Time: 501ms | Result: [org.najeungyoon.communitybackend.domain.Board@37a97e43, org.najeungyoon.communitybackend.domain.Board@26a820ce]
+2026-04-22 11:43:38.122 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllBoards | Args: []
+2026-04-22 11:43:38.139 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllBoards | Time: 16ms | Result: [org.najeungyoon.communitybackend.domain.Board@15ea39c3, org.najeungyoon.communitybackend.domain.Board@5a715e1d]
+2026-04-22 11:43:39.050 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 11:43:39.050 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 11:43:39.873 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 823ms | Result: org.najeungyoon.communitybackend.domain.Board@a724489
+2026-04-22 11:43:39.890 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 11:43:39.896 [http-nio-8080-exec-4] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 7
+2026-04-22 11:43:39.898 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 6ms | Result: org.najeungyoon.communitybackend.domain.Board@5de5a526
+2026-04-22 11:43:39.906 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 856ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987]],[]>
+2026-04-22 11:43:39.949 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 11:43:39.961 [http-nio-8080-exec-8] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 7
+2026-04-22 11:43:39.965 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 15ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987]],[]>
+2026-04-22 11:43:40.934 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 11:43:40.935 [http-nio-8080-exec-7] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 11:43:40.939 [http-nio-8080-exec-7] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 11:43:40.966 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 31ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 11:43:40.980 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 11:43:40.981 [http-nio-8080-exec-6] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 11:43:40.983 [http-nio-8080-exec-6] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 11:43:40.991 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 10ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 11:43:41.020 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [8, electric_guitar]
+2026-04-22 11:43:41.076 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 55ms | Result: []
+2026-04-22 11:43:41.095 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [8, electric_guitar]
+2026-04-22 11:43:41.108 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 13ms | Result: []
+2026-04-22 11:43:50.497 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-22 11:43:50.505 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-04-22 11:43:50.509 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-22 11:43:50.511 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-04-22 11:43:50.516 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
