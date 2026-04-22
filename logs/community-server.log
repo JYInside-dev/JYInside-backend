@@ -67,3 +67,443 @@
 2026-04-22 11:43:50.509 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-04-22 11:43:50.511 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2026-04-22 11:43:50.516 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-04-22 14:20:02.434 [main] INFO  o.n.c.CommunityBackendApplication - Starting CommunityBackendApplication using Java 21.0.10 with PID 14876 (C:\Users\najy1\cicd-project\community-backend\build\classes\java\main started by najy1 in C:\Users\najy1\cicd-project\community-backend)
+2026-04-22 14:20:02.436 [main] INFO  o.n.c.CommunityBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-22 14:20:03.022 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-22 14:20:03.072 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 3 JPA repository interfaces.
+2026-04-22 14:20:03.674 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-22 14:20:03.687 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-22 14:20:03.688 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-22 14:20:03.688 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-04-22 14:20:03.728 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1262 ms
+2026-04-22 14:20:03.991 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-22 14:20:04.054 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-22 14:20:04.482 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-22 14:20:04.512 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-22 14:20:04.895 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7dbd70fd
+2026-04-22 14:20:04.896 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-22 14:20:05.002 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/community_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: community_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-22 14:20:05.896 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-22 14:20:05.984 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-22 14:20:06.082 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-22 14:20:06.384 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-22 14:20:06.866 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-22 14:20:06.923 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-22 14:20:06.942 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-22 14:20:06.947 [main] INFO  o.n.c.CommunityBackendApplication - Started CommunityBackendApplication in 4.953 seconds (process running for 5.407)
+2026-04-22 14:20:07.203 [RMI TCP Connection(4)-172.16.8.172] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-22 14:20:07.203 [RMI TCP Connection(4)-172.16.8.172] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-22 14:20:07.205 [RMI TCP Connection(4)-172.16.8.172] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-04-22 14:20:12.953 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 14:20:12.955 [http-nio-8080-exec-1] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 14:20:12.978 [http-nio-8080-exec-1] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:20:13.223 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 268ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 14:20:13.321 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 14:20:13.322 [http-nio-8080-exec-2] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 14:20:13.329 [http-nio-8080-exec-2] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:20:13.341 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 19ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 14:20:13.381 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [8, electric_guitar]
+2026-04-22 14:20:14.088 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 14:20:14.088 [http-nio-8080-exec-5] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 14:20:14.091 [http-nio-8080-exec-5] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:20:14.102 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 14ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 14:20:14.116 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 8]
+2026-04-22 14:20:14.116 [http-nio-8080-exec-3] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 8번 글 상세페이지 요청 들어옴.
+2026-04-22 14:20:14.119 [http-nio-8080-exec-3] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 8 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:20:14.127 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 11ms | Result: <200 OK OK,PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032],[]>
+2026-04-22 14:20:14.156 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [8, electric_guitar]
+2026-04-22 14:20:14.676 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 519ms | Result: []
+2026-04-22 14:20:14.676 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 1294ms | Result: []
+2026-04-22 14:20:14.703 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [8, electric_guitar]
+2026-04-22 14:20:14.718 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 14ms | Result: []
+2026-04-22 14:20:14.729 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllBoards | Args: []
+2026-04-22 14:20:14.770 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllBoards | Time: 40ms | Result: [org.najeungyoon.communitybackend.domain.Board@2fe534b4, org.najeungyoon.communitybackend.domain.Board@5ff6becb]
+2026-04-22 14:20:14.790 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllBoards | Args: []
+2026-04-22 14:20:14.802 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllBoards | Time: 11ms | Result: [org.najeungyoon.communitybackend.domain.Board@3e311947, org.najeungyoon.communitybackend.domain.Board@12e4390e]
+2026-04-22 14:20:15.574 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 14:20:15.574 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 14:20:15.590 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 16ms | Result: org.najeungyoon.communitybackend.domain.Board@33e0727f
+2026-04-22 14:20:15.606 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 14:20:15.612 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 5ms | Result: org.najeungyoon.communitybackend.domain.Board@610be941
+2026-04-22 14:20:15.913 [http-nio-8080-exec-1] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 7
+2026-04-22 14:20:15.955 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 380ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987]],[]>
+2026-04-22 14:20:16.055 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 14:20:16.067 [http-nio-8080-exec-5] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 7
+2026-04-22 14:20:16.070 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 14ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987]],[]>
+2026-04-22 14:20:58.884 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] writePost | Args: [electric_guitar, PostCreateRequestDTO[title=로그가 잘 찍히는2ㅣ 확인, content=ㅁㄴㅇㄻㄴㅇㄹ, authorName=ㅇㅇ, password=1717]]
+2026-04-22 14:20:58.884 [http-nio-8080-exec-3] INFO  o.n.c.controller.PostController - electric_guitar 에 글 작성 post 요청 들어옴.
+2026-04-22 14:20:58.887 [http-nio-8080-exec-3] INFO  o.n.c.service.PostService - electric_guitar 갤러리에 게시글 저장 시작
+2026-04-22 14:20:59.211 [http-nio-8080-exec-3] INFO  o.n.c.service.PostService - 갤러리에 게시글 저장 완료
+2026-04-22 14:20:59.234 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] writePost | Time: 350ms | Result: <201 CREATED Created,[]>
+2026-04-22 14:21:00.181 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 14:21:00.181 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 14:21:00.185 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 4ms | Result: org.najeungyoon.communitybackend.domain.Board@35ff68e1
+2026-04-22 14:21:00.190 [http-nio-8080-exec-6] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 8
+2026-04-22 14:21:00.194 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 13ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987], PostResponseDTO[id=11, title=로그가 잘 찍히는2ㅣ 확인, content=ㅁㄴㅇㄻㄴㅇㄹ, authorName=ㅇㅇ, createAt=2026-04-22T14:20:59.150773]],[]>
+2026-04-22 14:21:00.198 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getBoardByUrlPath | Args: [electric_guitar]
+2026-04-22 14:21:00.206 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getBoardByUrlPath | Time: 7ms | Result: org.najeungyoon.communitybackend.domain.Board@58b97f12
+2026-04-22 14:21:00.212 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getAllPost | Args: [electric_guitar]
+2026-04-22 14:21:00.225 [http-nio-8080-exec-9] INFO  o.n.c.service.PostService - electric_guitar 에서 조회한 게시글 수: 8
+2026-04-22 14:21:00.230 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getAllPost | Time: 17ms | Result: <200 OK OK,[PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996], PostResponseDTO[id=2, title=한번더 테스트 해볼게요, content=ㅇㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-20T09:51:18.950786], PostResponseDTO[id=5, title=댓글 작성 테스트입니다., content=댓글을 작성해보세요, authorName=ㅇㅇ, createAt=2026-04-21T10:47:20.896713], PostResponseDTO[id=7, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:43.951387], PostResponseDTO[id=8, title=ㅇㅇ, content=ㅇㅇㅇ, authorName=ㅇㅇ, createAt=2026-04-22T11:21:44.260032], PostResponseDTO[id=9, title=ㅇㄹㅇ, content=ㅇㅇ, authorName=ㅁㄴㅇㄹ, createAt=2026-04-22T11:22:29.695517], PostResponseDTO[id=10, title=ㅇㄹㅇ, content=ㄹㅇㄹㅇ, authorName=ㅇㄹㅇ, createAt=2026-04-22T11:22:36.647987], PostResponseDTO[id=11, title=로그가 잘 찍히는2ㅣ 확인, content=ㅁㄴㅇㄻㄴㅇㄹ, authorName=ㅇㅇ, createAt=2026-04-22T14:20:59.150773]],[]>
+2026-04-22 14:28:21.941 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 11]
+2026-04-22 14:28:21.942 [http-nio-8080-exec-10] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 11번 글 상세페이지 요청 들어옴.
+2026-04-22 14:28:21.944 [http-nio-8080-exec-10] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 11 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:28:21.954 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 12ms | Result: <200 OK OK,PostResponseDTO[id=11, title=로그가 잘 찍히는2ㅣ 확인, content=ㅁㄴㅇㄻㄴㅇㄹ, authorName=ㅇㅇ, createAt=2026-04-22T14:20:59.150773],[]>
+2026-04-22 14:28:21.968 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [electric_guitar, 11]
+2026-04-22 14:28:21.968 [http-nio-8080-exec-8] INFO  o.n.c.controller.PostController - electric_guitar커뮤니티 11번 글 상세페이지 요청 들어옴.
+2026-04-22 14:28:21.970 [http-nio-8080-exec-8] INFO  o.n.c.service.PostService - electric_guitar커뮤니티의 11 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:28:21.979 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getPost | Time: 11ms | Result: <200 OK OK,PostResponseDTO[id=11, title=로그가 잘 찍히는2ㅣ 확인, content=ㅁㄴㅇㄻㄴㅇㄹ, authorName=ㅇㅇ, createAt=2026-04-22T14:20:59.150773],[]>
+2026-04-22 14:28:22.003 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [11, electric_guitar]
+2026-04-22 14:28:22.017 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 13ms | Result: []
+2026-04-22 14:28:22.028 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [11, electric_guitar]
+2026-04-22 14:28:22.039 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - ◀ [RESPONSE] getComments | Time: 11ms | Result: []
+2026-04-22 14:28:25.165 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [ㄴㅇㄹㄴㅇㄹㄴㅁㅇ, 11]
+2026-04-22 14:28:25.165 [http-nio-8080-exec-5] INFO  o.n.c.controller.PostController - ㄴㅇㄹㄴㅇㄹㄴㅁㅇ커뮤니티 11번 글 상세페이지 요청 들어옴.
+2026-04-22 14:28:25.168 [http-nio-8080-exec-5] INFO  o.n.c.service.PostService - ㄴㅇㄹㄴㅇㄹㄴㅁㅇ커뮤니티의 11 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:28:25.184 [http-nio-8080-exec-5] ERROR o.n.c.logging.LoggingAspect - 💥 [ERROR] org.najeungyoon.communitybackend.controller.PostController | getPost | Message: 해당 갤러리에 속한 글이 아닙니다.
+2026-04-22 14:28:25.193 [http-nio-8080-exec-5] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.IllegalArgumentException: 해당 갤러리에 속한 글이 아닙니다.] with root cause
+java.lang.IllegalArgumentException: 해당 갤러리에 속한 글이 아닙니다.
+	at org.najeungyoon.communitybackend.service.PostService.getPostById(PostService.java:108)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.service.PostService$$SpringCGLIB$$0.getPostById(<generated>)
+	at org.najeungyoon.communitybackend.controller.PostController.getPost(PostController.java:55)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:63)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)
+	at org.najeungyoon.communitybackend.logging.LoggingAspect.logAround(LoggingAspect.java:59)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.controller.PostController$$SpringCGLIB$$0.getPost(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-22 14:28:25.237 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getPost | Args: [ㄴㅇㄹㄴㅇㄹㄴㅁㅇ, 11]
+2026-04-22 14:28:25.237 [http-nio-8080-exec-3] INFO  o.n.c.controller.PostController - ㄴㅇㄹㄴㅇㄹㄴㅁㅇ커뮤니티 11번 글 상세페이지 요청 들어옴.
+2026-04-22 14:28:25.240 [http-nio-8080-exec-3] INFO  o.n.c.service.PostService - ㄴㅇㄹㄴㅇㄹㄴㅁㅇ커뮤니티의 11 번호 글 상세보기 요청 들어옴.
+2026-04-22 14:28:25.247 [http-nio-8080-exec-3] ERROR o.n.c.logging.LoggingAspect - 💥 [ERROR] org.najeungyoon.communitybackend.controller.PostController | getPost | Message: 해당 갤러리에 속한 글이 아닙니다.
+2026-04-22 14:28:25.250 [http-nio-8080-exec-3] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.IllegalArgumentException: 해당 갤러리에 속한 글이 아닙니다.] with root cause
+java.lang.IllegalArgumentException: 해당 갤러리에 속한 글이 아닙니다.
+	at org.najeungyoon.communitybackend.service.PostService.getPostById(PostService.java:108)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.service.PostService$$SpringCGLIB$$0.getPostById(<generated>)
+	at org.najeungyoon.communitybackend.controller.PostController.getPost(PostController.java:55)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:63)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)
+	at org.najeungyoon.communitybackend.logging.LoggingAspect.logAround(LoggingAspect.java:59)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.controller.PostController$$SpringCGLIB$$0.getPost(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-22 14:28:25.274 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [11, ㄴㅇㄹㄴㅇㄹㄴㅁㅇ]
+2026-04-22 14:28:25.286 [http-nio-8080-exec-4] ERROR o.n.c.logging.LoggingAspect - 💥 [ERROR] org.najeungyoon.communitybackend.controller.CommentController | getComments | Message: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.
+2026-04-22 14:28:25.287 [http-nio-8080-exec-4] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.IllegalStateException: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.] with root cause
+java.lang.IllegalStateException: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.
+	at org.najeungyoon.communitybackend.service.CommentService.getValidatedPost(CommentService.java:32)
+	at org.najeungyoon.communitybackend.service.CommentService.getCommentsByPostId(CommentService.java:46)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.service.CommentService$$SpringCGLIB$$0.getCommentsByPostId(<generated>)
+	at org.najeungyoon.communitybackend.controller.CommentController.getComments(CommentController.java:33)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:63)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)
+	at org.najeungyoon.communitybackend.logging.LoggingAspect.logAround(LoggingAspect.java:59)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.controller.CommentController$$SpringCGLIB$$0.getComments(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-22 14:28:25.303 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - ▶ [REQUEST] getComments | Args: [11, ㄴㅇㄹㄴㅇㄹㄴㅁㅇ]
+2026-04-22 14:28:25.313 [http-nio-8080-exec-6] ERROR o.n.c.logging.LoggingAspect - 💥 [ERROR] org.najeungyoon.communitybackend.controller.CommentController | getComments | Message: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.
+2026-04-22 14:28:25.315 [http-nio-8080-exec-6] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.IllegalStateException: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.] with root cause
+java.lang.IllegalStateException: 잘못된 접근입니다. 게시글과 게시판 정보가 일치하지 않습니다.
+	at org.najeungyoon.communitybackend.service.CommentService.getValidatedPost(CommentService.java:32)
+	at org.najeungyoon.communitybackend.service.CommentService.getCommentsByPostId(CommentService.java:46)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.service.CommentService$$SpringCGLIB$$0.getCommentsByPostId(<generated>)
+	at org.najeungyoon.communitybackend.controller.CommentController.getComments(CommentController.java:33)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:63)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:82)
+	at org.najeungyoon.communitybackend.logging.LoggingAspect.logAround(LoggingAspect.java:59)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:648)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:630)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719)
+	at org.najeungyoon.communitybackend.controller.CommentController$$SpringCGLIB$$0.getComments(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-04-22 14:29:04.600 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-22 14:29:04.611 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-04-22 14:29:04.616 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-22 14:29:04.618 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-04-22 14:29:04.623 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

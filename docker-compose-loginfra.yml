@@ -1,0 +1,35 @@
+services:
+
+  # 로그 시작화 대시보드
+  grafana:
+    image: grafana/grafana:main-ubuntu
+    ports:
+      - "3000:3000"
+
+
+  # 로그 DB
+  loki:
+    image: grafana/loki:main-c83d748
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+
+  # 로그 수집기
+  alloy:
+    image: grafana/alloy
+    ports:
+      - "12345:12345"
+    volumes:
+      # 호스트의 로그 폴더를 컨테이너 내부에 마운트 (읽기 전용)
+      - ./logs:/var/log:ro
+      # Alloy 설정 파일 마운트
+      - ./config.alloy:/etc/alloy/config.alloy:ro
+    command:
+      # Alloy 실행 명령어 및 설정 파일 지정
+      - run
+      - /etc/alloy/config.alloy
+      - --server.http.listen-addr=0.0.0.0:12345
+    depends_on:
+      - loki
+
