@@ -18,7 +18,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/sighup")
+    @PostMapping("/signup")
     public ResponseEntity<String> sighup(
             @RequestBody SignupRequestDTO dto
     ) {
