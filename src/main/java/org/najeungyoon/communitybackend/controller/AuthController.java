@@ -2,6 +2,8 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.najeungyoon.communitybackend.model.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.model.LoginRequestDTO;
 import org.najeungyoon.communitybackend.model.SignupRequestDTO;
 import org.najeungyoon.communitybackend.service.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +27,14 @@ public class AuthController {
         log.info("회원가입 API 요청 들어옴");
         authService.signup(dto);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtTokenResponseDTO> login(
+            @RequestBody LoginRequestDTO dto
+    ) {
+        log.info("로그인 API 요청 들어옴");
+        JwtTokenResponseDTO response = authService.login(dto);
+        return ResponseEntity.ok(response);
     }
 }

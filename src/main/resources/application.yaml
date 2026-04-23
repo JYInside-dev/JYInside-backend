@@ -34,6 +34,10 @@ spring:
       health:
         show-details: always
 
+  jwt:
+    secret: your-very-long-secret-key-change-this-to-env-value
+    access-token-expiration: 1800000
+
 
 
 #  # redis config
