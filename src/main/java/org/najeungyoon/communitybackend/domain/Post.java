@@ -40,6 +40,15 @@ public class Post {
     private Board board;
 
 
+    /* 추천 비추천 개수 저장. */
+    @Column(nullable = false)
+    private int likeCount = 0;
+
+    @Column(nullable = false)
+    private int disLikeCount = 0;
+
+
+
     public Post(String title, String content, String authorName, String password,Board board) {
         this.title = title;
         this.content = content;

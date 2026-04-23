@@ -1,6 +1,7 @@
 package org.najeungyoon.communitybackend.model;
 
 import org.najeungyoon.communitybackend.domain.Post;
+
 import java.time.LocalDateTime;
 
 public record PostResponseDTO(
@@ -8,7 +9,8 @@ public record PostResponseDTO(
         String title,
         String content,
         String authorName,
-        LocalDateTime createAt
+        LocalDateTime createAt,
+        Integer likeCount
 ){
 
     public static PostResponseDTO from(Post post){
@@ -17,7 +19,8 @@ public record PostResponseDTO(
                 post.getTitle(),
                 post.getContent(),
                 post.getAuthorName(),
-                post.getCreateAt()
+                post.getCreateAt(),
+                post.getLikeCount()
         );
     }
 }
