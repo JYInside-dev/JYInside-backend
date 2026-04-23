@@ -1,6 +1,7 @@
 package org.najeungyoon.communitybackend.logging;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,9 +10,13 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 @Aspect
 @Slf4j
@@ -41,26 +46,50 @@ public class LoggingAspect {
     @Around("controllerPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 
+        /* 요청별로 식별할 수 있는 고유 식별자 ID 생성 */
+        String traceId = UUID.randomUUID().toString().substring(0,8);
+        MDC.put("tracedId",traceId);
+
+
+        /* http 요청 정보 가져오기 */
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes())
+                .getRequest();
+
+        String uri = request.getRequestURI();
+        String httpMethod = request.getMethod();
+        String clientIp = request.getRemoteAddr();
+
+
         /* 어드바이스가 실행되는 포인트컷 메서드 정보 가져오기 */
         Signature method = joinPoint.getSignature();
         String methodName = method.getName();
         Object[] methodArgs = joinPoint.getArgs();
 
 
-        // [메서드 실행 전] 요청 로그
-        log.info("▶ [REQUEST] {} | Args: {}", methodName, Arrays.toString(methodArgs));
+
+        // [메서드 실행 전] 웹 정보와 함께 요청 로그 출력
+        log.info("[{}] ▶ [REQ] {} {} | IP: {} | Method: {} | Args: {}",
+                traceId, httpMethod, uri, clientIp, methodName, Arrays.toString(methodArgs));
 
         long methodStartTime = System.currentTimeMillis();
 
-        /* 메서드 로직 실행 */
-        Object result = joinPoint.proceed();
+        try {
+            /* 메서드 로직 실행 */
+            Object result = joinPoint.proceed();
 
-        long methodEndTime = System.currentTimeMillis();
+            long methodEndTime = System.currentTimeMillis();
 
-        log.info("◀ [RESPONSE] {} | Time: {}ms | Result: {}", methodName, (methodEndTime - methodStartTime), result);
+            // [메서드 실행 후] 응답 시간 및 결과 로그 출력
+            log.info("[{}] ◀ [RES] {} {} | Time: {}ms | Result: {}",
+                    traceId, httpMethod, uri, (methodEndTime - methodStartTime), result);
 
-        /* 조인포인트 메서드 호출값 return */
-        return result;
+            /* 조인포인트 메서드 호출값 return */
+            return result;
+
+        }finally {
+            MDC.clear();
+        }
     }
 
 
@@ -68,12 +97,14 @@ public class LoggingAspect {
     /*오류발생시 실행되는 어드바이스*/
     @AfterThrowing(pointcut = "controllerPointcut()", throwing = "exception")
     public void logException(JoinPoint joinPoint, Exception exception){
+
+        String traceId = MDC.get("traceId");
+
         Signature jp = joinPoint.getSignature();
         String methodName = jp.getName();
         String className = jp.getDeclaringTypeName();
 
-        log.error("💥 [ERROR] {} | {} | Message: {}", className, methodName, exception.getMessage());
+        log.error("[{}] 💥 [ERROR] {} | {} | Message: {}",
+                traceId != null ? traceId : "NO-ID", className, methodName, exception.getMessage());
     }
-
-
 }
