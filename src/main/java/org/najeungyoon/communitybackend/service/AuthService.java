@@ -23,7 +23,7 @@ public class AuthService {
 
     @Transactional
     public void signup(SignupRequestDTO dto) {
-        log.info("회원가입 요청 들어옴 email={}", dto.email());
+        log.info("회원가입 요청 들어옴 username={}", dto.username());
 
         validateSignup(dto);
 
@@ -32,6 +32,7 @@ public class AuthService {
 
         // DB에 들어갈 객체 생성
         User user = new User(
+                dto.username(),
                 dto.email(),
                 encodedPassword,
                 dto.nickname(),
@@ -41,20 +42,20 @@ public class AuthService {
         // DB 저장
         userRepository.save(user);
 
-        log.info("회원가입 완료 user email={}", dto.email());
+        log.info("회원가입 완료 username={}", dto.username());
     }
 
     // DB를 읽기만 하고 수정하기 위함 (로그인처럼 조회만 하는 메서드에 사용)
     @Transactional(readOnly = true)
     public JwtTokenResponseDTO login(LoginRequestDTO dto) {
-        log.info("로그인 요청 들어옴 email={}", dto.email());
+        log.info("로그인 요청 들어옴 username={}", dto.username());
 
-        User user = userRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다."));
+        User user = userRepository.findByUsername(dto.username())
+                .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다."));
 
         // 방금 입력한 비밀번호와 DB에 저장된 해시 비밀번호를 matches()로 비교
         if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
-            throw new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다.");
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다.");
         }
 
         String accessToken = jwtTokenProvider.createAccessToken(
@@ -67,6 +68,10 @@ public class AuthService {
     }
 
     private void validateSignup(SignupRequestDTO dto) {
+        if (dto.username() == null || dto.username().isBlank()) {
+            throw new IllegalArgumentException("아이디는 필수입니다.");
+        }
+
         if (dto.email() == null || dto.email().isBlank()) {
             throw new IllegalArgumentException("이메일은 필수입니다.");
         }
@@ -81,6 +86,10 @@ public class AuthService {
 
         if (dto.password().length() < 8) {
             throw new IllegalArgumentException("비밀번호는 8자 이상이어야 합니다.");
+        }
+
+        if (userRepository.existsByUsername(dto.username())) {
+            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
 
         if (userRepository.existsByEmail(dto.email())) {
