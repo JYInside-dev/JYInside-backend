@@ -19,7 +19,9 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final BoardService boardService;
+
+
+
 
     /* 특정 커뮤니티의 모든 글 보기 */
     @GetMapping("/allPost")

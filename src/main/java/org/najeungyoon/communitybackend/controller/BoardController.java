@@ -33,4 +33,7 @@ public class BoardController {
     ){
         return boardService.getBoardByUrlPath(urlPath);
     }
+
+
+
 }

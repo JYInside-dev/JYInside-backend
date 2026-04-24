@@ -18,4 +18,16 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Modifying
     @Query("UPDATE Post p SET p.likeCount = p.likeCount+1 where p.id = :postId")
     void incrementLikeCount(@Param("postId") Long postId);
+
+    /* threshold 이상은 추천수를 가진 글들을 조회
+    *  TODO
+    *   로컬에서 index를 만들어서 조회가 빠른데
+    *   나중에 도커나 클라우드 환경에서도 index를 직접 만들어줘야함. */
+    List<Post> findByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+
+
+
+    /* 메인화면에서 인기글 5개 목록 보여줌.*/
+    List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+
 }

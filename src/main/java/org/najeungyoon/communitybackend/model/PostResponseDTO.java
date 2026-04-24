@@ -10,7 +10,8 @@ public record PostResponseDTO(
         String content,
         String authorName,
         LocalDateTime createAt,
-        Integer likeCount
+        Integer likeCount,
+        String boardUrlPath
 ){
 
     public static PostResponseDTO from(Post post){
@@ -20,7 +21,8 @@ public record PostResponseDTO(
                 post.getContent(),
                 post.getAuthorName(),
                 post.getCreateAt(),
-                post.getLikeCount()
+                post.getLikeCount(),
+                post.getBoard().getUrlPath()
         );
     }
 }
