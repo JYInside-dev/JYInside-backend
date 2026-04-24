@@ -2,8 +2,8 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.model.DeployResponseDTO;
-import org.najeungyoon.communitybackend.model.OpsDTO;
+import org.najeungyoon.communitybackend.model.deploy.DeployResponseDTO;
+import org.najeungyoon.communitybackend.model.deploy.OpsDTO;
 import org.najeungyoon.communitybackend.service.OpsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model;
+package org.najeungyoon.communitybackend.model.login;
 
 public record JwtTokenResponseDTO(
         String grantType,

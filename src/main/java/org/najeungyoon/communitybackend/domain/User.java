@@ -29,14 +29,22 @@ public class User {
     @Column(nullable = false, unique = true, length = 30)
     private String nickname;
 
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String role;
+    private UserRole role;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createAt;
 
-    public User(String username, String email, String password, String nickname, String role) {
+
+    public void changeRole(UserRole role){
+        this.role=role;
+    }
+
+
+    public User(String username, String email, String password, String nickname, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;

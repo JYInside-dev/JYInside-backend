@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.LikeType;
 import org.najeungyoon.communitybackend.domain.Post;
 import org.najeungyoon.communitybackend.domain.PostLike;
-import org.najeungyoon.communitybackend.model.PostResponseDTO;
+import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

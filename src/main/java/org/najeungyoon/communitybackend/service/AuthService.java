@@ -1,13 +1,14 @@
 package org.najeungyoon.communitybackend.service;
 
+import org.najeungyoon.communitybackend.domain.UserRole;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.User;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
-import org.najeungyoon.communitybackend.model.JwtTokenResponseDTO;
-import org.najeungyoon.communitybackend.model.LoginRequestDTO;
-import org.najeungyoon.communitybackend.model.SignupRequestDTO;
+import org.najeungyoon.communitybackend.model.login.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.model.login.LoginRequestDTO;
+import org.najeungyoon.communitybackend.model.login.SignupRequestDTO;
 import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class AuthService {
                 dto.email(),
                 encodedPassword,
                 dto.nickname(),
-                "USER"
+                UserRole.USER
         );
 
         // DB 저장
@@ -61,11 +62,12 @@ public class AuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                user.getRole()
+                user.getRole().getKey()
         );
 
         return new JwtTokenResponseDTO("Bearer", accessToken);
     }
+
 
     private void validateSignup(SignupRequestDTO dto) {
         if (dto.username() == null || dto.username().isBlank()) {

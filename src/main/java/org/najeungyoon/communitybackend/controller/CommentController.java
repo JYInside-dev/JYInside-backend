@@ -1,8 +1,8 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.model.CommentCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
