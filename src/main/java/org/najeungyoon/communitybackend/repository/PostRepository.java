@@ -26,7 +26,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
 
 
-
     /* 메인화면에서 인기글 5개 목록 보여줌.*/
     List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
 
