@@ -35,7 +35,7 @@ spring:
         show-details: always
 
   jwt:
-    secret: your-very-long-secret-key-change-this-to-env-value
+    secret: this-is-a-very-long-jwt-secret-key-for-local-development-123456
     access-token-expiration: 1800000
 
 
