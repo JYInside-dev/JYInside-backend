@@ -2,9 +2,9 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.model.JwtTokenResponseDTO;
-import org.najeungyoon.communitybackend.model.LoginRequestDTO;
-import org.najeungyoon.communitybackend.model.SignupRequestDTO;
+import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.model.auth.LoginRequestDTO;
+import org.najeungyoon.communitybackend.model.auth.SignupRequestDTO;
 import org.najeungyoon.communitybackend.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

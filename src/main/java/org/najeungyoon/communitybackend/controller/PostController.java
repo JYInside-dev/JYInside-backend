@@ -2,10 +2,9 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.model.PostCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.PostResponseDTO;
-import org.najeungyoon.communitybackend.model.PostDeleteRequestDTO;
-import org.najeungyoon.communitybackend.service.BoardService;
+import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
+import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

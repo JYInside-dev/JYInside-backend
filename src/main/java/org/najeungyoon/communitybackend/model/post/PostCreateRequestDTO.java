@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model;
+package org.najeungyoon.communitybackend.model.post;
 
 import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.domain.Post;

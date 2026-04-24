@@ -1,8 +1,7 @@
-package org.najeungyoon.communitybackend.model;
+package org.najeungyoon.communitybackend.model.comment;
 
 import org.najeungyoon.communitybackend.domain.Comment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

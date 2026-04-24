@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model;
+package org.najeungyoon.communitybackend.model.comment;
 
 
 /* 프론트엔드에서 댓글을 작성하려고 백엔드로 쏴주는 DTO */
