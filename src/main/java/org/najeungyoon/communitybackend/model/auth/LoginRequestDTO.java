@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model.login;
+package org.najeungyoon.communitybackend.model.auth;
 
 public record LoginRequestDTO(
         String username,

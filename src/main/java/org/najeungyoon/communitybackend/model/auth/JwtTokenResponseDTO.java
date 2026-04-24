@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model.login;
+package org.najeungyoon.communitybackend.model.auth;
 
 public record JwtTokenResponseDTO(
         // 토큰의 인증 방식 지정 (우린 JWT, OAuth 토큰을 사용해서 Bearer만 거의 사용)
