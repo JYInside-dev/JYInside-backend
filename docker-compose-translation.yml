@@ -8,7 +8,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data
+      - redis-data:/data
 
 
   rabbitmq:
@@ -22,11 +22,11 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
     volumes:
-      - rabbit_data:/var/lib/rabbitmq # 큐에 쌓인 메시지 보존용 볼륨
+      - rabbit-data:/var/lib/rabbitmq # 큐에 쌓인 메시지 보존용 볼륨
 
 
 volumes:
-  redis_data:
-  rabbit_data:
+  redis-data:
+  rabbit-data:
 
 

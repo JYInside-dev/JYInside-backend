@@ -1,6 +1,7 @@
 package org.najeungyoon.communitybackend.model;
 
 import org.najeungyoon.communitybackend.domain.Post;
+
 import java.time.LocalDateTime;
 
 public record PostResponseDTO(
@@ -8,7 +9,12 @@ public record PostResponseDTO(
         String title,
         String content,
         String authorName,
-        LocalDateTime createAt
+        LocalDateTime createAt,
+        Integer likeCount,
+        /* TODO
+        *   n+1 문제 나중에 해결해야함
+        *   DTO에서 다른 table을 참조하는게 바람직하지 x*/
+        String boardUrlPath
 ){
 
     public static PostResponseDTO from(Post post){
@@ -17,7 +23,13 @@ public record PostResponseDTO(
                 post.getTitle(),
                 post.getContent(),
                 post.getAuthorName(),
-                post.getCreateAt()
+                post.getCreateAt(),
+                post.getLikeCount(),
+
+                /* TODO
+                 *   n+1 문제 나중에 해결해야함
+                 *   DTO에서 다른 table을 참조하는게 바람직하지 x*/
+                post.getBoard().getUrlPath()
         );
     }
 }
