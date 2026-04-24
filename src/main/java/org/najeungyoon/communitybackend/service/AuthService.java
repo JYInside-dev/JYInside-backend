@@ -65,7 +65,12 @@ public class AuthService {
                 user.getRole().getKey()
         );
 
-        return new JwtTokenResponseDTO("Bearer", accessToken);
+        return new JwtTokenResponseDTO(
+                "Bearer",
+                accessToken,
+                user.getUsername(),
+                user.getNickname()
+                );
     }
 
 
