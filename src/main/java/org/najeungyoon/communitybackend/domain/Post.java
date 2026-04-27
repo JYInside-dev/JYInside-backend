@@ -64,10 +64,13 @@ public class Post {
     }
 
     /* 로그인된 사용자용 Post 생성자. */
-    public Post(String title, String content, User user,Board board) {
+    public Post(String title, String content,User user,Board board) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.board = board;
+
+        this.authorName=user.getNickname();
+        this.password="";
     }
 }

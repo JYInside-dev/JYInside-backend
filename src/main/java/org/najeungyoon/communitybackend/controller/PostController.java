@@ -66,10 +66,11 @@ public class PostController {
     public ResponseEntity<String> deletePost(
             @PathVariable String urlPath,
             @PathVariable Long id,
-            @RequestBody PostDeleteRequestDTO requestDTO){
+            @RequestBody(required = false) PostDeleteRequestDTO requestDTO,
+            @AuthenticationPrincipal Long userId){
         log.info("{}커뮤니티 {}번 글 삭제 post 요청 들어옴",urlPath,id);
 
-        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO);
+        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO,userId);
         if(isDeleted){
             return ResponseEntity.ok("삭제되었습니다.");
         }else {

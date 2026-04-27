@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
 
                         /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 일단 한번 토큰 유효여부 확인. */
-                ).addFilterAfter(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();

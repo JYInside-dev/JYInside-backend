@@ -34,8 +34,8 @@ public record PostCreateRequestDTO(
     /* 익명아니고 로그인 시 글 작성할 때 사용하는 메서드 */
     public Post toEntityUser(Board board, User user){
         return new Post(
-                this.content,
                 this.title,
+                this.content,
                 user,
                 board
         );
