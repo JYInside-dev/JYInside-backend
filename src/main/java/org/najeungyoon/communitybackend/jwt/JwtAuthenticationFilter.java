@@ -6,10 +6,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Component
@@ -21,12 +27,48 @@ import java.io.IOException;
         private final JwtTokenProvider jwtTokenProvider;
 
 
+        /* 최종적으로 로그인토큰 유효여부 검증하는 메서드 */
         @Override
         protected void doFilterInternal(
                 HttpServletRequest request,
                 HttpServletResponse response,
                 FilterChain filterChain) throws ServletException, IOException {
+            String token = resolveToken(request);
+
+            /* 토큰 인증 후에 */
+            if(token != null && jwtTokenProvider.validateToken(token)){
+
+                Authentication authentication = getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+            filterChain.doFilter(request,response);
+        }
 
 
-    }
+        /* Authorization: Bearer <JWT> 형식에서 <JWT> 문자열만 뽑아내는 메서드 */
+        private String resolveToken(HttpServletRequest request){
+            String bearerToken = request.getHeader("Authorization");
+            if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+                return bearerToken.substring(7);
+            }
+            return null;
+        }
+
+
+        /* token확인 후 Authentication(인증) 부여하는 메서드 */
+        private Authentication getAuthentication(String token){
+            Long userId = jwtTokenProvider.getUserId(token);
+            String role = jwtTokenProvider.getRole(token);
+
+            return new UsernamePasswordAuthenticationToken(
+                    userId, // principal 주체
+                    null, // 자격증명: 이미 토큰을 가지고 있는거로 증명해서 null
+                    Collections.singletonList(new SimpleGrantedAuthority(role)) // 권한
+            );
+        }
+
+
+
+
 }

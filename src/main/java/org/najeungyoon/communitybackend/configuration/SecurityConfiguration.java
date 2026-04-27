@@ -1,16 +1,22 @@
 package org.najeungyoon.communitybackend.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.jwt.JwtAuthenticationFilter;
+import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -23,13 +29,29 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers(
+
+
+                // 1. [매우 중요] 세션 관리 정책을 STATELESS로 설정
+                // (Spring Security가 세션을 만들지도, 쓰지도 않게 하여 JWT 방식으로만 동작하게 함)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+
+
+                .authorizeHttpRequests(auth -> auth
                         // 로그인 안해도 접근 가능한 주소 설정
-                        "/api/auth/**",
-                        "/api/community/**",
-                        "/actuator/**"
-                ).permitAll().anyRequest().authenticated()
-                );
+                        .requestMatchers("/api/auth/**", "/api/community/**", "/actuator/**").permitAll()
+
+
+                        /* API 접근 권한 설정 주소*/
+                        .requestMatchers("/api/community/admin/**","/api/ops/**").hasRole("SUPER_ADMIN")
+
+                        /* 나머지 기능은 로그인 필요 */
+                        .anyRequest().authenticated()
+
+                        /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 일단 한번 토큰 유효여부 확인. */
+                ).addFilterAfter(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+        ;
 
         return http.build();
     }

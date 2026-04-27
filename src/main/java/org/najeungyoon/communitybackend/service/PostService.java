@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.domain.Post;
+import org.najeungyoon.communitybackend.domain.User;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
+import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -49,20 +52,28 @@ public class PostService {
 
     /* 글 생성 API*/
     @Transactional
-    public void createPost(String urlPath,PostCreateRequestDTO dto){
+    public void createPost(
+            String urlPath,
+            PostCreateRequestDTO dto,
+            Long userId){
         log.info("{} 갤러리에 게시글 저장 시작",urlPath);
-
 
         Board board = getBoardByUrlPath(urlPath);
 
+        if(userId != null){
+            User user = userRepository.findById(userId)
+                    .orElseThrow(()->new IllegalArgumentException("유저를 찾을 수 없습니다."));
+            Post post = dto.toEntityUser(board,user);
+            postRepository.save(post);
+        }else {
+            // 평문비밀번호 해싱
+            String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
 
-        // 평문비밀번호 해싱
-        String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
-
-        // 해싱된 비밀번호로 Entity 만들어서 board랑 같이 인자로 주입
-        // DB에 insert
-        Post post = dto.toEntity(hashedPassword,board);
-        postRepository.save(post);
+            // 해싱된 비밀번호로 Entity 만들어서 board랑 같이 인자로 주입
+            // DB에 insert
+            Post post = dto.toEntityAnonymous(hashedPassword,board);
+            postRepository.save(post);
+        }
 
         log.info("갤러리에 게시글 저장 완료");
     }

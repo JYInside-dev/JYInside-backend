@@ -25,10 +25,10 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String authorName;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @CreationTimestamp
@@ -48,7 +48,13 @@ public class Post {
     private int disLikeCount = 0;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = true)
+    private User user;
 
+
+
+    /* 익명 사용자용 Post 생성자*/
     public Post(String title, String content, String authorName, String password,Board board) {
         this.title = title;
         this.content = content;
@@ -57,4 +63,11 @@ public class Post {
         this.board=board;
     }
 
+    /* 로그인된 사용자용 Post 생성자. */
+    public Post(String title, String content, User user,Board board) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.board = board;
+    }
 }
