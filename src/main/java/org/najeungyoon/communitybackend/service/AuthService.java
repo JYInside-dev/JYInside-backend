@@ -59,6 +59,11 @@ public class AuthService {
             throw new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다.");
         }
 
+        // 소셜 가입자는 비밀번호가 없을 수 있기 때문에 추가
+        if (user.getPassword() == null) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다.");
+        }
+
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
@@ -70,7 +75,7 @@ public class AuthService {
                 accessToken,
                 user.getUsername(),
                 user.getNickname()
-                );
+        );
     }
 
 
