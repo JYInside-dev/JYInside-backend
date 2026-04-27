@@ -41,7 +41,9 @@ public class SocialAccount {
     @Column(length = 100)
     private String providerEmail;
 
+    // 여러 개의 SocialAccount가 하나의 User에 연결 가능 / 불필요한 DB 조회를 줄이기 위해 지연 로딩
     @ManyToOne(fetch = FetchType.LAZY)
+    // social_accounts.user_id -> users.id
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
