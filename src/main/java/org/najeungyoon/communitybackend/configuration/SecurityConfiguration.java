@@ -40,7 +40,7 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests(auth -> auth
                         // 로그인 안해도 접근 가능한 주소 설정
-                        .requestMatchers("/api/auth/**", "/api/auth/**", "/api/community/**", "/actuator/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/oauth/**", "/api/community/**", "/actuator/**").permitAll()
 
 
                         /* API 접근 권한 설정 주소*/

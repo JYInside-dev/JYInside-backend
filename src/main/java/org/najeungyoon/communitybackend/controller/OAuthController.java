@@ -22,6 +22,8 @@ public class OAuthController {
 
     @GetMapping("/google/login")
     public ResponseEntity<Void> googleLogin() {
+        // OAuth 로그인 요청을 보낼때 state를 같이 보내고 callback으로 돌아왔을 때
+        // 같은 state인지 확인하는게 보안상 좋음
         String state = UUID.randomUUID().toString();
 
         String googleAuthUrl = UriComponentsBuilder
@@ -29,6 +31,7 @@ public class OAuthController {
                 .queryParam("client_id", googleOAuthProperties.clientId())
                 .queryParam("redirect_uri", googleOAuthProperties.redirectUri())
                 .queryParam("response_type", "code")
+                // 구글에게 어떤 정보 접근을 요청할지 정함 / openid = 로그인 식별용, email = 이메일 정보, profile = 기본 프로필 정보
                 .queryParam("scope", "openid email profile")
                 .queryParam("state", state)
                 .encode(StandardCharsets.UTF_8)
