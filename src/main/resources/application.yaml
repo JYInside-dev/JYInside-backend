@@ -47,6 +47,11 @@ oauth:
     redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost/api/oauth/google/callback}
 
 
+app:
+  frontend-base-url:
+    ${FRONTEND_BASE_URL:http://localhost}
+
+
 #  # redis config
 #  data:
 #    redis:

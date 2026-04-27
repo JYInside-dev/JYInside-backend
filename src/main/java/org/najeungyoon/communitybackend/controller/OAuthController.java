@@ -2,6 +2,8 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
+import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.service.OAuth.GoogleOAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class OAuthController {
 
     private final GoogleOAuthProperties googleOAuthProperties;
+    private final GoogleOAuthService googleOAuthService;
 
     @GetMapping("/google/login")
     public ResponseEntity<Void> googleLogin() {
@@ -45,10 +48,22 @@ public class OAuthController {
     }
 
     @GetMapping("/google/callback")
-    public ResponseEntity<String> googleCallback(
+    public ResponseEntity<Void> googleCallback(
             @RequestParam String code,
             @RequestParam(required = false) String state
     ) {
-        return ResponseEntity.ok("구글 callback 성공. code=" + code + ", state=" + state);
+        String redirectUrl = googleOAuthService.handleGoogleCallback(code);
+
+        return ResponseEntity.status(302)
+                .location(URI.create(redirectUrl))
+                .build();
+    }
+
+    @GetMapping("/login-ticket")
+    public ResponseEntity<JwtTokenResponseDTO> exchangeLoginTicket(
+            @RequestParam String ticket
+    ) {
+        JwtTokenResponseDTO response = googleOAuthService.exchangeLoginTicket(ticket);
+        return ResponseEntity.ok(response);
     }
 }
