@@ -27,7 +27,7 @@ public class OAuthController {
         String state = UUID.randomUUID().toString();
 
         String googleAuthUrl = UriComponentsBuilder
-                .fromUriString("https://account.google.com/o/oauth2/v2/auth")
+                .fromUriString("https://accounts.google.com/o/oauth2/v2/auth")
                 .queryParam("client_id", googleOAuthProperties.clientId())
                 .queryParam("redirect_uri", googleOAuthProperties.redirectUri())
                 .queryParam("response_type", "code")
