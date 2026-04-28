@@ -3,6 +3,8 @@ package org.najeungyoon.communitybackend.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Comment {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id",nullable = false)
     private Post post;
 
@@ -44,7 +47,8 @@ public class Comment {
 
 
 
-
+    /* 비회원용 댓글 생성자
+    *   authorName, password 존재함. */
     public Comment(String content, String authorName, String password, Post post,String mentionedName,Comment parent) {
         this.content = content;
         this.authorName = authorName;
@@ -53,4 +57,17 @@ public class Comment {
         this.mentionedName = mentionedName;
         this.parent=parent;
     };
+
+
+    /* 로그인용 댓글 생성자 */
+    public Comment(String content, User user, Post post,String mentionedName,Comment parent) {
+        this.content = content;
+        this.authorName = user.getNickname();
+        this.password = "";
+        this.post = post;
+        this.mentionedName = mentionedName;
+        this.parent=parent;
+    };
+
+
 }

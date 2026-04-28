@@ -7,6 +7,7 @@ import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.service.PostService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,10 +39,13 @@ public class PostController {
     @PostMapping("/write")
     public ResponseEntity<String> writePost(
             @PathVariable String urlPath,
-            @RequestBody PostCreateRequestDTO dto
+            @RequestBody PostCreateRequestDTO dto,
+            @AuthenticationPrincipal Long userId /* 로그인 했으면 값이 들어가고 아니면 null */
             ){
+
         log.info("{} 에 글 작성 post 요청 들어옴.",urlPath);
-        postService.createPost(urlPath,dto);
+
+        postService.createPost(urlPath, dto,userId);
 
         return ResponseEntity.status(201).build();
     }
@@ -62,10 +66,11 @@ public class PostController {
     public ResponseEntity<String> deletePost(
             @PathVariable String urlPath,
             @PathVariable Long id,
-            @RequestBody PostDeleteRequestDTO requestDTO){
+            @RequestBody(required = false) PostDeleteRequestDTO requestDTO,
+            @AuthenticationPrincipal Long userId){
         log.info("{}커뮤니티 {}번 글 삭제 post 요청 들어옴",urlPath,id);
 
-        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO);
+        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO,userId);
         if(isDeleted){
             return ResponseEntity.ok("삭제되었습니다.");
         }else {

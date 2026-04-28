@@ -5,10 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.Comment;
 import org.najeungyoon.communitybackend.domain.Post;
+import org.najeungyoon.communitybackend.domain.User;
+import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
+import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +25,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-
+    private final UserRepository userRepository;
 
     /* Post가 정말 유효한 경로에서 요청이 들어온건지 보안 검증 확인 후에 반환 */
     private Post getValidatedPost(String urlPath, Long postId){
@@ -58,7 +62,7 @@ public class CommentService {
 
     /* 댓글 생성하는 API */
     @Transactional
-    public void createComment(String urlPath, Long postId, CommentCreateRequestDTO dto){
+    public void createComment(String urlPath, Long postId, CommentCreateRequestDTO dto,Long userId){
 
         /* 인증 검사 */
         Post post = getValidatedPost(urlPath, postId);
@@ -83,19 +87,31 @@ public class CommentService {
                 mentionedName = targetComment.getAuthorName();
             }
         }
+        /* 로그인 회원시 */
+        if(userId!=null){
+            User user = userRepository.findById(userId)
+                    .orElseThrow(()->new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
-        /* entity 조립 */
-        Comment comment = new Comment(
-                dto.content(),
-                dto.authorName(),
-                hashedPassword,
-                post,
-                mentionedName,
-                parent);
+            /* 회원용 댓글 생성 */
+            Comment comment = new Comment(
+                    dto.content(),
+                    user,
+                    post,
+                    mentionedName,
+                    parent
+            );
+            commentRepository.save(comment);
 
-        commentRepository.save(comment);
+        }else{
+            /* entity 조립 */
+            Comment comment = new Comment(
+                    dto.content(),
+                    dto.authorName(),
+                    hashedPassword,
+                    post,
+                    mentionedName,
+                    parent);
+            commentRepository.save(comment);
+        }
     }
-
-
-
 }

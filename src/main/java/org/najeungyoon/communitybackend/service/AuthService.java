@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend.service;
 
+import org.najeungyoon.communitybackend.domain.UserRole;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class AuthService {
                 dto.email(),
                 encodedPassword,
                 dto.nickname(),
-                "USER"
+                UserRole.USER
         );
 
         // DB 저장
@@ -61,7 +62,7 @@ public class AuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                user.getRole()
+                user.getRole().getKey()
         );
 
         return new JwtTokenResponseDTO(
@@ -71,6 +72,7 @@ public class AuthService {
                 user.getNickname()
                 );
     }
+
 
     private void validateSignup(SignupRequestDTO dto) {
         if (dto.username() == null || dto.username().isBlank()) {
