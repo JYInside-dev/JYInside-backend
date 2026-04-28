@@ -36,9 +36,6 @@ import java.util.Collections;
                 FilterChain filterChain) throws ServletException, IOException {
             String token = resolveToken(request);
 
-            log.info("추출된 토큰: {}", token);
-            log.info("토큰 검증 결과: {}", jwtTokenProvider.validateToken(token));
-
             /* 토큰 인증 후에 */
             if(token != null && jwtTokenProvider.validateToken(token)){
 

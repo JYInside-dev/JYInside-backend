@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,6 +53,10 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = true)
     private User user;
+
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
 
 

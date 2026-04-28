@@ -28,7 +28,7 @@ public class CommentController {
             ){
 
         if(userId != null){
-            commentService.createComment(urlPath,postId,commentCreateRequestDTO);
+            commentService.createComment(urlPath,postId,commentCreateRequestDTO,userId);
         }
     }
 
