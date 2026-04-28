@@ -1864,3 +1864,185 @@ java.lang.IllegalArgumentException: 아이디 또는 비밀번호가 올바르�
 2026-04-28 13:39:48.310 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-04-28 13:39:48.312 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2026-04-28 13:39:48.317 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-04-28 16:53:58.661 [main] INFO  o.n.c.CommunityBackendApplication - Starting CommunityBackendApplication using Java 21.0.10 with PID 6548 (C:\Users\najy1\cicd-project\community-backend\build\classes\java\main started by najy1 in C:\Users\najy1\cicd-project\community-backend)
+2026-04-28 16:53:58.662 [main] INFO  o.n.c.CommunityBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-28 16:53:58.761 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-04-28 16:53:59.272 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-28 16:53:59.319 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 39 ms. Found 5 JPA repository interfaces.
+2026-04-28 16:53:59.893 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-28 16:53:59.905 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-28 16:53:59.906 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-28 16:53:59.907 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-04-28 16:53:59.946 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1253 ms
+2026-04-28 16:54:00.181 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-28 16:54:00.246 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-28 16:54:00.627 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-28 16:54:00.654 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-28 16:54:00.889 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@50dd1e3a
+2026-04-28 16:54:00.890 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-28 16:54:00.960 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/community_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: community_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-28 16:54:01.917 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-28 16:54:02.084 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-28 16:54:02.185 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-28 16:54:02.872 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-28 16:54:02.958 [main] WARN  o.s.b.s.a.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: fa753151-500e-48db-8d63-daaaad0e6b37
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-28 16:54:02.967 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-28 16:54:03.557 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-28 16:54:03.615 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-28 16:54:03.627 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-28 16:54:03.633 [main] INFO  o.n.c.CommunityBackendApplication - Started CommunityBackendApplication in 5.394 seconds (process running for 5.839)
+2026-04-28 16:54:04.074 [RMI TCP Connection(4)-172.16.3.77] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-28 16:54:04.075 [RMI TCP Connection(4)-172.16.3.77] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-28 16:54:04.076 [RMI TCP Connection(4)-172.16.3.77] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-04-28 16:54:14.609 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [0f871b1a] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 16:54:14.609 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [82853a57] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 16:54:14.904 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [82853a57] ◀ [RES] GET /api/community/board/getAllBoards | Time: 295ms | Result: [org.najeungyoon.communitybackend.domain.Board@50d824b7, org.najeungyoon.communitybackend.domain.Board@7229e98c, org.najeungyoon.communitybackend.domain.Board@6c1286cc]
+2026-04-28 16:54:14.929 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [0f871b1a] ◀ [RES] GET /api/community/board/popular/top5 | Time: 320ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 16:54:15.007 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - [99475d43] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 16:54:15.007 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [532c4c7f] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 16:54:15.019 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [532c4c7f] ◀ [RES] GET /api/community/board/getAllBoards | Time: 11ms | Result: [org.najeungyoon.communitybackend.domain.Board@7ccc2ed5, org.najeungyoon.communitybackend.domain.Board@2fc6cfd, org.najeungyoon.communitybackend.domain.Board@7736d512]
+2026-04-28 16:54:15.029 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - [99475d43] ◀ [RES] GET /api/community/board/popular/top5 | Time: 21ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 16:54:19.716 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - [0083cb44] ▶ [REQ] POST /api/auth/login | IP: 0:0:0:0:0:0:0:1 | Method: login | Args: [LoginRequestDTO[username=qwer1234, password=qwer1234]]
+2026-04-28 16:54:19.717 [http-nio-8080-exec-7] INFO  o.n.c.controller.AuthController - 로그인 API 요청 들어옴
+2026-04-28 16:54:19.721 [http-nio-8080-exec-7] INFO  o.n.c.service.AuthService - 로그인 요청 들어옴 username=qwer1234
+2026-04-28 16:54:20.124 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - [0083cb44] ◀ [RES] POST /api/auth/login | Time: 407ms | Result: <200 OK OK,JwtTokenResponseDTO[tokenType=Bearer, accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJhc2RmQGdmZGcuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc3NzM2Mjg1OSwiZXhwIjoxNzc3MzY0NjU5fQ.k52xukaUUgwNUEXGBdMrYOjZXRqX0r7tKUH-9reviBY, username=qwer1234, nickname=테스터1],[]>
+2026-04-28 16:54:20.193 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [4be3eb8f] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 16:54:20.194 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [c72764c7] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 16:54:20.203 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [c72764c7] ◀ [RES] GET /api/community/board/getAllBoards | Time: 9ms | Result: [org.najeungyoon.communitybackend.domain.Board@2fbb201b, org.najeungyoon.communitybackend.domain.Board@60660424, org.najeungyoon.communitybackend.domain.Board@6d300bf2]
+2026-04-28 16:54:20.208 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [4be3eb8f] ◀ [RES] GET /api/community/board/popular/top5 | Time: 14ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 16:54:20.222 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [fe2ed878] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 16:54:20.227 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - [230432c6] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 16:54:20.231 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [fe2ed878] ◀ [RES] GET /api/community/board/getAllBoards | Time: 9ms | Result: [org.najeungyoon.communitybackend.domain.Board@10304542, org.najeungyoon.communitybackend.domain.Board@1101ec8c, org.najeungyoon.communitybackend.domain.Board@745b5ae3]
+2026-04-28 16:54:20.242 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - [230432c6] ◀ [RES] GET /api/community/board/popular/top5 | Time: 15ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 16:59:08.366 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - [cf0298de] ▶ [REQ] POST /api/auth/signup | IP: 0:0:0:0:0:0:0:1 | Method: signup | Args: [SignupRequestDTO[username=tester1, email=tes12597123@test.com, password=12345678, nickname=예외처리테스터]]
+2026-04-28 16:59:08.366 [http-nio-8080-exec-6] INFO  o.n.c.controller.AuthController - 회원가입 API 요청 들어옴
+2026-04-28 16:59:08.370 [http-nio-8080-exec-6] INFO  o.n.c.service.AuthService - 회원가입 요청 들어옴 username=tester1
+2026-04-28 16:59:08.719 [http-nio-8080-exec-6] INFO  o.n.c.service.AuthService - 회원가입 완료 username=tester1
+2026-04-28 16:59:08.739 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - [cf0298de] ◀ [RES] POST /api/auth/signup | Time: 373ms | Result: <200 OK OK,회원가입이 완료되었습니다.,[]>
+2026-04-28 16:59:29.004 [http-nio-8080-exec-2] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 사용할 이메일을 입력해 주세요
+2026-04-28 17:00:52.150 [http-nio-8080-exec-1] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 사용할 이메일을 입력해 주세요
+2026-04-28 17:01:26.410 [http-nio-8080-exec-3] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 사용할 닉네임을 입력해 주세요
+2026-04-28 17:02:42.976 [http-nio-8080-exec-5] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 이메일 형식에 맞게 입력해주세요
+2026-04-28 17:05:07.048 [http-nio-8080-exec-7] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 사용할 이메일을 입력해 주세요
+2026-04-28 17:05:10.699 [http-nio-8080-exec-9] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 이메일 형식에 맞게 입력해주세요
+2026-04-28 17:05:16.123 [http-nio-8080-exec-4] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 사용할 닉네임을 입력해 주세요
+2026-04-28 17:16:16.801 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-28 17:16:16.807 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-04-28 17:16:16.812 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-28 17:16:16.814 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-04-28 17:16:16.817 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-04-28 17:20:42.460 [main] INFO  o.n.c.CommunityBackendApplication - Starting CommunityBackendApplication using Java 21.0.10 with PID 22496 (C:\Users\najy1\cicd-project\community-backend\build\classes\java\main started by najy1 in C:\Users\najy1\cicd-project\community-backend)
+2026-04-28 17:20:42.461 [main] INFO  o.n.c.CommunityBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-04-28 17:20:42.556 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-04-28 17:20:43.016 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-28 17:20:43.059 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+2026-04-28 17:20:43.551 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-04-28 17:20:43.559 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-04-28 17:20:43.561 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-04-28 17:20:43.561 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-04-28 17:20:43.607 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1116 ms
+2026-04-28 17:20:43.826 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-28 17:20:43.860 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-28 17:20:44.170 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-28 17:20:44.193 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-04-28 17:20:44.435 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fdd5517
+2026-04-28 17:20:44.436 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-04-28 17:20:44.499 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/community_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: community_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-28 17:20:47.580 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-28 17:20:47.725 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-28 17:20:47.807 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-28 17:20:48.426 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-28 17:20:48.501 [main] WARN  o.s.b.s.a.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 46d7b2be-0b7a-406a-bb54-6bac61d0a60c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-28 17:20:48.508 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-28 17:20:49.068 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-04-28 17:20:49.117 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-04-28 17:20:49.129 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-04-28 17:20:49.135 [main] INFO  o.n.c.CommunityBackendApplication - Started CommunityBackendApplication in 7.044 seconds (process running for 7.427)
+2026-04-28 17:20:49.535 [RMI TCP Connection(3)-172.16.3.77] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-28 17:20:49.536 [RMI TCP Connection(3)-172.16.3.77] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-04-28 17:20:49.538 [RMI TCP Connection(3)-172.16.3.77] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-04-28 17:21:08.493 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [92b6d259] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:21:08.493 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [64b62640] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:21:09.312 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [92b6d259] ◀ [RES] GET /api/community/board/getAllBoards | Time: 818ms | Result: [org.najeungyoon.communitybackend.domain.Board@38a3343b, org.najeungyoon.communitybackend.domain.Board@1239cd14, org.najeungyoon.communitybackend.domain.Board@1c43cc7e]
+2026-04-28 17:21:09.334 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [64b62640] ◀ [RES] GET /api/community/board/popular/top5 | Time: 839ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:21:09.437 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [5edc9bce] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:21:09.438 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [3ef0d507] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:21:09.451 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [5edc9bce] ◀ [RES] GET /api/community/board/getAllBoards | Time: 13ms | Result: [org.najeungyoon.communitybackend.domain.Board@35193363, org.najeungyoon.communitybackend.domain.Board@3be5584a, org.najeungyoon.communitybackend.domain.Board@62c30bb8]
+2026-04-28 17:21:09.461 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [3ef0d507] ◀ [RES] GET /api/community/board/popular/top5 | Time: 23ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:21:32.587 [http-nio-8080-exec-5] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: ID를 입력해주세요
+2026-04-28 17:21:37.137 [http-nio-8080-exec-6] ERROR o.n.c.e.GlobalExceptionHandler - Validation Error: 비밀번호를 입력해주세요
+2026-04-28 17:21:40.967 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - [9cf7d001] ▶ [REQ] POST /api/auth/login | IP: 0:0:0:0:0:0:0:1 | Method: login | Args: [LoginRequestDTO[username=qwer1234, password=12345678]]
+2026-04-28 17:21:40.968 [http-nio-8080-exec-7] INFO  o.n.c.controller.AuthController - 로그인 API 요청 들어옴
+2026-04-28 17:21:40.971 [http-nio-8080-exec-7] INFO  o.n.c.service.AuthService - 로그인 요청 들어옴 username=qwer1234
+2026-04-28 17:21:41.223 [http-nio-8080-exec-7] ERROR o.n.c.logging.LoggingAspect - [NO-ID] 💥 [ERROR] org.najeungyoon.communitybackend.controller.AuthController | login | Message: 아이디 또는 비밀번호가 올바르지 않습니다.
+2026-04-28 17:21:41.225 [http-nio-8080-exec-7] ERROR o.n.c.e.GlobalExceptionHandler - Business Error: 아이디 또는 비밀번호가 올바르지 않습니다.
+2026-04-28 17:21:47.679 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - [de89396a] ▶ [REQ] POST /api/auth/login | IP: 0:0:0:0:0:0:0:1 | Method: login | Args: [LoginRequestDTO[username=qwer1234, password=12345678]]
+2026-04-28 17:21:47.679 [http-nio-8080-exec-8] INFO  o.n.c.controller.AuthController - 로그인 API 요청 들어옴
+2026-04-28 17:21:47.682 [http-nio-8080-exec-8] INFO  o.n.c.service.AuthService - 로그인 요청 들어옴 username=qwer1234
+2026-04-28 17:21:47.910 [http-nio-8080-exec-8] ERROR o.n.c.logging.LoggingAspect - [NO-ID] 💥 [ERROR] org.najeungyoon.communitybackend.controller.AuthController | login | Message: 아이디 또는 비밀번호가 올바르지 않습니다.
+2026-04-28 17:21:47.911 [http-nio-8080-exec-8] ERROR o.n.c.e.GlobalExceptionHandler - Business Error: 아이디 또는 비밀번호가 올바르지 않습니다.
+2026-04-28 17:21:54.901 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [cdac0914] ▶ [REQ] POST /api/auth/login | IP: 0:0:0:0:0:0:0:1 | Method: login | Args: [LoginRequestDTO[username=qwer1234, password=qwer1234]]
+2026-04-28 17:21:54.902 [http-nio-8080-exec-9] INFO  o.n.c.controller.AuthController - 로그인 API 요청 들어옴
+2026-04-28 17:21:54.905 [http-nio-8080-exec-9] INFO  o.n.c.service.AuthService - 로그인 요청 들어옴 username=qwer1234
+2026-04-28 17:21:55.299 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [cdac0914] ◀ [RES] POST /api/auth/login | Time: 397ms | Result: <200 OK OK,JwtTokenResponseDTO[tokenType=Bearer, accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJhc2RmQGdmZGcuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc3NzM2NDUxNSwiZXhwIjoxNzc3MzY2MzE1fQ.749T5MQFvLbSweNt2fdy6Ac-dy3zEpdWTy4cbqcSYhY, username=qwer1234, nickname=테스터1],[]>
+2026-04-28 17:21:55.365 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [bb08f24a] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:21:55.365 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [7ab10a45] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:21:55.374 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [7ab10a45] ◀ [RES] GET /api/community/board/getAllBoards | Time: 8ms | Result: [org.najeungyoon.communitybackend.domain.Board@ac32e18, org.najeungyoon.communitybackend.domain.Board@3e5341ff, org.najeungyoon.communitybackend.domain.Board@33293641]
+2026-04-28 17:21:55.380 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [bb08f24a] ◀ [RES] GET /api/community/board/popular/top5 | Time: 14ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:21:55.391 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [afe3d61b] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:21:55.393 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [b9fb53bc] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:21:55.401 [http-nio-8080-exec-2] INFO  o.n.c.logging.LoggingAspect - [afe3d61b] ◀ [RES] GET /api/community/board/getAllBoards | Time: 9ms | Result: [org.najeungyoon.communitybackend.domain.Board@36a2f73d, org.najeungyoon.communitybackend.domain.Board@6a2bdfc3, org.najeungyoon.communitybackend.domain.Board@26d061a7]
+2026-04-28 17:21:55.408 [http-nio-8080-exec-3] INFO  o.n.c.logging.LoggingAspect - [b9fb53bc] ◀ [RES] GET /api/community/board/popular/top5 | Time: 15ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:22:04.537 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [fda21281] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:22:04.538 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - [e64a313b] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:22:04.547 [http-nio-8080-exec-5] INFO  o.n.c.logging.LoggingAspect - [e64a313b] ◀ [RES] GET /api/community/board/getAllBoards | Time: 9ms | Result: [org.najeungyoon.communitybackend.domain.Board@495b34f6, org.najeungyoon.communitybackend.domain.Board@2d3c63f8, org.najeungyoon.communitybackend.domain.Board@293e5fa]
+2026-04-28 17:22:04.551 [http-nio-8080-exec-4] INFO  o.n.c.logging.LoggingAspect - [fda21281] ◀ [RES] GET /api/community/board/popular/top5 | Time: 13ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:22:04.572 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - [9622689c] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:22:04.577 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - [97a144a0] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:22:04.586 [http-nio-8080-exec-6] INFO  o.n.c.logging.LoggingAspect - [9622689c] ◀ [RES] GET /api/community/board/getAllBoards | Time: 14ms | Result: [org.najeungyoon.communitybackend.domain.Board@2dff76f0, org.najeungyoon.communitybackend.domain.Board@6dcf307c, org.najeungyoon.communitybackend.domain.Board@6cba005e]
+2026-04-28 17:22:04.597 [http-nio-8080-exec-7] INFO  o.n.c.logging.LoggingAspect - [97a144a0] ◀ [RES] GET /api/community/board/popular/top5 | Time: 20ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:22:06.951 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [6da318d5] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:22:06.951 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - [470c2ef7] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:22:06.960 [http-nio-8080-exec-9] INFO  o.n.c.logging.LoggingAspect - [6da318d5] ◀ [RES] GET /api/community/board/getAllBoards | Time: 8ms | Result: [org.najeungyoon.communitybackend.domain.Board@22919d69, org.najeungyoon.communitybackend.domain.Board@4b36f5b9, org.najeungyoon.communitybackend.domain.Board@1afb534e]
+2026-04-28 17:22:06.967 [http-nio-8080-exec-8] INFO  o.n.c.logging.LoggingAspect - [470c2ef7] ◀ [RES] GET /api/community/board/popular/top5 | Time: 14ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:22:06.972 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [3d27a5b2] ▶ [REQ] GET /api/community/board/getAllBoards | IP: 0:0:0:0:0:0:0:1 | Method: getAllBoards | Args: []
+2026-04-28 17:22:06.979 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [3b1f57ab] ▶ [REQ] GET /api/community/board/popular/top5 | IP: 0:0:0:0:0:0:0:1 | Method: getTop5PopularPost | Args: []
+2026-04-28 17:22:06.980 [http-nio-8080-exec-1] INFO  o.n.c.logging.LoggingAspect - [3d27a5b2] ◀ [RES] GET /api/community/board/getAllBoards | Time: 7ms | Result: [org.najeungyoon.communitybackend.domain.Board@13fe4d54, org.najeungyoon.communitybackend.domain.Board@7b8f8724, org.najeungyoon.communitybackend.domain.Board@7f73962d]
+2026-04-28 17:22:06.997 [http-nio-8080-exec-10] INFO  o.n.c.logging.LoggingAspect - [3b1f57ab] ◀ [RES] GET /api/community/board/popular/top5 | Time: 18ms | Result: [PostResponseDTO[id=12, title=인기글 테스트 입니다., content=인기얻고싶어요, authorName=유저234, createAt=2026-04-24T10:03:26.839459, likeCount=10, boardUrlPath=online_game], PostResponseDTO[id=1, title=커뮤니티 분리 글 작성 테스트 입니다., content=testtest, authorName=ㅇㅇ, createAt=2026-04-20T09:49:58.639996, likeCount=13, boardUrlPath=electric_guitar]]
+2026-04-28 17:22:15.955 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-28 17:22:15.966 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-04-28 17:22:15.973 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-28 17:22:15.975 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-04-28 17:22:15.978 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
