@@ -51,7 +51,7 @@ public class SocialAccount {
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    public SocialAccount(AuthProvider provider, String providerEmail, User user) {
+    public SocialAccount(AuthProvider provider, String providerUserId, String providerEmail, User user) {
         this.provider = provider;
         this.providerUserId = providerUserId;
         this.providerEmail = providerEmail;

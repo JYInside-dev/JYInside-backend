@@ -10,8 +10,11 @@ import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
 import org.najeungyoon.communitybackend.domain.AuthProvider;
 import org.najeungyoon.communitybackend.domain.SocialAccount;
 import org.najeungyoon.communitybackend.domain.User;
+import org.najeungyoon.communitybackend.domain.UserRole;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.model.oauth.GoogleSignupCompleteRequestDTO;
+import org.najeungyoon.communitybackend.model.oauth.GoogleSignupInfoResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.GoogleTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.PendingGoogleSignup;
 import org.najeungyoon.communitybackend.repository.SocialAccountRepository;
@@ -217,5 +220,89 @@ public class GoogleOAuthService {
                 user.getUsername(),
                 user.getNickname()
         );
+    }
+
+    // 가입 정보 조회
+    @Transactional(readOnly = true)
+    public GoogleSignupInfoResponseDTO getGoogleSignupInfo(String ticket) {
+        PendingGoogleSignup pending = oauthTicketStore.getGoogleSignupTicket(ticket)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 구글 회원가입 티켓입니다."));
+
+        return new GoogleSignupInfoResponseDTO(
+                pending.email(),
+                pending.name(),
+                pending.pictureUrl()
+        );
+    }
+
+    // 가입 완료
+    @Transactional
+    public JwtTokenResponseDTO completeGoogleSignup(GoogleSignupCompleteRequestDTO dto) {
+        PendingGoogleSignup pending = oauthTicketStore.consumeGoogleSignupTicket(dto.ticket())
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 구글 회원가입 티켓입니다."));
+
+        validateGoogleSignup(dto, pending);
+
+        User user = new User(
+                dto.username(),
+                pending.email(),
+                null,
+                dto.nickname(),
+                UserRole.USER
+        );
+
+        userRepository.save(user);
+
+        SocialAccount socialAccount = new SocialAccount(
+                AuthProvider.GOOGLE,
+                pending.providerUserId(),
+                pending.email(),
+                user
+        );
+
+        socialAccountRepository.save(socialAccount);
+
+        String accessToken = jwtTokenProvider.createAccessToken(
+                user.getId(),
+                user.getEmail(),
+                String.valueOf(user.getRole())
+        );
+
+        return new JwtTokenResponseDTO(
+                "Bearer",
+                accessToken,
+                user.getUsername(),
+                user.getNickname()
+        );
+    }
+
+    private void validateGoogleSignup(GoogleSignupCompleteRequestDTO dto, PendingGoogleSignup pending) {
+        if (dto.username() == null || dto.username().isBlank()) {
+            throw new IllegalArgumentException("아이디는 필수입니다.");
+        }
+
+        if (dto.nickname() == null || dto.nickname().isBlank()) {
+            throw new IllegalArgumentException("닉네임은 필수입니다.");
+        }
+
+        if (pending.email() == null || pending.email().isBlank()) {
+            throw new IllegalArgumentException("구글 계정에서 이메일을 가져오지 못했습니다.");
+        }
+
+        if (userRepository.existsByUsername(dto.username())) {
+            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+        }
+
+        if (userRepository.existsByNickname(dto.nickname())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+        }
+
+        if (userRepository.existsByEmail(pending.email())) {
+            throw new IllegalArgumentException("이미 같은 이메일로 가입된 계정이 있습니다.");
+        }
+
+        if (socialAccountRepository.existsByProviderAndProviderUserId(AuthProvider.GOOGLE, pending.providerUserId())) {
+            throw new IllegalArgumentException("이미 연결된 구글 계정입니다.");
+        }
     }
 }

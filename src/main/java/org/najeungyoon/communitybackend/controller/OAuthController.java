@@ -1,14 +1,14 @@
 package org.najeungyoon.communitybackend.controller;
 
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
+import org.najeungyoon.communitybackend.model.oauth.GoogleSignupCompleteRequestDTO;
+import org.najeungyoon.communitybackend.model.oauth.GoogleSignupInfoResponseDTO;
 import org.najeungyoon.communitybackend.service.OAuth.GoogleOAuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -59,6 +59,26 @@ public class OAuthController {
         return ResponseEntity.status(302)
                 .location(URI.create(redirectUrl))
                 .build();
+    }
+
+    // 구글에서 받은 이메일/이름 미리보기
+    @GetMapping("/google/signup-info")
+    public ResponseEntity<GoogleSignupInfoResponseDTO> getGoogleSignupInfo(
+            @RequestParam String ticket
+    ) {
+        GoogleSignupInfoResponseDTO response = googleOAuthService.getGoogleSignupInfo(ticket);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // JWT 발급
+    @PostMapping("/google/signup/complete")
+    public ResponseEntity<JwtTokenResponseDTO> completeGoogleSignup(
+            @RequestBody GoogleSignupCompleteRequestDTO dto
+    ) {
+        JwtTokenResponseDTO response = googleOAuthService.completeGoogleSignup(dto);
+
+        return ResponseEntity.ok(response);
     }
 
     // 프론트가 ticket을 우리 JWT로 교환하는 곳
