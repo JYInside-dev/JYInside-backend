@@ -23,6 +23,7 @@ public class OAuthController {
     private final GoogleOAuthProperties googleOAuthProperties;
     private final GoogleOAuthService googleOAuthService;
 
+    // 사용자를 구글 로그인 페이지로 보내는 시작점
     @GetMapping("/google/login")
     public ResponseEntity<Void> googleLogin() {
         // OAuth 로그인 요청을 보낼때 state를 같이 보내고 callback으로 돌아왔을 때
@@ -47,6 +48,7 @@ public class OAuthController {
                 .build();
     }
 
+    // 구글 로그인 성공 후 돌아오는 곳
     @GetMapping("/google/callback")
     public ResponseEntity<Void> googleCallback(
             @RequestParam String code,
@@ -59,6 +61,7 @@ public class OAuthController {
                 .build();
     }
 
+    // 프론트가 ticket을 우리 JWT로 교환하는 곳
     @GetMapping("/login-ticket")
     public ResponseEntity<JwtTokenResponseDTO> exchangeLoginTicket(
             @RequestParam String ticket

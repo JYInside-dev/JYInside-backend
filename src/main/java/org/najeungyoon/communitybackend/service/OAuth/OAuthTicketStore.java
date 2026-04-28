@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+// 실제 서비스를 위해 이후에는 DB 또는 캐시 또는 세션 저장소 형태로 변경하는게 좋음
 @Component
 public class OAuthTicketStore {
 
@@ -20,6 +22,7 @@ public class OAuthTicketStore {
         return ticket;
     }
 
+    // 보안때문에 티켓이 바로 사라지게 함
     public Optional<Long> consumeLoginTicket(String ticket) {
         return Optional.ofNullable(loginTickets.remove(ticket));
     }
@@ -30,6 +33,7 @@ public class OAuthTicketStore {
         return ticket;
     }
 
+    // 구글 로그인은 했지만 게시판 회원가입은 안 된 사람을 임시 저장함
     public Optional<PendingGoogleSignup> getGoogleSignupTicket(String ticket) {
         return Optional.ofNullable(googleSignupTickets.get(ticket));
     }
