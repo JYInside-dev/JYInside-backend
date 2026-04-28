@@ -16,7 +16,7 @@ import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.GoogleSignupCompleteRequestDTO;
 import org.najeungyoon.communitybackend.model.oauth.GoogleSignupInfoResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.GoogleTokenResponseDTO;
-import org.najeungyoon.communitybackend.model.oauth.PendingGoogleSignup;
+import org.najeungyoon.communitybackend.model.oauth.PendingSocialSignup;
 import org.najeungyoon.communitybackend.repository.SocialAccountRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +54,7 @@ public class GoogleOAuthService {
     private final SocialAccountRepository socialAccountRepository;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final OAuthTicketStore oauthTicketStore;
+    private final OAuthTicketService oauthTicketService;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -156,7 +156,7 @@ public class GoogleOAuthService {
         User user = socialAccount.getUser();
 
         // userId로 login ticket 생성
-        String ticket = oauthTicketStore.createLoginTicket(user.getId());
+        String ticket = oauthTicketService.createLoginTicket(user.getId());
 
         // 프론트 /oauth/success?ticket=... 로 이동
         // JWT를 URL에 노출하지 않기 위해 ticket 사용
@@ -175,8 +175,9 @@ public class GoogleOAuthService {
             String name,
             String pictureUrl
     ) {
-        // 구글 정보를 PendingGoogleSignup으로 묶음
-        PendingGoogleSignup pendingGoogleSignup = new PendingGoogleSignup(
+        // 구글 정보를 PendingSocialSignup으로 묶음
+        PendingSocialSignup pendingSocialSignup = new PendingSocialSignup(
+                AuthProvider.GOOGLE,
                 providerUserId,
                 email,
                 name,
@@ -184,7 +185,7 @@ public class GoogleOAuthService {
         );
 
         // 묶은 정보로 signup ticket 생성
-        String ticket = oauthTicketStore.createGoogleSignupTicket(pendingGoogleSignup);
+        String ticket = oauthTicketService.createSocialSignupTicket(pendingSocialSignup);
 
         // 프론트 /oauth/gogle/signup?ticket=... 로 이동
         // 이후 프론트에서 추가 정보를 입력받고 가입 완료 API를 호출함
@@ -200,7 +201,7 @@ public class GoogleOAuthService {
     @Transactional(readOnly = true)
     public JwtTokenResponseDTO exchangeLoginTicket(String ticket) {
         // ticket으로 userId를 찾고 바로 삭제
-        Long userId = oauthTicketStore.consumeLoginTicket(ticket)
+        Long userId = oauthTicketService.consumeLoginTicket(ticket)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 로그인 티켓입니다."));
 
         // userId로 User 조회
@@ -225,7 +226,7 @@ public class GoogleOAuthService {
     // 가입 정보 조회
     @Transactional(readOnly = true)
     public GoogleSignupInfoResponseDTO getGoogleSignupInfo(String ticket) {
-        PendingGoogleSignup pending = oauthTicketStore.getGoogleSignupTicket(ticket)
+        PendingSocialSignup pending = oauthTicketService.getSocialSignupTicket(ticket, AuthProvider.GOOGLE)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 구글 회원가입 티켓입니다."));
 
         return new GoogleSignupInfoResponseDTO(
@@ -238,7 +239,7 @@ public class GoogleOAuthService {
     // 가입 완료
     @Transactional
     public JwtTokenResponseDTO completeGoogleSignup(GoogleSignupCompleteRequestDTO dto) {
-        PendingGoogleSignup pending = oauthTicketStore.consumeGoogleSignupTicket(dto.ticket())
+        PendingSocialSignup pending = oauthTicketService.consumeSocialSignupTicket(dto.ticket(), AuthProvider.GOOGLE)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 구글 회원가입 티켓입니다."));
 
         validateGoogleSignup(dto, pending);
@@ -276,7 +277,11 @@ public class GoogleOAuthService {
         );
     }
 
-    private void validateGoogleSignup(GoogleSignupCompleteRequestDTO dto, PendingGoogleSignup pending) {
+    private void validateGoogleSignup(GoogleSignupCompleteRequestDTO dto, PendingSocialSignup pending) {
+        if (pending.provider() != AuthProvider.GOOGLE) {
+            throw new IllegalArgumentException("구글 회원가입 티켓이 아닙니다.");
+        }
+
         if (dto.username() == null || dto.username().isBlank()) {
             throw new IllegalArgumentException("아이디는 필수입니다.");
         }
