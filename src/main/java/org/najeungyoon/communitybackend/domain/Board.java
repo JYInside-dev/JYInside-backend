@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
+
 public class Board {
 
     @Id
@@ -19,5 +20,13 @@ public class Board {
     @Column(nullable = false,length = 50,unique = true)
     String urlPath;
 
+    @Column(length = 100)
+    String description;
 
+
+    public Board(String name, String urlPath, String description) {
+        this.name = name;
+        this.urlPath = urlPath;
+        this.description = description;
+    }
 }

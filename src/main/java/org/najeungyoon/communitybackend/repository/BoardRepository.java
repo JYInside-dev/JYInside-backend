@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<Board,Long> {
 
     Optional<Board> findByUrlPath(String urlPath);
+
+    boolean existsByUrlPath(String urlPath);
 }

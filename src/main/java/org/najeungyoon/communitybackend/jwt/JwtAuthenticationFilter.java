@@ -39,6 +39,7 @@ import java.util.Collections;
             /* 토큰 인증 후에 */
             if(token != null && jwtTokenProvider.validateToken(token)){
 
+                /* 토큰내부값을 확인해서 인증이 부여된 객체를 return */
                 Authentication authentication = getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

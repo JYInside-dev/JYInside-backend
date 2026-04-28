@@ -42,9 +42,8 @@ public class SecurityConfiguration {
                         // 로그인 안해도 접근 가능한 주소 설정
                         .requestMatchers("/api/auth/**", "/api/community/**", "/actuator/**").permitAll()
 
-
                         /* API 접근 권한 설정 주소*/
-                        .requestMatchers("/api/community/admin/**","/api/ops/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("/api/admin/super/**","/api/ops/**").hasRole("SUPER_ADMIN")
 
                         /* 나머지 기능은 로그인 필요 */
                         .anyRequest().authenticated()

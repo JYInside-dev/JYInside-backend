@@ -62,7 +62,7 @@ public class AuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                user.getRole().getKey()
+                user.getRole().getKey() // ROLE_* 형식의 문자열을 인자로 전송
         );
 
         return new JwtTokenResponseDTO(
