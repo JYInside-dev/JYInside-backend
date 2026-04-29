@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Component
-
+@Slf4j
     /*  토근 인증 필터
      *   앞으로 로그인이 필요한 기능이 있을 때 필터로 토큰유효여부 확인하고 하기. */
     public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -38,6 +39,7 @@ import java.util.Collections;
             /* 토큰 인증 후에 */
             if(token != null && jwtTokenProvider.validateToken(token)){
 
+                /* 토큰내부값을 확인해서 인증이 부여된 객체를 return */
                 Authentication authentication = getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -51,8 +53,9 @@ import java.util.Collections;
             String bearerToken = request.getHeader("Authorization");
             if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
                 return bearerToken.substring(7);
+            }else {
+                return null;
             }
-            return null;
         }
 
 

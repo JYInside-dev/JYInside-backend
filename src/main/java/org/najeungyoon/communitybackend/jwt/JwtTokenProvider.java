@@ -77,4 +77,14 @@ public class JwtTokenProvider {
     public String getRole(String token) {
         return getClaims(token).get("role", String.class);
     }
+
+
+
+
+
+
+
+
+
+
 }

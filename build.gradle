@@ -53,6 +53,10 @@ dependencies {
     // 패스워드 해시 알고리즘
     implementation 'org.mindrot:jbcrypt:0.4'
 
+    /* validate */
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
     // ID token 검증을 위한 구글 Java Client
     implementation 'com.google.api-client:google-api-client:2.9.0'
     implementation 'com.google.http-client:google-http-client-gson:2.1.0'

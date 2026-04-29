@@ -9,11 +9,16 @@ import org.najeungyoon.communitybackend.domain.User;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
+import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
+import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,12 +65,26 @@ public class PostService {
 
         Board board = getBoardByUrlPath(urlPath);
 
+        /* 로그인 회원시 */
         if(userId != null){
             User user = userRepository.findById(userId)
-                    .orElseThrow(()->new IllegalArgumentException("유저를 찾을 수 없습니다."));
+                    .orElseThrow(()->new IllegalArgumentException("ID와 일치하는 유저를 찾을 수 없습니다."));
             Post post = dto.toEntityUser(board,user);
             postRepository.save(post);
-        }else {
+        }
+
+        /* 비 로그인 회원시 */
+        else {
+
+            /* DTO에서 검증안한 authorName,password 빈칸 검증 */
+            if(!StringUtils.hasText(dto.authorName())){
+                throw new IllegalArgumentException("작성자 명을 입력해 주세요");
+            }
+            if(!StringUtils.hasText(dto.password())){
+                throw new IllegalArgumentException("비밀번호를 입력해 주세요");
+            }
+
+
             // 평문비밀번호 해싱
             String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
 
@@ -84,7 +103,9 @@ public class PostService {
     public boolean deletePost(
             String urlPath,
             Long id,
-            PostDeleteRequestDTO dto){
+            PostDeleteRequestDTO dto,
+            Long userId
+      ){
 
         log.info("controller에서 쏜 {}커뮤니티의 {} 글 삭제요청 service에서 받음.",urlPath,id);
 
@@ -96,11 +117,29 @@ public class PostService {
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
 
+        /* 로그인 회원 글일시 userId 대조 후 삭제.*/
+        if(post.getUser() != null){
+
+            log.info("[삭제 요청] 요청자 ID: {}, 글 작성자 ID: {}", userId, post.getUser().getId());
+            log.info("[타입 확인] 요청자 타입: {}, 작성자 타입: {}",
+                    userId.getClass().getName(), post.getUser().getId().getClass().getName());
+
+            if(!post.getUser().getId().equals(userId)){
+                throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
+            }else {
+                postRepository.delete(post);
+            }
+            log.info("성공적으로 삭제됨.");
+            return true;
+        }
+
+        /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
         if(BCrypt.checkpw(dto.password(),post.getPassword())){
             postRepository.delete(post);
             log.info("성공적으로 삭제됨.");
             return true;
         }
+
         return false;
     }
 

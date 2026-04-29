@@ -26,10 +26,12 @@ public class AuthService {
     public void signup(SignupRequestDTO dto) {
         log.info("회원가입 요청 들어옴 username={}", dto.username());
 
+        /* 이미 존재하는 id,pw,email 입력시 예외처리*/
         validateSignup(dto);
 
         // 비밀번호 해시 처리
         String encodedPassword = passwordEncoder.encode(dto.password());
+
 
         // DB에 들어갈 객체 생성
         User user = new User(
@@ -67,7 +69,7 @@ public class AuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                user.getRole().getKey()
+                user.getRole().getKey() // ROLE_* 형식의 문자열을 인자로 전송
         );
 
         return new JwtTokenResponseDTO(
@@ -79,26 +81,9 @@ public class AuthService {
     }
 
 
+    /* 형식오류나 빈칸시에는 ControllerAdvice가 대신 처리함
+    *  중복validate는 service에서 자체 처리 */
     private void validateSignup(SignupRequestDTO dto) {
-        if (dto.username() == null || dto.username().isBlank()) {
-            throw new IllegalArgumentException("아이디는 필수입니다.");
-        }
-
-        if (dto.email() == null || dto.email().isBlank()) {
-            throw new IllegalArgumentException("이메일은 필수입니다.");
-        }
-
-        if (dto.password() == null || dto.password().isBlank()) {
-            throw new IllegalArgumentException("비밀번호는 필수입니다.");
-        }
-
-        if (dto.nickname() == null || dto.nickname().isBlank()) {
-            throw new IllegalArgumentException("닉네임은 필수입니다.");
-        }
-
-        if (dto.password().length() < 8) {
-            throw new IllegalArgumentException("비밀번호는 8자 이상이어야 합니다.");
-        }
 
         if (userRepository.existsByUsername(dto.username())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");

@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,6 +55,10 @@ public class Post {
     private User user;
 
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+
 
     /* 익명 사용자용 Post 생성자*/
     public Post(String title, String content, String authorName, String password,Board board) {
@@ -64,10 +70,13 @@ public class Post {
     }
 
     /* 로그인된 사용자용 Post 생성자. */
-    public Post(String title, String content, User user,Board board) {
+    public Post(String title, String content,User user,Board board) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.board = board;
+
+        this.authorName=user.getNickname();
+        this.password="";
     }
 }

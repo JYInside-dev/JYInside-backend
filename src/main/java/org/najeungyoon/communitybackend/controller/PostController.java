@@ -21,8 +21,6 @@ public class PostController {
     private final PostService postService;
 
 
-
-
     /* 특정 커뮤니티의 모든 글 보기 */
     @GetMapping("/allPost")
     public ResponseEntity<List<PostResponseDTO>> getAllPost(
@@ -66,10 +64,11 @@ public class PostController {
     public ResponseEntity<String> deletePost(
             @PathVariable String urlPath,
             @PathVariable Long id,
-            @RequestBody PostDeleteRequestDTO requestDTO){
+            @RequestBody(required = false) PostDeleteRequestDTO requestDTO,
+            @AuthenticationPrincipal Long userId){
         log.info("{}커뮤니티 {}번 글 삭제 post 요청 들어옴",urlPath,id);
 
-        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO);
+        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO,userId);
         if(isDeleted){
             return ResponseEntity.ok("삭제되었습니다.");
         }else {

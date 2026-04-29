@@ -42,15 +42,14 @@ public class SecurityConfiguration {
                         // 로그인 안해도 접근 가능한 주소 설정
                         .requestMatchers("/api/auth/**", "/api/oauth/**", "/api/community/**", "/actuator/**").permitAll()
 
-
                         /* API 접근 권한 설정 주소*/
-                        .requestMatchers("/api/community/admin/**","/api/ops/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("/api/admin/super/**","/api/ops/**").hasRole("SUPER_ADMIN")
 
                         /* 나머지 기능은 로그인 필요 */
                         .anyRequest().authenticated()
 
                         /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 일단 한번 토큰 유효여부 확인. */
-                ).addFilterAfter(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();
