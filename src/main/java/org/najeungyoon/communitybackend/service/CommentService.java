@@ -11,8 +11,10 @@ import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
 
     /* Post가 정말 유효한 경로에서 요청이 들어온건지 보안 검증 확인 후에 반환 */
     private Post getValidatedPost(String urlPath, Long postId){
@@ -58,17 +63,15 @@ public class CommentService {
 
 
 
-    /* 댓글 생성하는 API */
+    /* 댓글 생성하는 API로직 */
     @Transactional
     public void createComment(String urlPath, Long postId, CommentCreateRequestDTO dto,Long userId){
 
         /* 인증 검사 */
         Post post = getValidatedPost(urlPath, postId);
 
-        String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
         Comment parent = null;
         String mentionedName = null;
-
 
         /* 루트 댓글이 아니고 대댓글인 경우 */
         if(dto.parentId() != null){
@@ -85,6 +88,7 @@ public class CommentService {
                 mentionedName = targetComment.getAuthorName();
             }
         }
+
         /* 로그인 회원시 */
         if(userId!=null){
             User user = userRepository.findById(userId)
@@ -100,7 +104,19 @@ public class CommentService {
             );
             commentRepository.save(comment);
 
-        }else{
+        }
+        /* 비 로그인 회원시 */
+        else{
+
+            /* DTO에서 안했던 공백처리 진행 */
+            if(!StringUtils.hasText(dto.authorName())){
+                throw new IllegalArgumentException("댓글 작성자 명을 입력하세요");
+            }if(!StringUtils.hasText(dto.password())){
+                throw new IllegalArgumentException("댓글 비밀번호를 입력하세요");
+            }
+
+
+            String hashedPassword = bCryptPasswordEncoder.encode(dto.password());
             /* entity 조립 */
             Comment comment = new Comment(
                     dto.content(),

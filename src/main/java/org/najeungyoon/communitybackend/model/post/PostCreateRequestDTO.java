@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend.model.post;
 
+import jakarta.validation.constraints.NotBlank;
 import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.domain.Post;
 import org.najeungyoon.communitybackend.domain.User;
@@ -7,8 +8,13 @@ import org.najeungyoon.communitybackend.domain.User;
 
 /* 글 작성할 때 입력된 데이터들을 프론트-> 백엔드로 쏴주는 DTO입니다. */
 public record PostCreateRequestDTO(
+
+        @NotBlank(message = "제목을 입력해 주세요")
         String title,
+        @NotBlank(message = "내용을 입력해 주세요")
         String content,
+
+        /* 로그인한 유저가 입력할때에는 빈칸이 들어오니까 NotBlank를 안붙였어요 */
         String authorName,
         String password
 
