@@ -91,7 +91,12 @@ public class GoogleOAuthService {
                 // 있다면 이미 가입한 사람
                 .map(this::createExistingUserRedirectUrl)
                 // 없다면 처음 구글 로그인한 사람 -> 추가 정보 입력 페이지로 보냄
-                .orElseGet(() -> createNewGoogleUserRedirectUrl(providerUserId, email, name, pictureUrl));
+                .orElseGet(() -> createNewGoogleUserRedirectUrl(
+                        providerUserId,
+                        email,
+                        name,
+                        pictureUrl
+                ));
     }
 
     // 구글 token endpoint에 POST 요청을 보내는 코드
@@ -303,7 +308,7 @@ public class GoogleOAuthService {
         }
 
         if (userRepository.existsByEmail(pending.email())) {
-            throw new IllegalArgumentException("이미 같은 이메일로 가입된 계정이 있습니다.");
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
         if (socialAccountRepository.existsByProviderAndProviderUserId(AuthProvider.GOOGLE, pending.providerUserId())) {
