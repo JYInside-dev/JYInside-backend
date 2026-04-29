@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CommentController {
 
 
     @PostMapping("/write")
-    public void writeComment(
+    public ResponseEntity<String > writeComment(
             @PathVariable String urlPath,
             @PathVariable Long postId,
             @RequestBody CommentCreateRequestDTO commentCreateRequestDTO,
@@ -26,10 +27,8 @@ public class CommentController {
             *  아니면 null */
             @AuthenticationPrincipal Long userId
             ){
-
-        if(userId != null){
-            commentService.createComment(urlPath,postId,commentCreateRequestDTO,userId);
-        }
+        commentService.createComment(urlPath,postId,commentCreateRequestDTO,userId);
+        return ResponseEntity.status(201).body("댓글 작성 완료");
     }
 
 

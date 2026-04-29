@@ -18,6 +18,7 @@ import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,13 +68,23 @@ public class PostService {
         /* 로그인 회원시 */
         if(userId != null){
             User user = userRepository.findById(userId)
-                    .orElseThrow(()->new IllegalArgumentException("유저를 찾을 수 없습니다."));
+                    .orElseThrow(()->new IllegalArgumentException("ID와 일치하는 유저를 찾을 수 없습니다."));
             Post post = dto.toEntityUser(board,user);
             postRepository.save(post);
         }
 
         /* 비 로그인 회원시 */
         else {
+
+            /* DTO에서 검증안한 authorName,password 빈칸 검증 */
+            if(!StringUtils.hasText(dto.authorName())){
+                throw new IllegalArgumentException("작성자 명을 입력해 주세요");
+            }
+            if(!StringUtils.hasText(dto.password())){
+                throw new IllegalArgumentException("비밀번호를 입력해 주세요");
+            }
+
+
             // 평문비밀번호 해싱
             String hashedPassword = BCrypt.hashpw(dto.password(),BCrypt.gensalt());
 
