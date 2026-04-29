@@ -28,7 +28,7 @@ public class CommentController {
             @AuthenticationPrincipal Long userId
             ){
         commentService.createComment(urlPath,postId,commentCreateRequestDTO,userId);
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(201).body("댓글 작성 완료");
     }
 
 
