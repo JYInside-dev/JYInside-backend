@@ -61,7 +61,7 @@ public class GoogleOAuthService {
     @Value("${app.frontend-base-url:http://localhost}")
     private String frontendBaseUrl;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public String handleGoogleCallback(String code) {
         log.info("구글 OAuth callback 처리 시작");
 
@@ -198,7 +198,7 @@ public class GoogleOAuthService {
     }
 
     // 기존 가입자가 구글 로그인 성공 후 /oauth/success?ticket=...로 왔을 때 쓰는 API
-    @Transactional(readOnly = true)
+    @Transactional
     public JwtTokenResponseDTO exchangeLoginTicket(String ticket) {
         // ticket으로 userId를 찾고 바로 삭제
         Long userId = oauthTicketService.consumeLoginTicket(ticket)
