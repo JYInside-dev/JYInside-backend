@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend.service.OAuth;
 
+import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.domain.AuthProvider;
 import org.najeungyoon.communitybackend.domain.OAuthTicket;
 import org.najeungyoon.communitybackend.domain.OAuthTicketType;
@@ -25,10 +26,11 @@ import java.util.Optional;
    ticket을 DB에 저장해서 blue/green 어느 서버를 사용해도 처리 가능하도록 함
 */
 @Component
+@RequiredArgsConstructor
 public class OAuthTicketService {
 
     // DB에 ticket을 저장하고 조회하기 위함
-    private OAuthTicketRepository oauthTicketRepository;
+    private final OAuthTicketRepository oauthTicketRepository;
     // ticket 원문을 예측하기 어렵게 하기 위한 보안 랜덤 생성기
     private final SecureRandom secureRandom = new SecureRandom();
 
