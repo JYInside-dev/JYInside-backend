@@ -31,11 +31,9 @@ public class PostLike {
     @JoinColumn(name = "post_id",nullable = false)
     private Post post;
 
-    /* TODO
-    *   JWT로그인이 구현되면 체크할 ID
-    *   현재는 null허용함. */
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id",nullable = true)
     private User user;
 
 
@@ -43,8 +41,7 @@ public class PostLike {
     @Column(nullable = false)
     private LikeType likeType; // LIKE,DISLIKE
 
-    /* TODO
-    *   생성자에 memberId 추가 */
+
     public PostLike(Post post, LikeType likeType,User user) {
         this.post = post;
         this.likeType = likeType;

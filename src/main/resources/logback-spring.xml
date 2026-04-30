@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_PATH" value="./logs"/>
+    <!--로그 파일 저장경로 & 이름 -->
+    <property name="LOG_PATH" value="/var/log/community"/>
     <property name="LOG_FILE_NAME" value="community-server"/>
 
+    <!-- 저장 형식 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -23,9 +25,22 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-    </root>
+
+    <!--로컬에서 테스트시에는 파일저장 X 콘솔에 출력만
+        intelij환경변수로 로컬에서 실행할때는 이 옵션적용 -->
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+
+    <!--도커로 호스팅 할 때에는 로그파일도 같이 저장-->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
 
 </configuration>
