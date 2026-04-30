@@ -3,7 +3,9 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.domain.Board;
+import org.najeungyoon.communitybackend.model.board.BoardResponseDTO;
 import org.najeungyoon.communitybackend.service.BoardService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,19 +23,17 @@ public class BoardController {
 
     /* 인덱스 페이지에 보여줄 모든 커뮤니티보드 불러오는 요청*/
     @GetMapping("/getAllBoards")
-    public List<Board> getAllBoards(){
-        return boardService.findAllBoards();
+    public ResponseEntity<List<BoardResponseDTO>> getAllBoards(){
+        return ResponseEntity.ok(boardService.findAllBoards());
     }
-
 
     /* url인 커뮤니티(Board) 정보를 불러오는 요청 */
     @GetMapping("/{urlPath}")
-    public Board getBoardByUrlPath(
+    public ResponseEntity<BoardResponseDTO> getBoardByUrlPath(
             @PathVariable String urlPath
     ){
-        return boardService.getBoardByUrlPath(urlPath);
+        BoardResponseDTO dto = boardService.getBoardByUrlPath(urlPath);
+        return ResponseEntity.ok(dto);
     }
-
-
 
 }

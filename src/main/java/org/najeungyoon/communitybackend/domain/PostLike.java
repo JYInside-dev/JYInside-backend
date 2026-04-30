@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
         uniqueConstraints = {
                 @UniqueConstraint(
                         columnNames = {
-                                "member_id",
-                                "client_ip"
+                                "user_id",
+                                "post_id"
                         }
                 )
         }
@@ -34,18 +34,20 @@ public class PostLike {
     /* TODO
     *   JWT로그인이 구현되면 체크할 ID
     *   현재는 null허용함. */
-    @Column
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
 
 
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private LikeType likeType; // LIKE,DISLIKE
 
     /* TODO
     *   생성자에 memberId 추가 */
-    public PostLike(Post post, LikeType likeType) {
+    public PostLike(Post post, LikeType likeType,User user) {
         this.post = post;
         this.likeType = likeType;
+        this.user=user;
     }
 }

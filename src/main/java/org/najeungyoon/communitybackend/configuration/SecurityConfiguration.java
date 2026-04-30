@@ -5,6 +5,7 @@ import org.najeungyoon.communitybackend.jwt.JwtAuthenticationFilter;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,6 +40,10 @@ public class SecurityConfiguration {
 
 
                 .authorizeHttpRequests(auth -> auth
+
+                        /* 추천에 로그인 인증 부여 */
+                        .requestMatchers(HttpMethod.POST, "/api/community/board/*/post/*/likes/**").authenticated()
+
                         // 로그인 안해도 접근 가능한 주소 설정
                         .requestMatchers("/api/auth/**", "/api/oauth/**", "/api/community/**", "/actuator/**").permitAll()
 

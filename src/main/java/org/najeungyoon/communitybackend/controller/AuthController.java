@@ -31,6 +31,7 @@ public class AuthController {
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<JwtTokenResponseDTO> login(
             @Validated @RequestBody LoginRequestDTO dto

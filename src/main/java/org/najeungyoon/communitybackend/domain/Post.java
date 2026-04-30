@@ -41,6 +41,10 @@ public class Post {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = true)
+    private User user;
+
 
     /* 추천 비추천 개수 저장. */
     @Column(nullable = false)
@@ -49,10 +53,6 @@ public class Post {
     @Column(nullable = false)
     private int disLikeCount = 0;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = true)
-    private User user;
 
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
