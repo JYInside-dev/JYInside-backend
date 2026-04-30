@@ -3,13 +3,12 @@ package org.najeungyoon.communitybackend.controller;
 import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
+import org.najeungyoon.communitybackend.configuration.KakaoOAuthProperties;
 import org.najeungyoon.communitybackend.configuration.NaverOAuthProperties;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
-import org.najeungyoon.communitybackend.model.oauth.GoogleSignupCompleteRequestDTO;
-import org.najeungyoon.communitybackend.model.oauth.GoogleSignupInfoResponseDTO;
-import org.najeungyoon.communitybackend.model.oauth.NaverSignupCompleteRequestDTO;
-import org.najeungyoon.communitybackend.model.oauth.NaverSignupInfoResponseDTO;
+import org.najeungyoon.communitybackend.model.oauth.*;
 import org.najeungyoon.communitybackend.service.OAuth.GoogleOAuthService;
+import org.najeungyoon.communitybackend.service.OAuth.KakaoOAuthService;
 import org.najeungyoon.communitybackend.service.OAuth.NaverOAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +27,8 @@ public class OAuthController {
     private final GoogleOAuthService googleOAuthService;
     private final NaverOAuthProperties naverOAuthProperties;
     private final NaverOAuthService naverOAuthService;
+    private final KakaoOAuthProperties kakaoOAuthProperties;
+    private final KakaoOAuthService kakaoOAuthService;
 
     // 사용자를 구글 로그인 페이지로 보내는 시작점
     @GetMapping("/google/login")
@@ -132,6 +133,55 @@ public class OAuthController {
             @RequestBody NaverSignupCompleteRequestDTO dto
     ) {
         JwtTokenResponseDTO response = naverOAuthService.completeNaverSignup(dto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/kakao/login")
+    public ResponseEntity<Void> kakaoLogin() {
+        String state = UUID.randomUUID().toString();
+
+        String kakaoAuthUrl = UriComponentsBuilder
+                .fromUriString("https://kauth.kakao.com/oauth/authorize")
+                .queryParam("client_id", kakaoOAuthProperties.restApiKey())
+                .queryParam("redirect_uri", kakaoOAuthProperties.redirectUri())
+                .queryParam("response_type", "code")
+                .queryParam("state", state)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUriString();
+
+        return ResponseEntity.status(302)
+                .location(URI.create(kakaoAuthUrl))
+                .build();
+    }
+
+    @GetMapping("/kakao/callback")
+    public ResponseEntity<Void> kakaoCallback(
+            @RequestParam String code,
+            @RequestParam String state
+    ) {
+        String redirectUrl = kakaoOAuthService.handleKakaoCallback(code);
+
+        return ResponseEntity.status(302)
+                .location(URI.create(redirectUrl))
+                .build();
+    }
+
+    @GetMapping("/kakao/signup-info")
+    public ResponseEntity<KakaoSignupInfoResponseDTO> getKakaoSignupInfo(
+            @RequestParam String ticket
+    ) {
+        KakaoSignupInfoResponseDTO response = kakaoOAuthService.getKakaoSignupInfo(ticket);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/kakao/signup/complete")
+    public ResponseEntity<JwtTokenResponseDTO> completeKakaoSignup(
+            @RequestBody KakaoSignupCompleteRequestDTO dto
+    ) {
+        JwtTokenResponseDTO response = kakaoOAuthService.completeKakaoSignup(dto);
 
         return ResponseEntity.ok(response);
     }

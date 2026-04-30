@@ -93,7 +93,7 @@ public class NaverOAuthService {
 
         try {
             ResponseEntity<NaverTokenResponseDTO> response = restTemplate.postForEntity(
-                    URI.create(NAVER_TOKEN_URL),
+                    NAVER_TOKEN_URL,
                     request,
                     NaverTokenResponseDTO.class
             );
