@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.LikeType;
 import org.najeungyoon.communitybackend.domain.Post;
 import org.najeungyoon.communitybackend.domain.PostLike;
+import org.najeungyoon.communitybackend.domain.User;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
+import org.najeungyoon.communitybackend.repository.PostLikeRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
+import org.najeungyoon.communitybackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,30 +20,37 @@ import java.util.List;
 @Slf4j
 public class PostLikeService {
 
-    private final PostRepository postRepository;
     private static final int POPULAR_THRESHOLD =10;
+
+
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final PostLikeRepository postLikeRepository;
 
 
     /* 추천수 증가 API*/
     @Transactional
-    public void addLike(Long postId){
+    public void addLike(Long postId,Long userId){
 
         /* 추천을 누르려는 게시글이 존재하는지 여부 확인 */
         Post post = postRepository.findById(postId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 
-        /* 추천 주작 검증
-        *  TODO
-        *   ip를 통해서 추천주작을 막으려고 했는데 그냥 로그인 기능 완료시에
-        *   구현하려고 함 */
-//        if(postLikeRepository.existsByPostIdAndClientIp(postId,clientIp)){
-//            throw new IllegalStateException("이미 추천을 누르셨습니다. ");
-//        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+
+        if(postLikeRepository.existsByPostAndUser(post,user)){
+            throw new IllegalArgumentException("이미 추천한 게시글입니다.");
+        }
 
         PostLike postLike = new PostLike(
                 post,
-                LikeType.LIKE
+                LikeType.LIKE,
+                user
         );
+
+        postLikeRepository.save(postLike);
         postRepository.incrementLikeCount(postId);
     }
 

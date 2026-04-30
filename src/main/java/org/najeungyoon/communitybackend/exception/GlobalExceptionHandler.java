@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler{
 
-
     /* 메서드에 인자가 잘못들어가거나 안들어갔을 때 발생하는 예외처리*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e){
@@ -36,6 +35,5 @@ public class GlobalExceptionHandler{
         log.error("Unexpected Error: ", e);
         return ResponseEntity.status(500).body(new ErrorResponse(500, "서버 내부 오류가 발생했습니다.", "INTERNAL_SERVER_ERROR"));
     }
-
 
 }

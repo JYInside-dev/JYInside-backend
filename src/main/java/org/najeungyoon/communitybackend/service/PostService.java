@@ -100,7 +100,7 @@ public class PostService {
 
     /* 글 삭제 APi */
     @Transactional
-    public boolean deletePost(
+    public void deletePost(
             String urlPath,
             Long id,
             PostDeleteRequestDTO dto,
@@ -119,28 +119,21 @@ public class PostService {
 
         /* 로그인 회원 글일시 userId 대조 후 삭제.*/
         if(post.getUser() != null){
-
-            log.info("[삭제 요청] 요청자 ID: {}, 글 작성자 ID: {}", userId, post.getUser().getId());
-            log.info("[타입 확인] 요청자 타입: {}, 작성자 타입: {}",
-                    userId.getClass().getName(), post.getUser().getId().getClass().getName());
-
-            if(!post.getUser().getId().equals(userId)){
+            /* 비로그인회원이거나 다른 회원이 지우려고 할 떄 */
+            if(userId == null || !post.getUser().getId().equals(userId)){
                 throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
-            }else {
-                postRepository.delete(post);
             }
-            log.info("성공적으로 삭제됨.");
-            return true;
         }
-
         /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-        if(BCrypt.checkpw(dto.password(),post.getPassword())){
-            postRepository.delete(post);
-            log.info("성공적으로 삭제됨.");
-            return true;
+        else {
+            if(!BCrypt.checkpw(dto.password(),post.getPassword())){
+                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+            }
         }
 
-        return false;
+        postRepository.delete(post);
+        log.info("성공적으로 삭제됨.");
+
     }
 
 
@@ -151,7 +144,6 @@ public class PostService {
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당id글은 없습니다."));
-
 
         /* 해당 갤러리에서 요청한게 맞는지 확인 */
         if(!post.getBoard().getUrlPath().equals(urlPath)){

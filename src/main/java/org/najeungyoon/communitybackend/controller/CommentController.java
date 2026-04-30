@@ -33,11 +33,11 @@ public class CommentController {
 
 
     @GetMapping("/getComments")
-    public List<CommentResponseDTO> getComments(
+    public ResponseEntity<List<CommentResponseDTO>> getComments(
             @PathVariable Long postId,
             @PathVariable String urlPath
     ){
-        return commentService.getCommentsByPostId(urlPath,postId);
+        return ResponseEntity.ok(commentService.getCommentsByPostId(urlPath,postId));
     }
 
 }

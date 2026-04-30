@@ -48,6 +48,7 @@ public class AuthService {
         log.info("회원가입 완료 username={}", dto.username());
     }
 
+
     // DB를 읽기만 하고 수정하기 위함 (로그인처럼 조회만 하는 메서드에 사용)
     @Transactional(readOnly = true)
     public JwtTokenResponseDTO login(LoginRequestDTO dto) {

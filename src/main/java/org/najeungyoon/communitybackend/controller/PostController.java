@@ -68,11 +68,8 @@ public class PostController {
             @AuthenticationPrincipal Long userId){
         log.info("{}커뮤니티 {}번 글 삭제 post 요청 들어옴",urlPath,id);
 
-        boolean isDeleted = postService.deletePost(urlPath, id, requestDTO,userId);
-        if(isDeleted){
-            return ResponseEntity.ok("삭제되었습니다.");
-        }else {
-            return ResponseEntity.status(403).body("비밀번호가 일치하지 않습니다.");
-        }
+        postService.deletePost(urlPath, id, requestDTO,userId);
+
+        return ResponseEntity.ok().build();
     }
 }

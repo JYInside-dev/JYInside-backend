@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model.admin;
+package org.najeungyoon.communitybackend.model.board;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
