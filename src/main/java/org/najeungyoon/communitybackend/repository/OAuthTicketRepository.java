@@ -1,6 +1,6 @@
 package org.najeungyoon.communitybackend.repository;
 
-import org.najeungyoon.communitybackend.domain.OAuthTicket;
+import org.najeungyoon.communitybackend.domain.auth.OAuthTicket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,7 +2,6 @@ package org.najeungyoon.communitybackend.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.domain.Board;
 import org.najeungyoon.communitybackend.model.board.BoardResponseDTO;
 import org.najeungyoon.communitybackend.service.BoardService;
 import org.springframework.http.ResponseEntity;

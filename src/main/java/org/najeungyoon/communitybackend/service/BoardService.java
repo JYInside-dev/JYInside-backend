@@ -1,14 +1,13 @@
 package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.domain.Board;
+import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.model.board.BoardResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

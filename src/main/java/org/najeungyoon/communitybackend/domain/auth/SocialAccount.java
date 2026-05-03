@@ -1,9 +1,10 @@
-package org.najeungyoon.communitybackend.domain;
+package org.najeungyoon.communitybackend.domain.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.najeungyoon.communitybackend.domain.app.User;
 
 import java.time.LocalDateTime;
 

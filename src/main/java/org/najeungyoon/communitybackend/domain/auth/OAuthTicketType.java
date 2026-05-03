@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.domain;
+package org.najeungyoon.communitybackend.domain.auth;
 
 // 티켓의 용도 구분
 public enum OAuthTicketType {

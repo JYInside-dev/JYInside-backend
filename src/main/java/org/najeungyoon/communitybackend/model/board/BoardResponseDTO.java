@@ -1,6 +1,6 @@
 package org.najeungyoon.communitybackend.model.board;
 
-import org.najeungyoon.communitybackend.domain.Board;
+import org.najeungyoon.communitybackend.domain.app.Board;
 
 public record BoardResponseDTO(
         Long id,

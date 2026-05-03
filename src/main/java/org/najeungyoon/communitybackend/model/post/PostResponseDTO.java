@@ -1,6 +1,6 @@
 package org.najeungyoon.communitybackend.model.post;
 
-import org.najeungyoon.communitybackend.domain.Post;
+import org.najeungyoon.communitybackend.domain.app.Post;
 
 import java.time.LocalDateTime;
 

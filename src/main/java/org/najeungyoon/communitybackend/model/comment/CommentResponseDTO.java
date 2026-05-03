@@ -1,6 +1,6 @@
 package org.najeungyoon.communitybackend.model.comment;
 
-import org.najeungyoon.communitybackend.domain.Comment;
+import org.najeungyoon.communitybackend.domain.app.Comment;
 
 import java.util.List;
 

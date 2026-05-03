@@ -3,7 +3,7 @@ package org.najeungyoon.communitybackend.model.board;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import org.najeungyoon.communitybackend.domain.Board;
+import org.najeungyoon.communitybackend.domain.app.Board;
 
 public record BoardCreateRequestDTO(
         @NotBlank(message = "커뮤니티 이름은 필수입니다.")

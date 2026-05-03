@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.domain;
+package org.najeungyoon.communitybackend.domain.auth;
 
 public enum AuthProvider {
     LOCAL,

@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.domain;
+package org.najeungyoon.communitybackend.domain.app;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,9 +1,9 @@
 package org.najeungyoon.communitybackend.model.post;
 
 import jakarta.validation.constraints.NotBlank;
-import org.najeungyoon.communitybackend.domain.Board;
-import org.najeungyoon.communitybackend.domain.Post;
-import org.najeungyoon.communitybackend.domain.User;
+import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Post;
+import org.najeungyoon.communitybackend.domain.app.User;
 
 
 /* 글 작성할 때 입력된 데이터들을 프론트-> 백엔드로 쏴주는 DTO입니다. */

@@ -3,10 +3,10 @@ package org.najeungyoon.communitybackend.service.OAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.configuration.NaverOAuthProperties;
-import org.najeungyoon.communitybackend.domain.AuthProvider;
-import org.najeungyoon.communitybackend.domain.SocialAccount;
-import org.najeungyoon.communitybackend.domain.User;
-import org.najeungyoon.communitybackend.domain.UserRole;
+import org.najeungyoon.communitybackend.domain.auth.AuthProvider;
+import org.najeungyoon.communitybackend.domain.auth.SocialAccount;
+import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.UserRole;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.*;
@@ -21,8 +21,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @Service
 @RequiredArgsConstructor

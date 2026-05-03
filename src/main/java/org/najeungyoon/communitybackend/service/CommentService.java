@@ -2,12 +2,9 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mindrot.jbcrypt.BCrypt;
-import org.najeungyoon.communitybackend.domain.Comment;
-import org.najeungyoon.communitybackend.domain.Post;
-import org.najeungyoon.communitybackend.domain.User;
-import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.domain.app.Comment;
+import org.najeungyoon.communitybackend.domain.app.Post;
+import org.najeungyoon.communitybackend.domain.app.User;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.repository.CommentRepository;

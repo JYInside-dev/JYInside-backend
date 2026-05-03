@@ -2,10 +2,10 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.domain.LikeType;
-import org.najeungyoon.communitybackend.domain.Post;
-import org.najeungyoon.communitybackend.domain.PostLike;
-import org.najeungyoon.communitybackend.domain.User;
+import org.najeungyoon.communitybackend.domain.app.LikeType;
+import org.najeungyoon.communitybackend.domain.app.Post;
+import org.najeungyoon.communitybackend.domain.app.PostLike;
+import org.najeungyoon.communitybackend.domain.app.User;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.PostLikeRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;

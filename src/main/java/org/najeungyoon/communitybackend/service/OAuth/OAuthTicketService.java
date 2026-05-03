@@ -1,9 +1,9 @@
 package org.najeungyoon.communitybackend.service.OAuth;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.domain.AuthProvider;
-import org.najeungyoon.communitybackend.domain.OAuthTicket;
-import org.najeungyoon.communitybackend.domain.OAuthTicketType;
+import org.najeungyoon.communitybackend.domain.auth.AuthProvider;
+import org.najeungyoon.communitybackend.domain.auth.OAuthTicket;
+import org.najeungyoon.communitybackend.domain.auth.OAuthTicketType;
 import org.najeungyoon.communitybackend.model.oauth.PendingSocialSignup;
 import org.najeungyoon.communitybackend.repository.OAuthTicketRepository;
 import org.springframework.stereotype.Component;

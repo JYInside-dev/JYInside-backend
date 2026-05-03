@@ -2,7 +2,7 @@ package org.najeungyoon.communitybackend.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.domain.Board;
+import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
