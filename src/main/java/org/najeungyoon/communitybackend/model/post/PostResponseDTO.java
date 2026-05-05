@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public record PostResponseDTO(
         Long id,
+        Long userId, // 비로그인시에는 null
         String title,
         String content,
         String authorName,
@@ -20,6 +21,7 @@ public record PostResponseDTO(
     public static PostResponseDTO from(Post post){
         return new PostResponseDTO(
                 post.getId(),
+                post.getUser() != null ? post.getUser().getId() : null,
                 post.getTitle(),
                 post.getContent(),
                 post.getAuthorName(),

@@ -3,6 +3,7 @@ package org.najeungyoon.communitybackend.controller.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.grant.GrantCommunityAdminRequestDTO;
 import org.najeungyoon.communitybackend.service.admin.SuperAdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,5 +31,14 @@ public class SuperAdminController {
 
         return ResponseEntity.status(201).body("새 커뮤니티가 생성됐습니다.");
     }
+
+    @PostMapping("/grant")
+    public ResponseEntity<String> grantAdmin(
+            @RequestBody GrantCommunityAdminRequestDTO dto
+            ){
+        superAdminService.grantCommunityAdmin(dto.userId(), dto.boardUrlPath());
+        return ResponseEntity.ok("커뮤니티 관리자 권한이 성공적으로 부여됬습니다.");
+    }
+
 
 }
