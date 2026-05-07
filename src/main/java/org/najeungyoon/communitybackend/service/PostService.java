@@ -151,5 +151,29 @@ public class PostService {
 
 
 
+    @Transactional(readOnly = true)
+    public List<PostResponseDTO> searchPosts(String type, String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            throw new IllegalArgumentException("검색어를 입력해주세요.");
+        }
+
+        String searchType = type == null ? "all" : type.toLowerCase();
+
+        List<Post> posts = switch (searchType) {
+            case "title" -> postRepository.findByTitleContainingIgnoreCase(keyword);
+            case "content" -> postRepository.findByContentContainingIgnoreCase(keyword);
+            case "author" -> postRepository.findByAuthorNameContainingIgnoreCase(keyword);
+            case "all" -> postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorNameContainingIgnoreCase(
+                    keyword,
+                    keyword,
+                    keyword
+            );
+            default -> throw new IllegalArgumentException("지원하지 않는 검색 옵션입니다.");
+        };
+
+        return posts.stream()
+                .map(PostResponseDTO::from)
+                .toList();
+    }
 
 }

@@ -29,4 +29,19 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     /* 메인화면에서 인기글 5개 목록 보여줌.*/
     List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
 
+    /* 제목 검색 */
+    List<Post> findByTitleContainingIgnoreCase(String keyword);
+
+    /* 내용 검색 */
+    List<Post> findByContentContainingIgnoreCase(String keyword);
+
+    /* 글쓴이 검색 */
+    List<Post> findByAuthorNameContainingIgnoreCase(String keyword);
+
+    /* 전체 검색 */
+    List<Post> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorNameContainingIgnoreCase(
+            String titleKeyword,
+            String contentKeyword,
+            String authorKeyword
+    );
 }
