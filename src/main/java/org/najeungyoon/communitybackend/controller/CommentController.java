@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,18 @@ public class CommentController {
             @PathVariable String urlPath
     ){
         return ResponseEntity.ok(commentService.getCommentsByPostId(urlPath,postId));
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<String> deleteComment(
+            @PathVariable Long postId,
+            @PathVariable String urlPath,
+            @PathVariable Long commentId,
+            @RequestBody(required = false) CommentDeleteRequestDTO deleteRequestDTO,
+            @AuthenticationPrincipal Long userId
+            ){
+        commentService.deleteComment(postId, urlPath, commentId, userId,deleteRequestDTO);
+        return ResponseEntity.ok("댓글 삭제 완료");
     }
 
 }

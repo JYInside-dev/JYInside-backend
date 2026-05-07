@@ -6,9 +6,11 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.UserRole;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
+import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
@@ -28,6 +30,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final BoardAdminRepository boardAdminRepository;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -113,22 +116,41 @@ public class PostService {
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
 
-        /* 로그인 회원 글일시 userId 대조 후 삭제.*/
-        if(post.getUser() != null){
-            /* 비로그인회원이거나 다른 회원이 지우려고 할 떄 */
-            if(userId == null || !post.getUser().getId().equals(userId)){
-                throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
+        boolean isAdmin = false;
+        if(userId!=null){
+            User requestUser = userRepository.findById(userId)
+                    .orElseThrow(()->new IllegalArgumentException("로그인 된 유저를 찾을 수 없습니다. "));
+
+            /* SUPER_ADMIN은 바로 Pass */
+            if(requestUser.getRole() == UserRole.SUPER_ADMIN){
+                isAdmin=true;
             }
-        }
-        /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-        else {
-            if(!BCrypt.checkpw(dto.password(),post.getPassword())){
-                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+
+            /* 커뮤니티 관리자면 해당 글이 써진 커뮤니티의 관리자인지 검증 */
+            if(requestUser.getRole()==UserRole.COMMUNITY_ADMIN){
+                isAdmin = boardAdminRepository.existsByUserAndBoard(requestUser,post.getBoard());
             }
         }
 
+        if(!isAdmin){
+            /* 로그인 회원 글일시 userId 대조 후 삭제.*/
+            if(post.getUser() != null){
+                /* 비로그인회원이거나 다른 회원이 지우려고 할 떄 */
+                if(userId == null || !post.getUser().getId().equals(userId)){
+                    throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
+                }
+            }
+            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
+            else {
+                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
+                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+                }
+            }
+        }
+
+
         postRepository.delete(post);
-        log.info("성공적으로 삭제됨.");
+        log.info("게시판 성공적으로 삭제됨.");
 
     }
 

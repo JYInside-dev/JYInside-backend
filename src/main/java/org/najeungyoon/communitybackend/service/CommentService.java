@@ -2,11 +2,15 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.app.Comment;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.UserRole;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
@@ -26,6 +30,7 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BoardAdminRepository boardAdminRepository;
 
 
 
@@ -127,4 +132,62 @@ public class CommentService {
             commentRepository.save(comment);
         }
     }
+
+
+
+    /* 댓글 삭제 API */
+    @Transactional
+    public void deleteComment(Long postId,
+                              String urlPath,
+                              Long commentId,
+                              Long userId,
+                              CommentDeleteRequestDTO deleteRequestDTO
+    ){
+
+        Post post = getValidatedPost(urlPath,postId);
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(()->new IllegalArgumentException("해당ID의 댓글을 찾을 수 없습니다."));
+
+        boolean isAdmin = false;
+
+        if(userId!=null){
+            User user = userRepository.findById(userId)
+                    .orElseThrow(()-> new IllegalArgumentException("로그인된 유저를 찾을 수 없습니다."));
+
+            if(user.getRole()== UserRole.SUPER_ADMIN){
+                isAdmin=true;
+            }
+
+            if(user.getRole() == UserRole.COMMUNITY_ADMIN){
+                isAdmin = boardAdminRepository.existsByUserAndBoard(user,post.getBoard());
+            }
+        }
+
+        if(!isAdmin){
+            /* 댓글을 로그인 유저가 작성했을 때 */
+            if(comment.getUser()!=null){
+                /* 익명회원, 다른 로그인 유저가 댓글을 지우려 할 때*/
+                if(userId==null || !userId.equals(comment.getUser().getId())){
+                    throw new IllegalArgumentException("본인이 작성한 댓글만 삭제 가능합니다.");
+                }
+            }
+
+            /* 익명 댓글일 경우에 */
+            else {
+                if(!BCrypt.checkpw(deleteRequestDTO.password(),comment.getPassword())){
+                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+                }
+            }
+        }
+
+        commentRepository.delete(comment);
+        log.info("댓글 성공적으로 삭제됨.");
+
+    }
+
+
+
 }
+
+

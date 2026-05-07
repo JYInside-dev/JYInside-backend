@@ -18,6 +18,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+ /*   @Column(nullable = false)
+    private Long userId; */
+
     @Column(nullable = false, length = 100)
     private String content;
 
@@ -26,6 +29,12 @@ public class Comment {
 
     @Column
     private String password;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -63,6 +72,7 @@ public class Comment {
     public Comment(String content, User user, Post post,String mentionedName,Comment parent) {
         this.content = content;
         this.authorName = user.getNickname();
+        this.user=user;
         this.password = "";
         this.post = post;
         this.mentionedName = mentionedName;
