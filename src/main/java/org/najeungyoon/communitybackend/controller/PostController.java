@@ -76,10 +76,11 @@ public class PostController {
     /* 글 검색 */
     @GetMapping("/posts/search")
     public ResponseEntity<List<PostResponseDTO>> searchPosts(
+            @PathVariable String urlPath,
             @RequestParam(defaultValue = "all") String type,
             @RequestParam String keyword
     ) {
-        List<PostResponseDTO> response = postService.searchPosts(type, keyword);
+        List<PostResponseDTO> response = postService.searchPosts(urlPath, type, keyword);
 
         return ResponseEntity.ok(response);
     }

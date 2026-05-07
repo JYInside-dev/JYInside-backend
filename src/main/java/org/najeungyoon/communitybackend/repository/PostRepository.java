@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend.repository;
 
+import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -30,18 +31,28 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
 
     /* 제목 검색 */
-    List<Post> findByTitleContainingIgnoreCase(String keyword);
+    List<Post> findByBoardAndTitleContainingIgnoreCase(Board board, String keyword);
 
     /* 내용 검색 */
-    List<Post> findByContentContainingIgnoreCase(String keyword);
+    List<Post> findByBoardAndContentContainingIgnoreCase(Board board, String keyword);
 
     /* 글쓴이 검색 */
-    List<Post> findByAuthorNameContainingIgnoreCase(String keyword);
+    List<Post> findByBoardAndAuthorNameContainingIgnoreCase(Board board, String keyword);
 
     /* 전체 검색 */
-    List<Post> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorNameContainingIgnoreCase(
-            String titleKeyword,
-            String contentKeyword,
-            String authorKeyword
+    @Query("""
+        SELECT p
+        FROM Post p
+        WHERE p.board = :board
+            AND (
+                LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.authorName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                )
+        ORDER BY p.createAt DESC
+    """)
+    List<Post> searchAllByBoard(
+            @Param("board") Board board,
+            @Param("keyword") String keyword
     );
 }

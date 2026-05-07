@@ -152,22 +152,21 @@ public class PostService {
 
 
     @Transactional(readOnly = true)
-    public List<PostResponseDTO> searchPosts(String type, String keyword) {
+    public List<PostResponseDTO> searchPosts(String urlPath, String type, String keyword) {
         if (keyword == null || keyword.isBlank()) {
             throw new IllegalArgumentException("검색어를 입력해주세요.");
         }
 
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다."));
+
         String searchType = type == null ? "all" : type.toLowerCase();
 
         List<Post> posts = switch (searchType) {
-            case "title" -> postRepository.findByTitleContainingIgnoreCase(keyword);
-            case "content" -> postRepository.findByContentContainingIgnoreCase(keyword);
-            case "author" -> postRepository.findByAuthorNameContainingIgnoreCase(keyword);
-            case "all" -> postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrAuthorNameContainingIgnoreCase(
-                    keyword,
-                    keyword,
-                    keyword
-            );
+            case "title" -> postRepository.findByBoardAndTitleContainingIgnoreCase(board, keyword);
+            case "content" -> postRepository.findByBoardAndContentContainingIgnoreCase(board, keyword);
+            case "author" -> postRepository.findByBoardAndAuthorNameContainingIgnoreCase(board, keyword);
+            case "all" -> postRepository.searchAllByBoard(board, keyword );
             default -> throw new IllegalArgumentException("지원하지 않는 검색 옵션입니다.");
         };
 
