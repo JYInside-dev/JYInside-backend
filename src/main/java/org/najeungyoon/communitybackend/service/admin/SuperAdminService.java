@@ -55,7 +55,6 @@ public class SuperAdminService {
             throw new IllegalArgumentException("이미 커뮤니티 관리자 입니다.");
         }
 
-
         /* 권한 업데이트 로직 */
         if(user.getRole()== UserRole.USER){
            user.changeRole(UserRole.COMMUNITY_ADMIN);

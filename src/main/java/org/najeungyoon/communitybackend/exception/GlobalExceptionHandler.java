@@ -21,7 +21,6 @@ public class GlobalExceptionHandler{
         return ResponseEntity.status(400).body(new ErrorResponse(400,errorMessage,"INVALID_INPUT"));
     }
 
-
     /* 서비스 로직에서 던져지는 예외들 */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e){
