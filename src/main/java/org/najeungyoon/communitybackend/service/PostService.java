@@ -148,7 +148,6 @@ public class PostService {
             }
         }
 
-
         postRepository.delete(post);
         log.info("게시판 성공적으로 삭제됨.");
 

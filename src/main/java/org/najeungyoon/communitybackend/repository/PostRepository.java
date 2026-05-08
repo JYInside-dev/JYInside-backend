@@ -56,6 +56,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             @Param("keyword") String keyword
     );
 
+
     List<Post> findAllByUser(User user);
 
 }
