@@ -13,7 +13,12 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
 
+
+
     List<Post> findByBoard_UrlPath(String urlPath);
+
+    List<Post> findAllByUser(User user);
+
 
     /* 추천수 증가 */
     @Modifying
@@ -28,8 +33,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
 
     /* 메인화면에서 인기글 5개 목록 보여줌.*/
     List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
-
-
-    List<Post> findAllByUser(User user);
 
 }

@@ -12,9 +12,7 @@ public record PostResponseDTO(
         String authorName,
         LocalDateTime createAt,
         Integer likeCount,
-        /* TODO
-        *   n+1 문제 나중에 해결해야함
-        *   DTO에서 다른 table을 참조하는게 바람직하지 x*/
+
         String boardUrlPath
 ){
 

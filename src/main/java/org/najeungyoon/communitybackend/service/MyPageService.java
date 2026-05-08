@@ -47,7 +47,7 @@ public class MyPageService {
     public List<MyPageCommentResponseDTO> getMyComments(Long userId){
         User user = checkUser(userId);
 
-        return commentRepository.findAllByUser(user).stream().map((comment)->{
+        return commentRepository.findAllByUserIdWithPostAndBoard(userId).stream().map((comment)->{
             return MyPageCommentResponseDTO.from(comment);
         }).toList();
     }
