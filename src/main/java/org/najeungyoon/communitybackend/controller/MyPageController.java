@@ -1,7 +1,7 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.comment.MyPageCommentResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.service.MyPageService;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +33,10 @@ public class MyPageController {
 
     /* 내 댓글 몰아보기 */
     @GetMapping("/comments")
-    public ResponseEntity<List<CommentResponseDTO>> getMyComments(
+    public ResponseEntity<List<MyPageCommentResponseDTO>> getMyComments(
             @AuthenticationPrincipal Long userId
     ){
-        List<CommentResponseDTO> myComments = myPageService.getMyComments(userId);
+        List<MyPageCommentResponseDTO> myComments = myPageService.getMyComments(userId);
 
         return ResponseEntity.ok(myComments);
     }

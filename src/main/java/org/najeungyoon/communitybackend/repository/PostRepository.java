@@ -14,7 +14,12 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
 
+
+
     List<Post> findByBoard_UrlPath(String urlPath);
+
+    List<Post> findAllByUser(User user);
+
 
     /* 추천수 증가 */
     @Modifying
@@ -57,6 +62,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     );
 
 
-    List<Post> findAllByUser(User user);
 
 }

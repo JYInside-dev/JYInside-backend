@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.User;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.comment.MyPageCommentResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
@@ -43,11 +44,11 @@ public class MyPageService {
 
     /* 유저가 작성한 댓글 가져오기 */
     @Transactional(readOnly = true)
-    public List<CommentResponseDTO> getMyComments(Long userId){
+    public List<MyPageCommentResponseDTO> getMyComments(Long userId){
         User user = checkUser(userId);
 
-        return commentRepository.findAllByUser(user).stream().map((comment)->{
-            return CommentResponseDTO.from(comment);
+        return commentRepository.findAllByUserIdWithPostAndBoard(userId).stream().map((comment)->{
+            return MyPageCommentResponseDTO.from(comment);
         }).toList();
     }
 
