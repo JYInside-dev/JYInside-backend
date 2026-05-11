@@ -217,7 +217,7 @@ public class GoogleOAuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                String.valueOf(user.getRole())
+                user.getRole().getKey() // ROLE_* 형식의 문자열을 인자로 전송
         );
 
         return new JwtTokenResponseDTO(
@@ -271,7 +271,7 @@ public class GoogleOAuthService {
         String accessToken = jwtTokenProvider.createAccessToken(
                 user.getId(),
                 user.getEmail(),
-                String.valueOf(user.getRole())
+                user.getRole().getKey() // ROLE_* 형식의 문자열을 인자로 전송
         );
 
         return new JwtTokenResponseDTO(
