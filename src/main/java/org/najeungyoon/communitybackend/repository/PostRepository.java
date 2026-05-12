@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
@@ -62,5 +63,11 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     );
 
 
+
+
+    /* 게시글(Post)& 작성자(User)
+        둘이 한꺼번에 가져오는 쿼리 */
+    @Query("select p from Post p join fetch p.board left join p.user where p.id = :postId")
+    Optional<Post> findByIdWithBoardAndUser(@Param("postId") Long postId);
 
 }
