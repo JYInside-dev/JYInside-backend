@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Notification {
 
     public enum NotificationType{
-        COMMENT,LIKE
+        COMMENT,REPLY,LIKE
     };
 
     @Id

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.core.ApplicationContext;
 import org.mindrot.jbcrypt.BCrypt;
 import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
@@ -31,6 +32,8 @@ public class CommentService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final BoardAdminRepository boardAdminRepository;
+    private final NotificationEventPublisher notificationEventPublisher;
+
 
     /* 댓글이 생성되면 이벤트 발생 */
     private final ApplicationEventPublisher eventPublisher;
@@ -134,28 +137,13 @@ public class CommentService {
 
         User receiver = post.getUser();
 
-        // [알림 발송 조건]
-        // 조건 1: 게시글 작성자가 존재하는가? (익명이 쓴 글이 아님)
-        // 조건 2: 댓글 작성자(senderId)가 게시글 작성자 본인이 아닌가? (자기 글에 댓글 달면 알림 X)
-        if (receiver != null && !receiver.getId().equals(senderId)) {
+        String senderDisplayName = sender != null ? sender.getNickname() : dto.authorName();
+        String message = senderDisplayName + "님이 댓글을 남겼습니다.";
+        String targetUrl = "/board/" + urlPath + "/post/" + postId;
 
-            log.info("알람이벤트 조건 통과");
-
-            // 알림 메시지에 띄울 이름 (회원이면 닉네임, 익명이면 입력한 작성자명)
-            String senderDisplayName = sender != null ? sender.getNickname() : dto.authorName();
-            String message = senderDisplayName + "님이 댓글을 남겼습니다.";
-            String targetUrl = "/board/" + urlPath + "/post/" + postId;
-
-            NotificationEvent notificationEvent = new NotificationEvent(
-                    receiver,  // 수신자 (게시글 작성자)
-                    sender,    // 발신자 (익명이면 null이 안전하게 들어감)
-                    Notification.NotificationType.COMMENT,
-                    message,
-                    targetUrl
-            );
-
-            eventPublisher.publishEvent(notificationEvent);
-        }
+        /* 알림 발송 */
+        notificationEventPublisher.publishEvent(receiver,sender, Notification.NotificationType.COMMENT,
+                message,targetUrl);
 
     }
 
