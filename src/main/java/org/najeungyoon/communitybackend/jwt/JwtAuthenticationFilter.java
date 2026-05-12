@@ -50,10 +50,20 @@ import java.util.Collections;
 
         /* Authorization: Bearer <JWT> 형식에서 <JWT> 문자열만 뽑아내는 메서드 */
         private String resolveToken(HttpServletRequest request){
+
+            /* http 헤더에서 뽑아내기 */
             String bearerToken = request.getHeader("Authorization");
             if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
                 return bearerToken.substring(7);
-            }else {
+            }
+
+            /* 쿼리의 파라미터값에서 토큰 뽑아내기 */
+            String queryToken = request.getParameter("token");
+            if (StringUtils.hasText(queryToken)) {
+                return queryToken;
+            }
+
+            else {
                 return null;
             }
         }

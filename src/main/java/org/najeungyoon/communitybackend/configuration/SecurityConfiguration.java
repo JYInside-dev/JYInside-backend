@@ -31,6 +31,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // JWT환경에서는 CSRF공격 방어 옵션 끄기
 
 
                 // 1. [매우 중요] 세션 관리 정책을 STATELESS로 설정

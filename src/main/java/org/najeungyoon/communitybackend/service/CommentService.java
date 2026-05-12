@@ -2,18 +2,18 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.core.ApplicationContext;
 import org.mindrot.jbcrypt.BCrypt;
-import org.najeungyoon.communitybackend.domain.app.Comment;
-import org.najeungyoon.communitybackend.domain.app.Post;
-import org.najeungyoon.communitybackend.domain.app.User;
-import org.najeungyoon.communitybackend.domain.app.UserRole;
+import org.najeungyoon.communitybackend.domain.app.*;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.notification.NotificationEvent;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,11 +32,13 @@ public class CommentService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final BoardAdminRepository boardAdminRepository;
 
+    /* 댓글이 생성되면 이벤트 발생 */
+    private final ApplicationEventPublisher eventPublisher;
 
 
     /* Post가 정말 유효한 경로에서 요청이 들어온건지 보안 검증 확인 후에 반환 */
     private Post getValidatedPost(String urlPath, Long postId){
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdWithBoardAndUser(postId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 글입니다."));
 
         if (!post.getBoard().getUrlPath().equals(urlPath)) {
@@ -69,9 +71,9 @@ public class CommentService {
 
     /* 댓글 생성하는 API로직 */
     @Transactional
-    public void createComment(String urlPath, Long postId, CommentCreateRequestDTO dto,Long userId){
+    public void createComment(String urlPath, Long postId, CommentCreateRequestDTO dto,Long senderId){
 
-        /* 인증 검사 */
+        /* 인증 검사 및 User 가져옴 */
         Post post = getValidatedPost(urlPath, postId);
 
         Comment parent = null;
@@ -93,44 +95,68 @@ public class CommentService {
             }
         }
 
+
+
+
+        User sender = null;
+        Comment comment;
+
         /* 로그인 회원시 */
-        if(userId!=null){
-            User user = userRepository.findById(userId)
-                    .orElseThrow(()->new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        if(senderId!=null) {
+            sender = userRepository.findById(senderId)
+                    .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
             /* 회원용 댓글 생성 */
-            Comment comment = new Comment(
-                    dto.content(),
-                    user,
-                    post,
-                    mentionedName,
-                    parent
-            );
-            commentRepository.save(comment);
+            comment = new Comment(dto.content(), sender, post, mentionedName, parent);
 
         }
+
         /* 비 로그인 회원시 */
-        else{
-
+        else {
             /* DTO에서 안했던 공백처리 진행 */
-            if(!StringUtils.hasText(dto.authorName())){
-                throw new IllegalArgumentException("댓글 작성자 명을 입력하세요");
-            }if(!StringUtils.hasText(dto.password())){
-                throw new IllegalArgumentException("댓글 비밀번호를 입력하세요");
-            }
-
+            if(!StringUtils.hasText(dto.authorName()))  throw new IllegalArgumentException("댓글 작성자 명을 입력하세요");
+            if(!StringUtils.hasText(dto.password()))  throw new IllegalArgumentException("댓글 비밀번호를 입력하세요");
 
             String hashedPassword = bCryptPasswordEncoder.encode(dto.password());
+
             /* entity 조립 */
-            Comment comment = new Comment(
-                    dto.content(),
-                    dto.authorName(),
-                    hashedPassword,
-                    post,
-                    mentionedName,
-                    parent);
-            commentRepository.save(comment);
+            comment = new Comment(dto.content(), dto.authorName(), hashedPassword, post, mentionedName, parent);
         }
+
+        /* 댓글 저장 */
+        commentRepository.save(comment);
+
+
+        /* ===========================
+                Transaction commit 이후
+                알림 이벤트 발행 시작
+           =========================== */
+
+        User receiver = post.getUser();
+
+        // [알림 발송 조건]
+        // 조건 1: 게시글 작성자가 존재하는가? (익명이 쓴 글이 아님)
+        // 조건 2: 댓글 작성자(senderId)가 게시글 작성자 본인이 아닌가? (자기 글에 댓글 달면 알림 X)
+        if (receiver != null && !receiver.getId().equals(senderId)) {
+
+            log.info("알람이벤트 조건 통과");
+
+            // 알림 메시지에 띄울 이름 (회원이면 닉네임, 익명이면 입력한 작성자명)
+            String senderDisplayName = sender != null ? sender.getNickname() : dto.authorName();
+            String message = senderDisplayName + "님이 댓글을 남겼습니다.";
+            String targetUrl = "/board/" + urlPath + "/post/" + postId;
+
+            NotificationEvent notificationEvent = new NotificationEvent(
+                    receiver,  // 수신자 (게시글 작성자)
+                    sender,    // 발신자 (익명이면 null이 안전하게 들어감)
+                    Notification.NotificationType.COMMENT,
+                    message,
+                    targetUrl
+            );
+
+            eventPublisher.publishEvent(notificationEvent);
+        }
+
     }
 
 
