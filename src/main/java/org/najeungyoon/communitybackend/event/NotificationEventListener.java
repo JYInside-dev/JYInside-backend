@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.Notification;
 import org.najeungyoon.communitybackend.model.notification.NotificationEvent;
+import org.najeungyoon.communitybackend.model.notification.NotificationResponseDTO;
 import org.najeungyoon.communitybackend.repository.notification.NotificationRepository;
 import org.najeungyoon.communitybackend.service.NotificationSseService;
 import org.springframework.scheduling.annotation.Async;
@@ -30,8 +31,12 @@ public class NotificationEventListener {
         try {
             /* 알림 DB에 저장 */
             Notification savedNotification = notificationRepository.save(Notification.from(event));
+
+            /* DTO로 변환 */
+            NotificationResponseDTO notificationResponseDTO = NotificationResponseDTO.from(savedNotification);
+
             /* 알림을  receiver 파이프에 전송 */
-            service.sendToClient(event.receiver().getId(), event.type().name(),savedNotification);
+            service.sendToClient(event.receiver().getId(), event.type().name(),notificationResponseDTO);
 
         }catch (Exception e){
             log.error("알림 생성중 실패", e);

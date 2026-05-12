@@ -2,10 +2,8 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.domain.app.LikeType;
-import org.najeungyoon.communitybackend.domain.app.Post;
-import org.najeungyoon.communitybackend.domain.app.PostLike;
-import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.PostLikeRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
@@ -26,6 +24,8 @@ public class PostLikeService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostLikeRepository postLikeRepository;
+    private final NotificationEventPublisher notificationEventPublisher;
+
 
 
     /* 추천수 증가 API*/
@@ -52,6 +52,19 @@ public class PostLikeService {
 
         postLikeRepository.save(postLike);
         postRepository.incrementLikeCount(postId);
+
+
+        /* 알림 이벤트 생성 */
+        String message = user.getNickname() + "님이 게시글을 추천했습니다.";
+        String url = "/board/" + post.getBoard().getUrlPath() + "/post/" + post.getId();
+
+        notificationEventPublisher.publishEvent(
+                post.getUser(), // 게시글 작성자 (수신자)
+                user,           // 추천 누른 사람 (발신자)
+                Notification.NotificationType.LIKE,
+                message,
+                url
+        );
     }
 
 
