@@ -3,7 +3,7 @@ package org.najeungyoon.communitybackend.domain.app;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 
 @Entity
 @Getter

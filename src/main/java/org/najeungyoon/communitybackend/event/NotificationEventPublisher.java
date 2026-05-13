@@ -2,7 +2,7 @@ package org.najeungyoon.communitybackend.event;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.domain.app.Notification;
-import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.notification.NotificationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

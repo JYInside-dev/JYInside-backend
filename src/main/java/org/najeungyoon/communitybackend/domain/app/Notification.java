@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.notification.NotificationEvent;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class Notification {
 
     public enum NotificationType{
-        COMMENT,REPLY,LIKE
+        COMMENT,REPLY,LIKE,DELETED_COMMENT
     };
 
     @Id

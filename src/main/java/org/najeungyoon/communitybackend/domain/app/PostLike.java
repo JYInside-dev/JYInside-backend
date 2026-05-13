@@ -4,6 +4,7 @@ package org.najeungyoon.communitybackend.domain.app;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 
 @Entity
 @Getter

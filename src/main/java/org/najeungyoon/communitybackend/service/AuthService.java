@@ -1,10 +1,10 @@
 package org.najeungyoon.communitybackend.service;
 
-import org.najeungyoon.communitybackend.domain.app.UserRole;
+import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.auth.LoginRequestDTO;

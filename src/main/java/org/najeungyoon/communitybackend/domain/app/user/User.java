@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.domain.app;
+package org.najeungyoon.communitybackend.domain.app.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,16 +34,36 @@ public class User {
     @Column(nullable = false, length = 20)
     private UserRole role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserStatus status;
+
+    @Column(name = "suspend_until")
+    private LocalDateTime suspendUntil;
+
+
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createAt;
 
 
+
+
+    /* util 메서드 */
     public void changeRole(UserRole role){
         this.role=role;
     }
 
+    public boolean isSuspend(){
+        if(this.status == UserStatus.BANNED) return true;
+        if(this.status==UserStatus.SUSPEND && this.suspendUntil != null) {
+            return LocalDateTime.now().isBefore(this.suspendUntil);
+        }
+        return false;
+    }
 
+
+    /* 생성자 */
     public User(String username, String email, String password, String nickname, UserRole role) {
         this.username = username;
         this.email = email;
