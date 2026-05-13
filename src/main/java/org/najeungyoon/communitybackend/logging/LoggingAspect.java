@@ -48,7 +48,7 @@ public class LoggingAspect {
 
         /* 요청별로 식별할 수 있는 고유 식별자 ID 생성 */
         String traceId = UUID.randomUUID().toString().substring(0,8);
-        MDC.put("tracedId",traceId);
+        MDC.put("traceId",traceId);
 
 
         /* http 요청 정보 가져오기 */

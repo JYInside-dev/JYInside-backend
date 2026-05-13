@@ -60,6 +60,10 @@ dependencies {
     // ID token 검증을 위한 구글 Java Client
     implementation 'com.google.api-client:google-api-client:2.9.0'
     implementation 'com.google.http-client:google-http-client-gson:2.1.0'
+
+    /* Json형식 로그 저장을 위한 라이브러리 */
+    // Source: https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+    implementation 'net.logstash.logback:logstash-logback-encoder:9.0'
 }
 
 tasks.named('test') {

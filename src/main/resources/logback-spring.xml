@@ -5,7 +5,11 @@
     <property name="LOG_PATH" value="/var/log/community"/>
     <property name="LOG_FILE_NAME" value="community-server"/>
 
-    <!-- 저장 형식 -->
+    <!-- 저장 형식
+        콘솔창: 기존 로그 형식
+        로그파일저장: JSON형식으로 저장해서 로그 수집시 모니터링 쉽게
+        -->
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -20,7 +24,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
 
-        <encoder>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
