@@ -56,6 +56,14 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
 
+    /* 상단 고정 여부 */
+    @Column(nullable = false)
+    private boolean pinned = false;
+
+    public void togglePinned() {
+        this.pinned = !this.pinned;
+    }
+
 
     /* 익명 사용자용 Post 생성자*/
     public Post(String title, String content, String authorName, String password,Board board) {

@@ -36,6 +36,11 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     /* 메인화면에서 인기글 5개 목록 보여줌.*/
     List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
 
+
+    /* 고정글 조회 */
+    List<Post> findByBoardAndPinnedTrueOrderByCreateAtDesc(Board board);
+
+
     /* 제목 검색 */
     List<Post> findByBoardAndTitleContainingIgnoreCase(Board board, String keyword);
 
@@ -61,8 +66,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             @Param("board") Board board,
             @Param("keyword") String keyword
     );
-
-
 
 
     /* 게시글(Post)& 작성자(User)

@@ -171,7 +171,7 @@ public class PostService {
     }
 
 
-
+    /* 검색어로 글 검색 */
     @Transactional(readOnly = true)
     public List<PostResponseDTO> searchPosts(String urlPath, String type, String keyword) {
         if (keyword == null || keyword.isBlank()) {
@@ -194,6 +194,31 @@ public class PostService {
         return posts.stream()
                 .map(PostResponseDTO::from)
                 .toList();
+    }
+
+
+    /* 고정 글 목록 조회 */
+    @Transactional(readOnly = true)
+    public List<PostResponseDTO> getPinnedPosts(String urlPath) {
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다."));
+
+        return postRepository.findByBoardAndPinnedTrueOrderByCreateAtDesc(board)
+                .stream()
+                .map(PostResponseDTO::from)
+                .toList();
+    }
+
+
+    /* 글 고정/해제 토글 기능 */
+    @Transactional
+    public PostResponseDTO togglePinned(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+        post.togglePinned();
+
+        return PostResponseDTO.from(post);
     }
 
 }

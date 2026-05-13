@@ -48,6 +48,9 @@ public class SecurityConfiguration {
                                 /* API 접근 권한 설정 주소*/
                                 .requestMatchers("/api/admin/super/**", "/api/ops/**").hasRole("SUPER_ADMIN")
 
+                                /* 글 고정 권한 설정 */
+                                .requestMatchers(HttpMethod.PATCH, "/api/community/board/*/posts/*/pin").hasAnyRole("SUPER_ADMIN", "COMMUNITY_ADMIN")
+
                                 /* 나머지 기능은 로그인 필요 */
                                 .anyRequest().authenticated()
 

@@ -12,6 +12,7 @@ public record PostResponseDTO(
         String authorName,
         LocalDateTime createAt,
         Integer likeCount,
+        Boolean pinned,
 
         String boardUrlPath
 ){
@@ -25,6 +26,7 @@ public record PostResponseDTO(
                 post.getAuthorName(),
                 post.getCreateAt(),
                 post.getLikeCount(),
+                post.isPinned(),
 
                 /* TODO
                  *   n+1 문제 나중에 해결해야함

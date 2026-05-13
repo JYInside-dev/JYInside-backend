@@ -59,6 +59,7 @@ public class PostController {
         return ResponseEntity.ok(dto);
     }
 
+
     /* 해당 글 삭제 */
     @PostMapping("/post/{id}/delete")
     public ResponseEntity<String> deletePost(
@@ -73,6 +74,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+
     /* 글 검색 */
     @GetMapping("/posts/search")
     public ResponseEntity<List<PostResponseDTO>> searchPosts(
@@ -84,4 +86,23 @@ public class PostController {
 
         return ResponseEntity.ok(response);
     }
+
+
+    /* 고정 글 조회 */
+    @GetMapping("/posts/pinned")
+    public ResponseEntity<List<PostResponseDTO>> getPinnedPosts(
+            @PathVariable String urlPath
+    ) {
+        return ResponseEntity.ok(postService.getPinnedPosts(urlPath));
+    }
+
+
+    /* 글 고정/해제 */
+    @PatchMapping("/posts/{postId}/pin")
+    public ResponseEntity<PostResponseDTO> togglePinned(
+            @PathVariable Long postId
+    ) {
+        return ResponseEntity.ok(postService.togglePinned(postId));
+    }
+
 }
