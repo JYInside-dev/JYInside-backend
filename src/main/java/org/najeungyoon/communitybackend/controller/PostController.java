@@ -100,9 +100,10 @@ public class PostController {
     /* 글 고정/해제 */
     @PatchMapping("/posts/{postId}/pin")
     public ResponseEntity<PostResponseDTO> togglePinned(
-            @PathVariable Long postId
+            @PathVariable String postId
     ) {
-        return ResponseEntity.ok(postService.togglePinned(postId));
+        Long id = Long.parseLong(postId);
+        return ResponseEntity.ok(postService.togglePinned(id));
     }
 
 }
