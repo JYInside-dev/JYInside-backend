@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.logging;
+package org.najeungyoon.communitybackend.aspects;
 
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,14 +41,13 @@ public class LoggingAspect {
     public void controllerPointcut(){}
 
 
-
     /* 어드바이스: 포인트컷 메서드 전후 모두 실행 */
     @Around("controllerPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 
         /* 요청별로 식별할 수 있는 고유 식별자 ID 생성 */
         String traceId = UUID.randomUUID().toString().substring(0,8);
-        MDC.put("tracedId",traceId);
+        MDC.put("traceId",traceId);
 
 
         /* http 요청 정보 가져오기 */

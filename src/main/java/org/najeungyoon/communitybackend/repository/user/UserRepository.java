@@ -1,6 +1,6 @@
-package org.najeungyoon.communitybackend.repository;
+package org.najeungyoon.communitybackend.repository.user;
 
-import org.najeungyoon.communitybackend.domain.app.User;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

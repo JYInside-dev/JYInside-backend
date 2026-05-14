@@ -3,11 +3,12 @@ package org.najeungyoon.communitybackend.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.PostLikeRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +62,7 @@ public class PostLikeService {
         notificationEventPublisher.publishEvent(
                 post.getUser(), // 게시글 작성자 (수신자)
                 user,           // 추천 누른 사람 (발신자)
-                Notification.NotificationType.LIKE,
+                NotificationType.LIKE,
                 message,
                 url
         );

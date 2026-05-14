@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.notification.NotificationEvent;
 
 import java.time.LocalDateTime;
@@ -14,9 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Notification {
 
-    public enum NotificationType{
-        COMMENT,REPLY,LIKE
-    };
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +42,7 @@ public class Notification {
 
 
     /* 알림을 누르면 이동할 URL */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String url;
 
 

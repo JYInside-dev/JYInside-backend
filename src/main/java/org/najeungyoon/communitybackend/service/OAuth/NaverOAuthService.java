@@ -3,15 +3,16 @@ package org.najeungyoon.communitybackend.service.OAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.configuration.NaverOAuthProperties;
+import org.najeungyoon.communitybackend.domain.app.user.UserStatus;
 import org.najeungyoon.communitybackend.domain.auth.AuthProvider;
 import org.najeungyoon.communitybackend.domain.auth.SocialAccount;
-import org.najeungyoon.communitybackend.domain.app.User;
-import org.najeungyoon.communitybackend.domain.app.UserRole;
+import org.najeungyoon.communitybackend.domain.app.user.User;
+import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.*;
 import org.najeungyoon.communitybackend.repository.SocialAccountRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -194,7 +195,8 @@ public class NaverOAuthService {
                 dto.email(),
                 null,
                 dto.nickname(),
-                UserRole.USER
+                UserRole.USER,
+                UserStatus.ACTIVE
         );
 
         userRepository.save(user);

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
