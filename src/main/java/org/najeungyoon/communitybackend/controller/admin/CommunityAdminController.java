@@ -2,12 +2,11 @@ package org.najeungyoon.communitybackend.controller.admin;
 
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.model.comment.AdminCommentDeleteRequestDTO;
+import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
+import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
 import org.najeungyoon.communitybackend.service.admin.CommunityAdminService;
-import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,5 +29,18 @@ public class CommunityAdminController {
         communityAdminService.deleteComment(userId,request.reason(),commentId,urlPath,postId);
         return ResponseEntity.ok().build();
     }
+
+
+    @PostMapping("/user/{targetUserId}/warning")
+    public ResponseEntity<Void> giveWarning(
+            @AuthenticationPrincipal Long adminId,
+            @PathVariable Long targetUserId,
+            @PathVariable String urlPath,
+            @RequestBody AdminWarningRequestDTO requestDTO
+            ){
+        communityAdminService.giveWarning(adminId,targetUserId,urlPath,requestDTO.reason());
+        return ResponseEntity.ok().build();
+    }
+
 
 }

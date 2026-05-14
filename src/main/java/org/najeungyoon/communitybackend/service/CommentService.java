@@ -13,7 +13,7 @@ import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -142,7 +142,7 @@ public class CommentService {
         String targetUrl = "/board/" + urlPath + "/post/" + postId;
 
         /* 알림 발송 */
-        notificationEventPublisher.publishEvent(receiver,sender, Notification.NotificationType.COMMENT,
+        notificationEventPublisher.publishEvent(receiver,sender, NotificationType.COMMENT,
                 message,targetUrl);
 
     }

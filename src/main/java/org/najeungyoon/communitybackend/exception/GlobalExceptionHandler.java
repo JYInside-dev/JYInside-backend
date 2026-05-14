@@ -28,6 +28,16 @@ public class GlobalExceptionHandler{
         return ResponseEntity.status(400).body(new ErrorResponse(400,e.getMessage(),"BAD_REQUEST"));
     }
 
+
+    /* Authorization(인가) 관련 거부 예외 */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e){
+        log.error("Authorization Error: {}",e.getMessage());
+        return ResponseEntity.status(403).body(new ErrorResponse(403,e.getMessage(),"Forbidden"));
+    }
+
+
+
     // 그 외 예상치 나머지 모든 서버 에러 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception e) {

@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Notification {
 
-    public enum NotificationType{
-        COMMENT,REPLY,LIKE,DELETED_COMMENT
-    };
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +42,7 @@ public class Notification {
 
 
     /* 알림을 누르면 이동할 URL */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String url;
 
 

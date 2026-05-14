@@ -38,15 +38,10 @@ public class User {
     @Column(nullable = false)
     private UserStatus status;
 
-    @Column(name = "suspend_until")
-    private LocalDateTime suspendUntil;
-
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createAt;
-
-
 
 
     /* util 메서드 */
@@ -54,21 +49,14 @@ public class User {
         this.role=role;
     }
 
-    public boolean isSuspend(){
-        if(this.status == UserStatus.BANNED) return true;
-        if(this.status==UserStatus.SUSPEND && this.suspendUntil != null) {
-            return LocalDateTime.now().isBefore(this.suspendUntil);
-        }
-        return false;
-    }
-
 
     /* 생성자 */
-    public User(String username, String email, String password, String nickname, UserRole role) {
+    public User(String username, String email, String password, String nickname, UserRole role,UserStatus userStatus) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
+        this.status=userStatus;
     }
 }

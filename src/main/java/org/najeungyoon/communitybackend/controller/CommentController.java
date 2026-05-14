@@ -1,6 +1,7 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
@@ -19,6 +20,7 @@ public class CommentController {
     private final CommentService commentService;
 
 
+    @CheckCommunitySuspension
     @PostMapping("/write")
     public ResponseEntity<String > writeComment(
             @PathVariable String urlPath,

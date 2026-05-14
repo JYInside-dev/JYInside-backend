@@ -7,6 +7,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
+import org.najeungyoon.communitybackend.domain.app.user.UserStatus;
 import org.najeungyoon.communitybackend.domain.auth.AuthProvider;
 import org.najeungyoon.communitybackend.domain.auth.SocialAccount;
 import org.najeungyoon.communitybackend.domain.app.user.User;
@@ -18,7 +19,7 @@ import org.najeungyoon.communitybackend.model.oauth.GoogleSignupInfoResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.GoogleTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.oauth.PendingSocialSignup;
 import org.najeungyoon.communitybackend.repository.SocialAccountRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -254,7 +255,8 @@ public class GoogleOAuthService {
                 pending.email(),
                 null,
                 dto.nickname(),
-                UserRole.USER
+                UserRole.USER,
+                UserStatus.ACTIVE
         );
 
         userRepository.save(user);

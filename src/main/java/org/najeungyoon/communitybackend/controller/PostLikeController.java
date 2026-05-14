@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.service.PostLikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,7 @@ public class PostLikeController {
 
     private final PostLikeService postLikeService;
 
+    @CheckCommunitySuspension
     @PostMapping("/addLike")
     public ResponseEntity<Void> addLike(
             @PathVariable Long id,

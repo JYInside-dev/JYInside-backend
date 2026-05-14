@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.logging;
+package org.najeungyoon.communitybackend.aspects;
 
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +39,6 @@ public class LoggingAspect {
     *  포인트컷을 지정하기 위한 메서드  */
     @Pointcut("execution(* org.najeungyoon.communitybackend.controller..*.*(..))")
     public void controllerPointcut(){}
-
 
 
     /* 어드바이스: 포인트컷 메서드 전후 모두 실행 */

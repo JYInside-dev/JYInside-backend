@@ -9,7 +9,7 @@ import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
