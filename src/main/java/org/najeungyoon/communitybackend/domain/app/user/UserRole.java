@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.domain.app;
+package org.najeungyoon.communitybackend.domain.app.user;
 
 
 import lombok.Getter;

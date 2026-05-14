@@ -2,13 +2,12 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.domain.app.User;
-import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.comment.MyPageCommentResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

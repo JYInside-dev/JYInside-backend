@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
@@ -34,6 +35,7 @@ public class PostController {
 
 
     /* 글 작성 */
+    @CheckCommunitySuspension
     @PostMapping("/write")
     public ResponseEntity<String> writePost(
             @PathVariable String urlPath,
@@ -61,6 +63,7 @@ public class PostController {
 
 
     /* 해당 글 삭제 */
+    @CheckCommunitySuspension
     @PostMapping("/post/{id}/delete")
     public ResponseEntity<String> deletePost(
             @PathVariable String urlPath,

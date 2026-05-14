@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
