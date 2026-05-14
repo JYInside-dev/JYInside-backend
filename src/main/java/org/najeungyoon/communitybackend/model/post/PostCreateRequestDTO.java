@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.model.post;
 
 import jakarta.validation.constraints.NotBlank;
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.User;
 
@@ -16,8 +17,8 @@ public record PostCreateRequestDTO(
 
         /* 로그인한 유저가 입력할때에는 빈칸이 들어오니까 NotBlank를 안붙였어요 */
         String authorName,
-        String password
-
+        String password,
+        Long categoryId
 ) {
 
     /* DTO를 Entity로 바로 바꿔주는 함수
@@ -26,24 +27,26 @@ public record PostCreateRequestDTO(
 
     /* 얘는 익명용 Post작성하는 메서드
     *  직접 입력받은 authorName, password 사용함 */
-    public Post toEntityAnonymous(String hashedPassword, Board board){
+    public Post toEntityAnonymous(String hashedPassword, Board board, Category category){
         return new Post(
                 this.title,
                 this.content,
                 this.authorName,
                 hashedPassword,
-                board
+                board,
+                category
         );
     }
 
 
     /* 익명아니고 로그인 시 글 작성할 때 사용하는 메서드 */
-    public Post toEntityUser(Board board, User user){
+    public Post toEntityUser(Board board, User user, Category category){
         return new Post(
                 this.title,
                 this.content,
                 user,
-                board
+                board,
+                category
         );
     }
 

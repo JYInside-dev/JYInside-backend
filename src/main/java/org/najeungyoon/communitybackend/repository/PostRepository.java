@@ -1,6 +1,7 @@
 package org.najeungyoon.communitybackend.repository;
 
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,8 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findByBoard_UrlPath(String urlPath);
 
     List<Post> findAllByUser(User user);
+
+    List<Post> findByBoardAndCategoryOrderByIdDesc(Board board, Category category);
 
 
     /* 추천수 증가 */

@@ -23,10 +23,11 @@ public class PostController {
 
     /* 특정 커뮤니티의 모든 글 보기 */
     @GetMapping("/allPost")
-    public ResponseEntity   <List<PostResponseDTO>> getAllPost(
-            @PathVariable String urlPath
+    public ResponseEntity<List<PostResponseDTO>> getAllPost(
+            @PathVariable String urlPath,
+            @RequestParam(required = false) Long categoryId
     ) {
-        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath);
+        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath, categoryId);
 
         // 200ok
         return ResponseEntity.ok(posts);

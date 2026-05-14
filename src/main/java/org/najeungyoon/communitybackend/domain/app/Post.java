@@ -55,6 +55,9 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     /* 상단 고정 여부 */
     @Column(nullable = false)
@@ -66,20 +69,34 @@ public class Post {
 
 
     /* 익명 사용자용 Post 생성자*/
-    public Post(String title, String content, String authorName, String password,Board board) {
+    public Post(
+            String title,
+            String content,
+            String authorName,
+            String password,
+            Board board,
+            Category category
+    ) {
         this.title = title;
         this.content = content;
         this.authorName = authorName;
         this.password = password;
-        this.board=board;
+        this.board = board;
+        this.category = category;
     }
 
     /* 로그인된 사용자용 Post 생성자. */
-    public Post(String title, String content,User user,Board board) {
+    public Post(String title,
+                String content,
+                User user,
+                Board board,
+                Category category
+    ) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.board = board;
+        this.category = category;
 
         this.authorName=user.getNickname();
         this.password="";

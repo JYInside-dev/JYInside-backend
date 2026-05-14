@@ -3,17 +3,11 @@ package org.najeungyoon.communitybackend.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
-import org.najeungyoon.communitybackend.domain.app.Board;
-import org.najeungyoon.communitybackend.domain.app.Post;
-import org.najeungyoon.communitybackend.domain.app.User;
-import org.najeungyoon.communitybackend.domain.app.UserRole;
+import org.najeungyoon.communitybackend.domain.app.*;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
-import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
-import org.najeungyoon.communitybackend.repository.BoardRepository;
-import org.najeungyoon.communitybackend.repository.PostRepository;
-import org.najeungyoon.communitybackend.repository.UserRepository;
+import org.najeungyoon.communitybackend.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -31,6 +25,7 @@ public class PostService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final BoardAdminRepository boardAdminRepository;
+    private final CategoryRepository categoryRepository;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -42,15 +37,25 @@ public class PostService {
 
     /* 특정 커뮤니티의 모든글을 조회하는 API  */
     @Transactional(readOnly = true)
-    public List<PostResponseDTO> getAllPostsByBoard(String urlPath){
+    public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId){
 
-        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
+        Board board = getBoardByUrlPath(urlPath);
+        List<Post> allPosts;
+
+        if (categoryId == null) {
+            allPosts = postRepository.findByBoard_UrlPath(urlPath);
+        } else {
+            Category category = categoryRepository.findByIdAndBoard(categoryId, board)
+                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
+
+            allPosts = postRepository.findByBoardAndCategoryOrderByIdDesc(board, category);
+        }
+
+//        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
         log.info("{} 에서 조회한 게시글 수: {}",urlPath, allPosts.size());
-        return allPosts.stream().map(
-                post -> {
-                    return PostResponseDTO.from(post);
-                }
-        ).collect(Collectors.toList());
+        return allPosts.stream()
+                    .map(PostResponseDTO::from)
+                    .toList();
     }
 
 
@@ -64,11 +69,22 @@ public class PostService {
 
         Board board = getBoardByUrlPath(urlPath);
 
+        Category category = null;
+
+        if (dto.categoryId() != null) {
+            category = categoryRepository.findByIdAndBoard(dto.categoryId(), board)
+                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
+
+            if (!category.isActive()) {
+                throw new IllegalArgumentException("비활성화된 카테고리에는 글을 작성할 수 없습니다.");
+            }
+        }
+
         /* 로그인 회원시 */
         if(userId != null){
             User user = userRepository.findById(userId)
                     .orElseThrow(()->new IllegalArgumentException("ID와 일치하는 유저를 찾을 수 없습니다."));
-            Post post = dto.toEntityUser(board,user);
+            Post post = dto.toEntityUser(board,user, category);
             postRepository.save(post);
         }
 
@@ -89,7 +105,7 @@ public class PostService {
 
             // 해싱된 비밀번호로 Entity 만들어서 board랑 같이 인자로 주입
             // DB에 insert
-            Post post = dto.toEntityAnonymous(hashedPassword,board);
+            Post post = dto.toEntityAnonymous(hashedPassword, board, category);
             postRepository.save(post);
         }
 
