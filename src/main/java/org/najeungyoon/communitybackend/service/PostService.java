@@ -43,12 +43,12 @@ public class PostService {
         List<Post> allPosts;
 
         if (categoryId == null) {
-            allPosts = postRepository.findByBoard_UrlPath(urlPath);
+            allPosts = postRepository.findByBoard_UrlPathOrderByCreateAtDesc(urlPath);
         } else {
             Category category = categoryRepository.findByIdAndBoard(categoryId, board)
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
 
-            allPosts = postRepository.findByBoardAndCategoryOrderByIdDesc(board, category);
+            allPosts = postRepository.findByBoardAndCategoryOrderByCreateAtDesc(board, category);
         }
 
 //        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);

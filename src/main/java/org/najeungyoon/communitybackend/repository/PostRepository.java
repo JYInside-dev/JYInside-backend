@@ -17,12 +17,12 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post,Long> {
 
 
-
-    List<Post> findByBoard_UrlPath(String urlPath);
+    // 최신순으로 정렬
+    List<Post> findByBoard_UrlPathOrderByCreateAtDesc(String urlPath);
 
     List<Post> findAllByUser(User user);
 
-    List<Post> findByBoardAndCategoryOrderByIdDesc(Board board, Category category);
+    List<Post> findByBoardAndCategoryOrderByCreateAtDesc(Board board, Category category);
 
 
     /* 추천수 증가 */
