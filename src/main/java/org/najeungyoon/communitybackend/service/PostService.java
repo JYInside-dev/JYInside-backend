@@ -179,7 +179,7 @@ public class PostService {
 
 
     /* 해당 ID 의 글 불러오기 */
-    @Transactional(readOnly = true) // 클래스 전체에 적용
+    @Transactional // 클래스 전체에 적용
     public PostResponseDTO getPostById(String urlPath, Long id) {
         log.info("{}커뮤니티의 {} 번호 글 상세보기 요청 들어옴.",urlPath,id);
 
@@ -190,6 +190,8 @@ public class PostService {
         if(!post.getBoard().getUrlPath().equals(urlPath)){
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
+
+        postRepository.increaseViewCount(id);
 
         return PostResponseDTO.from(post);
     }

@@ -76,4 +76,10 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("select p from Post p join fetch p.board left join p.user where p.id = :postId")
     Optional<Post> findByIdWithBoardAndUser(@Param("postId") Long postId);
 
+
+    /* 조회수 증가 쿼리 */
+    @Modifying
+    @Query("UPDATE Post p SET p.viewCount = p.viewCount + 1 WHERE p.id = :postId")
+    void increaseViewCount(@Param("postId") Long postId);
+
 }

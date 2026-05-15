@@ -15,6 +15,7 @@ public record PostResponseDTO(
         Boolean pinned,
         Long categoryId,
         String categoryName,
+        Long viewCount,
 
         String boardUrlPath
 ){
@@ -31,6 +32,7 @@ public record PostResponseDTO(
                 post.isPinned(),
                 post.getCategory() != null ? post.getCategory().getId() : null,
                 post.getCategory() != null ? post.getCategory().getName() : null,
+                post.getViewCount(),
 
                 /* TODO
                  *   n+1 문제 나중에 해결해야함

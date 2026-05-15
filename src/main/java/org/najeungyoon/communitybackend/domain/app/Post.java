@@ -68,6 +68,16 @@ public class Post {
         this.pinned = !this.pinned;
     }
 
+    /* 조회수 */
+    @Column(nullable = false)
+    private Long viewCount = 0L;
+
+    public void increaseViewCount() {
+        if (this.viewCount == null)
+            this.viewCount = 0L;
+        this.viewCount++;
+    }
+
 
     /* 익명 사용자용 Post 생성자*/
     public Post(
