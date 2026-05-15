@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface UserCommunitySuspensionRepository extends JpaRepository<UserCommunitySuspension,Long> {
 
     Optional<UserCommunitySuspension> findByUserAndBoard(User user, Board board);
+
+    Optional<UserCommunitySuspension> findByUser_IdAndBoard_UrlPath (Long userId,String urlPath);
 }

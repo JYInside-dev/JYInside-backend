@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface BoardAdminRepository extends JpaRepository<BoardAdmin,Long> {
 
     public boolean existsByUserAndBoard(User user, Board board);
+
+
+    boolean existsByUser_IdAndBoard_UrlPath(Long userId, String urlPath);
 }

@@ -6,6 +6,7 @@ import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.grant.GrantCommunityAdminRequestDTO;
 import org.najeungyoon.communitybackend.service.admin.SuperAdminService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/super")
+@PreAuthorize("hasRole('SUPER_ADMIN')") // 스프링이 알아서 필터에서 뽑아내 로컬스레드에 저장한 정보를 뽑아서씀
 public class SuperAdminController {
 
     private final SuperAdminService superAdminService;
@@ -39,6 +41,4 @@ public class SuperAdminController {
         superAdminService.grantCommunityAdmin(dto.userId(), dto.boardUrlPath());
         return ResponseEntity.ok("커뮤니티 관리자 권한이 성공적으로 부여됬습니다.");
     }
-
-
 }

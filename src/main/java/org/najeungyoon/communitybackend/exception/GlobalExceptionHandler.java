@@ -3,6 +3,8 @@ package org.najeungyoon.communitybackend.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.error.ErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -29,11 +31,29 @@ public class GlobalExceptionHandler{
     }
 
 
-    /* Authorization(인가) 관련 거부 예외 */
+    /* Authorization(인가) 예외처리 */
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e){
         log.error("Authorization Error: {}",e.getMessage());
         return ResponseEntity.status(403).body(new ErrorResponse(403,e.getMessage(),"Forbidden"));
+    }
+
+    /* Spring Security - 인증 실패 예외 (401) */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+        log.error("Authentication Error: {}", e.getMessage());
+        return ResponseEntity.status(401).body(new ErrorResponse(401, "로그인이 필요하거나 토큰이 만료되었습니다.", "UNAUTHORIZED"));
+    }
+
+    /* Spring Security - 인가(권한) 실패 예외 (403) */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        String errorMessage = "Access is denied".equals(e.getMessage())
+                ? "해당 기능에 대한 접근 권한이 없습니다."
+                : e.getMessage();
+
+        log.error("Access Denied Error: {}", errorMessage);
+        return ResponseEntity.status(403).body(new ErrorResponse(403, errorMessage, "FORBIDDEN"));
     }
 
 

@@ -1,12 +1,12 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class CommentController {
     private final CommentService commentService;
 
 
-    @CheckCommunitySuspension
+    @PreAuthorize("hasRole('USER') and @communitySecurity.checkNotSuspended(#urlPath)")
     @PostMapping("/write")
     public ResponseEntity<String > writeComment(
             @PathVariable String urlPath,

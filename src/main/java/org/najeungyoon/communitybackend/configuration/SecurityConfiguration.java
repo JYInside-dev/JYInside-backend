@@ -4,21 +4,32 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.jwt.JwtAuthenticationFilter;
 import org.najeungyoon.communitybackend.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
-@RequiredArgsConstructor
+@EnableWebSecurity
+@EnableMethodSecurity // PreAuthorize어노테이션 사용을 위한 추가
 public class SecurityConfiguration {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    /* Spring MVC의 예외 처리기 */
+    private final HandlerExceptionResolver exceptionResolver;
+
+
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -39,20 +50,21 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) .authorizeHttpRequests(auth -> auth
 
-                                /* 추천에 로그인 인증 부여 */
-                                .requestMatchers(HttpMethod.POST, "/api/community/board/*/post/*/likes/**").authenticated()
 
                                 // 로그인 안해도 접근 가능한 주소 설정
                                 .requestMatchers("/api/auth/**", "/api/oauth/**", "/api/community/**", "/actuator/**").permitAll()
-
-                                /* API 접근 권한 설정 주소*/
-                                .requestMatchers("/api/admin/super/**", "/api/ops/**").hasRole("SUPER_ADMIN")
-
-                                /* 글 고정 권한 설정 */
-                                .requestMatchers(HttpMethod.PATCH, "/api/community/board/*/posts/*/pin").hasAnyRole("SUPER_ADMIN", "COMMUNITY_ADMIN")
-
                                 /* 나머지 기능은 로그인 필요 */
                                 .anyRequest().authenticated()
+
+//                                 AOP를 활용해서 권한 설정할거임 아래는 다 필요없어 이제
+
+//                                /* API 접근 권한 설정 주소*/
+//                                .requestMatchers("/api/admin/super/**", "/api/ops/**").hasRole("SUPER_ADMIN")
+//                                /* 추천에 로그인 인증 부여 */
+//                                .requestMatchers(HttpMethod.POST, "/api/community/board/*/post/*/likes/**").authenticated()
+//                                /* 글 고정 권한 설정 */
+//                                .requestMatchers(HttpMethod.PATCH, "/api/community/board/*/posts/*/pin").hasAnyRole("SUPER_ADMIN", "COMMUNITY_ADMIN")
+
 
                         /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 일단 한번 토큰 유효여부 확인. */
                 ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
@@ -61,24 +73,27 @@ public class SecurityConfiguration {
 
         /* 예외처리 필터*/
         http.exceptionHandling(exceptionHandling -> {
-
-                    // 1. 권한이 없을 때 (403 Forbidden) - 예: USER가 SUPER_ADMIN 페이지 접근
+                    // 1. 권한이 없을 때 (403 Forbidden)
                     exceptionHandling.accessDeniedHandler((request, response, accessDeniedException) -> {
-                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                        response.setContentType("application/json;charset=UTF-8");
-                        response.getWriter().write("{\"message\": \"해당 기능에 대한 접근 권한이 없습니다.\"}");
+                        exceptionResolver.resolveException(request, response, null, accessDeniedException);
                     });
-
-                    // 2. 인증되지 않았을 때 (401 Unauthorized) - 예: 토큰 없이 로그인 필수 페이지 접근
+                    // 2. 인증되지 않았을 때 (401 Unauthorized)
                     exceptionHandling.authenticationEntryPoint((request, response, authException) -> {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        response.setContentType("application/json;charset=UTF-8");
-                        response.getWriter().write("{\"message\": \"로그인이 필요하거나 토큰이 만료되었습니다.\"}");
+                        exceptionResolver.resolveException(request, response, null, authException);
                     });
                 });
 
 
 
         return http.build();
+    }
+
+
+    /* 생성자 */
+    public SecurityConfiguration(JwtTokenProvider jwtTokenProvider,
+                                 @Qualifier("handlerExceptionResolver")
+                                 HandlerExceptionResolver exceptionResolver) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.exceptionResolver = exceptionResolver;
     }
 }

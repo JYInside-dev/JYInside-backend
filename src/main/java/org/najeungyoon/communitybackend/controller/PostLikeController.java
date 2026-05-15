@@ -2,9 +2,9 @@ package org.najeungyoon.communitybackend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.service.PostLikeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +18,11 @@ public class PostLikeController {
 
     private final PostLikeService postLikeService;
 
-    @CheckCommunitySuspension
+    @PreAuthorize("hasRole('USER') and @communitySecurity.checkNotSuspended(#urlPath)")
     @PostMapping("/addLike")
     public ResponseEntity<Void> addLike(
             @PathVariable Long id,
+            @PathVariable String urlPath,
             @AuthenticationPrincipal Long userId
     ){
         postLikeService.addLike(id,userId);
