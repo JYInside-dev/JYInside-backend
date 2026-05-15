@@ -26,9 +26,10 @@ public class PostController {
     @GetMapping("/allPost")
     public ResponseEntity<List<PostResponseDTO>> getAllPost(
             @PathVariable String urlPath,
-            @RequestParam(required = false) Long categoryId
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(defaultValue = "latest") String sort
     ) {
-        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath, categoryId);
+        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath, categoryId, sort);
 
         // 200ok
         return ResponseEntity.ok(posts);

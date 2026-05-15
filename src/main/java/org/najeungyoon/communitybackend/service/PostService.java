@@ -45,18 +45,24 @@ public class PostService {
 
     /* 특정 커뮤니티의 모든글을 조회하는 API  */
     @Transactional(readOnly = true)
-    public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId){
+    public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId, String sort){
 
-        Board board = getBoardByUrlPath(urlPath);
+        String sortMode = sort == null ? "latest" : sort;
+
         List<Post> allPosts;
 
         if (categoryId == null) {
-            allPosts = postRepository.findByBoard_UrlPathOrderByCreateAtDesc(urlPath);
+            allPosts = switch(sortMode) {
+                case "view" -> postRepository.findByBoard_UrlPathOrderByViewCountDescCreateAtDesc(urlPath);
+                case "latest" -> postRepository.findByBoard_UrlPathOrderByCreateAtDesc(urlPath);
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+            };
         } else {
-            Category category = categoryRepository.findByIdAndBoard(categoryId, board)
-                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
-
-            allPosts = postRepository.findByBoardAndCategoryOrderByCreateAtDesc(board, category);
+            allPosts = switch(sortMode) {
+                case "view" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByViewCountDescCreateAtDesc(urlPath, categoryId);
+                case "latest" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByCreateAtDesc(urlPath, categoryId);
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+            };
         }
 
 //        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);

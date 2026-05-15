@@ -17,13 +17,19 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post,Long> {
 
 
-    // 최신순으로 정렬
+    // 전체 게시글 - 최신순
     List<Post> findByBoard_UrlPathOrderByCreateAtDesc(String urlPath);
 
+    // 전체 게시글 - 조회수순
+    List<Post> findByBoard_UrlPathOrderByViewCountDescCreateAtDesc(String urlPath);
+
+    // 카테고리 게시글 - 최신순
+    List<Post> findByBoard_UrlPathAndCategory_IdOrderByCreateAtDesc(String urlPath, Long categoryId);
+
+    // 카테고리 게시글 - 조회수순
+    List<Post> findByBoard_UrlPathAndCategory_IdOrderByViewCountDescCreateAtDesc(String urlPath, Long categoryId);
+
     List<Post> findAllByUser(User user);
-
-    List<Post> findByBoardAndCategoryOrderByCreateAtDesc(Board board, Category category);
-
 
     /* 추천수 증가 */
     @Modifying
