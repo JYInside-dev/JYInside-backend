@@ -9,11 +9,14 @@ import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserCommunitySuspension;
 import org.najeungyoon.communitybackend.domain.app.user.UserWarning;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
+import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.najeungyoon.communitybackend.repository.user.UserWarningRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,7 +120,15 @@ public class CommunityAdminService {
 
     /* 밴당한 유저 불러오기 */
     @Transactional(readOnly = true)
-    public void
+    public Page<SuspendedUserResponseDTO> getSuspendedUsers(String urlPath, Pageable pageable){
+        Page<UserCommunitySuspension> suspensionPage = userCommunitySuspensionRepository
+                .findSuspendedUserByBoard_UrlPath(urlPath,pageable);
+
+        return suspensionPage.map(page->{
+            return SuspendedUserResponseDTO.from(page);
+        });
+
+    }
 
 
 }

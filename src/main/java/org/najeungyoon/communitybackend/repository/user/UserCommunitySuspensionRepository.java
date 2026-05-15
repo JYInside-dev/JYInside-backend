@@ -27,6 +27,6 @@ public interface UserCommunitySuspensionRepository extends JpaRepository<UserCom
             " WHERE s.board.urlPath = :urlPath " +
             "AND s.suspendUntil IS not null " +
             "and s.suspendUntil > current timestamp ")
-    Optional<Page<UserCommunitySuspension>> findSuspendedUserByBoard_UrlPath(String urlPath, Pageable pageable);
+    Page<UserCommunitySuspension> findSuspendedUserByBoard_UrlPath(String urlPath, Pageable pageable);
 
 }

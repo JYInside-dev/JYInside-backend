@@ -2,7 +2,6 @@ package org.najeungyoon.communitybackend.controller.admin;
 
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
@@ -11,6 +10,9 @@ import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionR
 import org.najeungyoon.communitybackend.service.PostService;
 import org.najeungyoon.communitybackend.service.admin.CommunityAdminService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,9 +62,10 @@ public class CommunityAdminController {
 
 
     @GetMapping("/suspended/users")
-    public ResponseEntity<List<User>> getSuspendedUsers(
+    public ResponseEntity<Page<SuspendedUserResponseDTO>> getSuspendedUsers(
             @AuthenticationPrincipal Long adminId,
-            @PathVariable String urlPath
+            @PathVariable String urlPath,
+            @PageableDefault(size = 20, sort = "suspendedAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         Page<SuspendedUserResponseDTO> response = communityAdminService.getSuspendedUsers(urlPath, pageable);
         return ResponseEntity.ok(response);
