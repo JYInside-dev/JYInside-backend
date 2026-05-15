@@ -50,23 +50,12 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) .authorizeHttpRequests(auth -> auth
 
-
                                 // 로그인 안해도 접근 가능한 주소 설정
                                 .requestMatchers("/api/auth/**", "/api/oauth/**", "/api/community/**", "/actuator/**").permitAll()
                                 /* 나머지 기능은 로그인 필요 */
                                 .anyRequest().authenticated()
 
-//                                 AOP를 활용해서 권한 설정할거임 아래는 다 필요없어 이제
-
-//                                /* API 접근 권한 설정 주소*/
-//                                .requestMatchers("/api/admin/super/**", "/api/ops/**").hasRole("SUPER_ADMIN")
-//                                /* 추천에 로그인 인증 부여 */
-//                                .requestMatchers(HttpMethod.POST, "/api/community/board/*/post/*/likes/**").authenticated()
-//                                /* 글 고정 권한 설정 */
-//                                .requestMatchers(HttpMethod.PATCH, "/api/community/board/*/posts/*/pin").hasAnyRole("SUPER_ADMIN", "COMMUNITY_ADMIN")
-
-
-                        /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 일단 한번 토큰 유효여부 확인. */
+                        /* jwt인증 필터를 걸어서 controller에 요청이 가기전에 토큰 확인, Authentication 객체 생성 */
                 ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
         ;
 
@@ -82,8 +71,6 @@ public class SecurityConfiguration {
                         exceptionResolver.resolveException(request, response, null, authException);
                     });
                 });
-
-
 
         return http.build();
     }

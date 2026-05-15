@@ -55,7 +55,8 @@ public class CommunityAdminController {
     /* 글 고정/해제 */
     @PatchMapping("/posts/{postId}/pin")
     public ResponseEntity<PostResponseDTO> togglePinned(
-            @PathVariable String postId
+            @PathVariable String postId,
+            @PathVariable String urlPath
     ) {
         Long id = Long.parseLong(postId);
         return ResponseEntity.ok(postService.togglePinned(id));
