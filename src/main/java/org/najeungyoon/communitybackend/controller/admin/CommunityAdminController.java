@@ -2,11 +2,15 @@ package org.najeungyoon.communitybackend.controller.admin;
 
 
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
+import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
+import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
 import org.najeungyoon.communitybackend.service.PostService;
 import org.najeungyoon.communitybackend.service.admin.CommunityAdminService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +27,11 @@ public class CommunityAdminController {
 
     private final CommunityAdminService communityAdminService;
     private final PostService postService;
+    private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
 
 
+
+    /* 어드민 권한으로 댓글 삭제 */
     @DeleteMapping("/post/{postId}/comment/{commentId}")
     public ResponseEntity<Void> deleteCommentByAdmin(
             @AuthenticationPrincipal Long userId,
@@ -39,6 +46,7 @@ public class CommunityAdminController {
     }
 
 
+    /* 경고주기 경고3회 -> 일주일 정지 */
     @PostMapping("/user/{targetUserId}/warning")
     public ResponseEntity<Void> giveWarning(
             @AuthenticationPrincipal Long adminId,
@@ -48,6 +56,16 @@ public class CommunityAdminController {
             ){
         communityAdminService.giveWarning(adminId,targetUserId,urlPath,requestDTO.reason());
         return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/suspended/users")
+    public ResponseEntity<List<User>> getSuspendedUsers(
+            @AuthenticationPrincipal Long adminId,
+            @PathVariable String urlPath
+    ){
+        Page<SuspendedUserResponseDTO> response = communityAdminService.getSuspendedUsers(urlPath, pageable);
+        return ResponseEntity.ok(response);
     }
 
 
@@ -61,5 +79,11 @@ public class CommunityAdminController {
         Long id = Long.parseLong(postId);
         return ResponseEntity.ok(postService.togglePinned(id));
     }
+
+
+
+
+
+
 
 }

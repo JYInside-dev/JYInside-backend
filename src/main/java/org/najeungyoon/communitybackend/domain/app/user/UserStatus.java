@@ -4,5 +4,4 @@ public enum UserStatus {
     ACTIVE,
     BANNED, // 영구정지
     WITHDRAW // 탈퇴
-
 }

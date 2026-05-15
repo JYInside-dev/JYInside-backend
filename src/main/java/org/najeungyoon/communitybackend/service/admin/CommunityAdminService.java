@@ -115,8 +115,9 @@ public class CommunityAdminService {
     }
 
 
-
-
+    /* 밴당한 유저 불러오기 */
+    @Transactional(readOnly = true)
+    public void
 
 
 }

@@ -3,9 +3,13 @@ package org.najeungyoon.communitybackend.repository.user;
 import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserCommunitySuspension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +18,15 @@ public interface UserCommunitySuspensionRepository extends JpaRepository<UserCom
     Optional<UserCommunitySuspension> findByUserAndBoard(User user, Board board);
 
     Optional<UserCommunitySuspension> findByUser_IdAndBoard_UrlPath (Long userId,String urlPath);
+
+
+
+    /* urlPath 게시판에 정지되어 있는 유저들 호출 */
+    @Query("SELECT s from UserCommunitySuspension s " +
+            "join FETCH s.user" +
+            " WHERE s.board.urlPath = :urlPath " +
+            "AND s.suspendUntil IS not null " +
+            "and s.suspendUntil > current timestamp ")
+    Optional<Page<UserCommunitySuspension>> findSuspendedUserByBoard_UrlPath(String urlPath, Pageable pageable);
+
 }
