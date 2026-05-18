@@ -10,11 +10,15 @@ import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +60,26 @@ public class CommentService {
         게시글의 id에 종속된 루트 댓글들 조회
         루트댓글들만 호출되면 어짜피 자식댓글들 알아서 조회됨.
     */
+    /* 댓글 페이지로 불러오기 */
+    @Transactional(readOnly = true)
+    public PageResponseDTO<CommentResponseDTO> getCommentsByPostId(
+            String urlPath,
+            Long postId,
+            int page,
+            int size
+    ) {
+        getValidatedPost(urlPath, postId);
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Comment> rootCommentPage =
+                commentRepository.findByPostIdAndParentIsNullOrderByIdAsc(postId, pageable);
+
+        Page<CommentResponseDTO> dtoPage = rootCommentPage.map(CommentResponseDTO::from);
+
+        return PageResponseDTO.from(dtoPage);
+    }
+    /*
     @Transactional(readOnly = true)
     public List<CommentResponseDTO> getCommentsByPostId(String urlPath,Long postId){
 
@@ -69,7 +93,7 @@ public class CommentService {
                 }
         ).toList();
     };
-
+*/
 
 
     /* 댓글 생성하는 API로직 */
