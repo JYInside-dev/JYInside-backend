@@ -4,6 +4,8 @@ import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,17 +19,11 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post,Long> {
 
 
-    // 전체 게시글 - 최신순
-    List<Post> findByBoard_UrlPathOrderByCreateAtDesc(String urlPath);
+    // 전체 게시글
+    Page<Post> findByBoard_UrlPath(String urlPath, Pageable pageable);
 
-    // 전체 게시글 - 조회수순
-    List<Post> findByBoard_UrlPathOrderByViewCountDescCreateAtDesc(String urlPath);
-
-    // 카테고리 게시글 - 최신순
-    List<Post> findByBoard_UrlPathAndCategory_IdOrderByCreateAtDesc(String urlPath, Long categoryId);
-
-    // 카테고리 게시글 - 조회수순
-    List<Post> findByBoard_UrlPathAndCategory_IdOrderByViewCountDescCreateAtDesc(String urlPath, Long categoryId);
+    // 카테고리 게시글
+    Page<Post> findByBoard_UrlPathAndCategory_Id(String urlPath, Long categoryId, Pageable pageable);
 
     List<Post> findAllByUser(User user);
 

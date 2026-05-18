@@ -3,6 +3,7 @@ package org.najeungyoon.communitybackend.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
@@ -22,7 +23,23 @@ public class PostController {
     private final PostService postService;
 
 
-    /* 특정 커뮤니티의 모든 글 보기 */
+    /* 페이지로 나눠서 게시글 보기 */
+    @GetMapping("/allPost")
+    public ResponseEntity<PageResponseDTO<PostResponseDTO>> getAllPost(
+            @PathVariable String urlPath,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(defaultValue = "latest") String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(
+                postService.getPosts(urlPath, categoryId, sort, page, size)
+        );
+    }
+
+
+    /*
+    특정 커뮤니티의 모든 글 보기
     @GetMapping("/allPost")
     public ResponseEntity<List<PostResponseDTO>> getAllPost(
             @PathVariable String urlPath,
@@ -34,6 +51,7 @@ public class PostController {
         // 200ok
         return ResponseEntity.ok(posts);
     }
+ */
 
 
     /* 글 작성 */

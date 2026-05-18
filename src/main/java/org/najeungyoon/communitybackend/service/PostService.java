@@ -8,6 +8,7 @@ import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
@@ -16,6 +17,10 @@ import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.najeungyoon.communitybackend.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -43,7 +48,43 @@ public class PostService {
     }
 
 
-    /* 특정 커뮤니티의 모든글을 조회하는 API  */
+    /* 페이지로 나눠서 글 조회 */
+    @Transactional(readOnly = true)
+    public PageResponseDTO<PostResponseDTO> getPosts(
+            String urlPath,
+            Long categoryId,
+            String sort,
+            int page,
+            int size
+    ) {
+        Sort postSort = switch (sort == null ? "latest" : sort) {
+            case "view" -> Sort.by(
+                    Sort.Order.desc("viewCount"),
+                    Sort.Order.desc("createAt")
+            );
+            case "latest" -> Sort.by(
+                    Sort.Order.desc("createAt")
+            );
+            default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+        };
+
+        Pageable pageable = PageRequest.of(page, size, postSort);
+
+        Page<Post> postPage;
+
+        if (categoryId == null) {
+            postPage = postRepository.findByBoard_UrlPath(urlPath, pageable);
+        } else {
+            postPage = postRepository.findByBoard_UrlPathAndCategory_Id(urlPath, categoryId, pageable);
+        }
+
+        Page<PostResponseDTO> dtoPage = postPage.map(PostResponseDTO::from);
+
+        return PageResponseDTO.from(dtoPage);
+    }
+
+/*
+    특정 커뮤니티의 모든글을 조회하는 API
     @Transactional(readOnly = true)
     public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId, String sort){
 
@@ -71,6 +112,7 @@ public class PostService {
                     .map(PostResponseDTO::from)
                     .toList();
     }
+    */
 
 
     /* 글 생성 API*/
