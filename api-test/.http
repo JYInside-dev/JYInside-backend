@@ -1,0 +1,22 @@
+### 관리자 계정으로 로그인
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "username":"onlineGameAdmin1",
+    "password":"12345678"
+}
+
+> {%
+    // 발급받은 토큰을 'admin_token'이라는 변수에 저장합니다.
+    client.global.set("admin_token", response.body.accessToken);
+%}
+
+
+
+### =================================================================
+### 2. 정지된 유저 목록 조회 (기본 페이징 적용)
+# {urlPath} 자리에 테스트할 실제 게시판 URL(예: 'free-board')을 넣습니다.
+# 파라미터를 생략하면 @PageableDefault 설정(size=20, 내림차순)이 자동으로 적용됩니다.
+GET http://localhost:8080/api/admin/community/board/online_game/suspended/users
+Authorization: Bearer {{admin_token}}

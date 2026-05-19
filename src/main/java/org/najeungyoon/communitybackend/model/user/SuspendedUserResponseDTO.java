@@ -8,7 +8,7 @@ public record SuspendedUserResponseDTO(
         Long userId,
         String email,
         String nickname,
-        LocalDateTime suspendedAt,
+        LocalDateTime lastSuspendedAt,
         LocalDateTime suspendUntil
 ) {
 

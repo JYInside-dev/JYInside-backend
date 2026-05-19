@@ -61,11 +61,12 @@ public class CommunityAdminController {
     }
 
 
+    /* 정지된 유저 가져오기 */
     @GetMapping("/suspended/users")
     public ResponseEntity<Page<SuspendedUserResponseDTO>> getSuspendedUsers(
             @AuthenticationPrincipal Long adminId,
             @PathVariable String urlPath,
-            @PageableDefault(size = 20, sort = "suspendedAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 20, sort = "lastSuspendedAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
         Page<SuspendedUserResponseDTO> response = communityAdminService.getSuspendedUsers(urlPath, pageable);
         return ResponseEntity.ok(response);
