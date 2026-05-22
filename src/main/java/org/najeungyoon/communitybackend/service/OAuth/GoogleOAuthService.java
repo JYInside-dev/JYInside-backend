@@ -59,7 +59,7 @@ public class GoogleOAuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${app.frontend-base-url:http://sku-community.duckdns.org}")
+    @Value("${app.frontend-base-url:http://sku-community.duckdns.org:8000}")
     private String frontendBaseUrl;
 
     @Transactional
