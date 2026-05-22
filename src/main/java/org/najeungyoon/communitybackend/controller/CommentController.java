@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,13 +36,27 @@ public class CommentController {
     }
 
 
+    /* 댓글 페이지로 불러오기 */
+    @GetMapping("/getComments")
+    public ResponseEntity<PageResponseDTO<CommentResponseDTO>> getComments(
+            @PathVariable Long postId,
+            @PathVariable String urlPath,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(
+                commentService.getCommentsByPostId(urlPath, postId, page, size)
+        );
+    }
+    /*
     @GetMapping("/getComments")
     public ResponseEntity<List<CommentResponseDTO>> getComments(
             @PathVariable Long postId,
             @PathVariable String urlPath
     ){
-        return ResponseEntity.ok(commentService.getCommentsByPostId(urlPath,postId));
+        return ResponseEntity.ok(commentService.getCommentsByPostId(urlPath, postId));
     }
+    */
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(

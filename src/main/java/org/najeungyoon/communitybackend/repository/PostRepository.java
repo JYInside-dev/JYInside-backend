@@ -1,8 +1,11 @@
 package org.najeungyoon.communitybackend.repository;
 
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,11 +19,13 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post,Long> {
 
 
+    // 전체 게시글
+    Page<Post> findByBoard_UrlPath(String urlPath, Pageable pageable);
 
-    List<Post> findByBoard_UrlPath(String urlPath);
+    // 카테고리 게시글
+    Page<Post> findByBoard_UrlPathAndCategory_Id(String urlPath, Long categoryId, Pageable pageable);
 
     List<Post> findAllByUser(User user);
-
 
     /* 추천수 증가 */
     @Modifying
@@ -72,5 +77,11 @@ public interface PostRepository extends JpaRepository<Post,Long> {
         둘이 한꺼번에 가져오는 쿼리 */
     @Query("select p from Post p join fetch p.board left join p.user where p.id = :postId")
     Optional<Post> findByIdWithBoardAndUser(@Param("postId") Long postId);
+
+
+    /* 조회수 증가 쿼리 */
+    @Modifying
+    @Query("UPDATE Post p SET p.viewCount = p.viewCount + 1 WHERE p.id = :postId")
+    void increaseViewCount(@Param("postId") Long postId);
 
 }

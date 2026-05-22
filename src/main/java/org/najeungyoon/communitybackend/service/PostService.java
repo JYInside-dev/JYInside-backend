@@ -7,6 +7,8 @@ import org.najeungyoon.communitybackend.domain.app.Board;
 import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
+import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
@@ -14,6 +16,11 @@ import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
+import org.najeungyoon.communitybackend.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -31,6 +38,7 @@ public class PostService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final BoardAdminRepository boardAdminRepository;
+    private final CategoryRepository categoryRepository;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -40,18 +48,71 @@ public class PostService {
     }
 
 
-    /* 특정 커뮤니티의 모든글을 조회하는 API  */
+    /* 페이지로 나눠서 글 조회 */
     @Transactional(readOnly = true)
-    public List<PostResponseDTO> getAllPostsByBoard(String urlPath){
+    public PageResponseDTO<PostResponseDTO> getPosts(
+            String urlPath,
+            Long categoryId,
+            String sort,
+            int page,
+            int size
+    ) {
+        Sort postSort = switch (sort == null ? "latest" : sort) {
+            case "view" -> Sort.by(
+                    Sort.Order.desc("viewCount"),
+                    Sort.Order.desc("createAt")
+            );
+            case "latest" -> Sort.by(
+                    Sort.Order.desc("createAt")
+            );
+            default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+        };
 
-        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
-        log.info("{} 에서 조회한 게시글 수: {}",urlPath, allPosts.size());
-        return allPosts.stream().map(
-                post -> {
-                    return PostResponseDTO.from(post);
-                }
-        ).collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(page, size, postSort);
+
+        Page<Post> postPage;
+
+        if (categoryId == null) {
+            postPage = postRepository.findByBoard_UrlPath(urlPath, pageable);
+        } else {
+            postPage = postRepository.findByBoard_UrlPathAndCategory_Id(urlPath, categoryId, pageable);
+        }
+
+        Page<PostResponseDTO> dtoPage = postPage.map(PostResponseDTO::from);
+
+        return PageResponseDTO.from(dtoPage);
     }
+
+/*
+    특정 커뮤니티의 모든글을 조회하는 API
+    @Transactional(readOnly = true)
+    public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId, String sort){
+
+        String sortMode = sort == null ? "latest" : sort;
+
+        List<Post> allPosts;
+
+        if (categoryId == null) {
+            allPosts = switch(sortMode) {
+                case "view" -> postRepository.findByBoard_UrlPathOrderByViewCountDescCreateAtDesc(urlPath);
+                case "latest" -> postRepository.findByBoard_UrlPathOrderByCreateAtDesc(urlPath);
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+            };
+        } else {
+            allPosts = switch(sortMode) {
+                case "view" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByViewCountDescCreateAtDesc(urlPath, categoryId);
+                case "latest" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByCreateAtDesc(urlPath, categoryId);
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
+            };
+        }
+
+//        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
+        log.info("{} 에서 조회한 게시글 수: {}",urlPath, allPosts.size());
+        return allPosts.stream()
+                    .map(PostResponseDTO::from)
+                    .toList();
+    }
+    */
 
 
     /* 글 생성 API*/
@@ -64,11 +125,22 @@ public class PostService {
 
         Board board = getBoardByUrlPath(urlPath);
 
+        Category category = null;
+
+        if (dto.categoryId() != null) {
+            category = categoryRepository.findByIdAndBoard(dto.categoryId(), board)
+                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
+
+            if (!category.isActive()) {
+                throw new IllegalArgumentException("비활성화된 카테고리에는 글을 작성할 수 없습니다.");
+            }
+        }
+
         /* 로그인 회원시 */
         if(userId != null){
             User user = userRepository.findById(userId)
                     .orElseThrow(()->new IllegalArgumentException("ID와 일치하는 유저를 찾을 수 없습니다."));
-            Post post = dto.toEntityUser(board,user);
+            Post post = dto.toEntityUser(board,user, category);
             postRepository.save(post);
         }
 
@@ -89,7 +161,7 @@ public class PostService {
 
             // 해싱된 비밀번호로 Entity 만들어서 board랑 같이 인자로 주입
             // DB에 insert
-            Post post = dto.toEntityAnonymous(hashedPassword,board);
+            Post post = dto.toEntityAnonymous(hashedPassword, board, category);
             postRepository.save(post);
         }
 
@@ -155,7 +227,7 @@ public class PostService {
 
 
     /* 해당 ID 의 글 불러오기 */
-    @Transactional(readOnly = true) // 클래스 전체에 적용
+    @Transactional // 클래스 전체에 적용
     public PostResponseDTO getPostById(String urlPath, Long id) {
         log.info("{}커뮤니티의 {} 번호 글 상세보기 요청 들어옴.",urlPath,id);
 
@@ -166,6 +238,8 @@ public class PostService {
         if(!post.getBoard().getUrlPath().equals(urlPath)){
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
+
+        postRepository.increaseViewCount(id);
 
         return PostResponseDTO.from(post);
     }

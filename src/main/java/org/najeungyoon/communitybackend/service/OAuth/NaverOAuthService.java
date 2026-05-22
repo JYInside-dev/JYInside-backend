@@ -39,7 +39,7 @@ public class NaverOAuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${app.frontend-base-url:http://localhost}")
+    @Value("${app.frontend-base-url:http://sku-community.duckdns.org}")
     private String frontendBaseUrl;
 
     @Transactional

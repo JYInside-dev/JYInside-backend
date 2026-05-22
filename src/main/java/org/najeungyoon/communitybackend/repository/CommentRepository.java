@@ -2,6 +2,8 @@ package org.najeungyoon.communitybackend.repository;
 
 import org.najeungyoon.communitybackend.domain.app.Comment;
 import org.najeungyoon.communitybackend.domain.app.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
-    List<Comment> findByPostIdAndParentIsNull(Long postId);
+    Page<Comment> findByPostIdAndParentIsNullOrderByIdAsc(Long postId, Pageable pageable);
 
     List<Comment> findAllByUser(User user);
 
