@@ -59,7 +59,7 @@ oauth:
 
 app:
   frontend-base-url:
-    ${FRONTEND_BASE_URL:http://sku-community.duckdns.org}
+    ${FRONTEND_BASE_URL:http://sku-community.duckdns.org:8000}
 
 
 
