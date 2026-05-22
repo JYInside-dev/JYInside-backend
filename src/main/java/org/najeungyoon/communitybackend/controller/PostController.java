@@ -2,7 +2,6 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.annotations.CheckCommunitySuspension;
 import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
