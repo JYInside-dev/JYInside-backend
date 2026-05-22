@@ -62,6 +62,7 @@ app:
     ${FRONTEND_BASE_URL:http://sku-community.duckdns.org}
 
 
+
 #  # redis config
 #  data:
 #    redis:
