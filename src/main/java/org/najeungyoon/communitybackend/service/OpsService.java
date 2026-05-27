@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.ops.DeployResponseDTO;
 import org.najeungyoon.communitybackend.model.ops.OpsDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -20,24 +21,93 @@ public class OpsService {
     private final JdbcTemplate jdbcTemplate;
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @Value("${ops.server-mode}")
+    private String serverMode;
+
+    @Value("${ops.backend-health-url}")
+    private String backendHealthUrl;
+
+    @Value("${ops.frontend-health-url}")
+    private String frontendHealthUrl;
+
+    @Value("${ops.nginx-health-url}")
+    private String nginxHealthUrl;
+
+    @Value("${ops.backend-blue-health-url}")
+    private String backendBlueHealthUrl;
+
+    @Value("${ops.backend-green-health-url}")
+    private String backendGreenHealthUrl;
+
+    @Value("${ops.frontend-blue-health-url}")
+    private String frontendBlueHealthUrl;
+
+    @Value("${ops.frontend-green-health-url}")
+    private String frontendGreenHealthUrl;
+
+
     /* 운영 상태 요약 조회 */
     public OpsDTO getSummary() {
-        log.info("운영 상태 요약 조회 service 진입");
+        log.info("운영 상태 요약 조회 service 진입. serverMode={}", serverMode);
 
-        String backendBlue = checkHealth("http://backend-blue:8080/actuator/health");
-        String backendGreen = checkHealth("http://backend-green:8080/actuator/health");
-        String frontendBlue = checkHealth("http://frontend-blue");
-        String frontendGreen = checkHealth("http://frontend-green");
-        String nginx = checkHealth("http://nginx");
+        if (isServiceServer()) {
+            return getServiceSummary();
+        }
+
+        return getTestSummary();
+    }
+
+    /* 테스트 서버 상태 요약 */
+    private OpsDTO getTestSummary() {
+        String backend = checkHealth(backendHealthUrl);
+        String frontend = checkHealth(frontendHealthUrl);
+        String nginx = checkHealth(nginxHealthUrl);
+        String db = checkDatabaseStatus();
+
+        return new OpsDTO(
+                "TEST",
+                false,
+
+                "-",
+
+                frontend,
+                backend,
+
+                "-",
+                "-",
+                "-",
+                "-",
+
+                db,
+                nginx,
+                "-"
+        );
+    }
+
+    /* 서비스 서버 상태 요약 */
+    private OpsDTO getServiceSummary() {
+        String backendBlue = checkHealth(backendBlueHealthUrl);
+        String backendGreen = checkHealth(backendGreenHealthUrl);
+        String frontendBlue = checkHealth(frontendBlueHealthUrl);
+        String frontendGreen = checkHealth(frontendGreenHealthUrl);
+        String nginx = checkHealth(nginxHealthUrl);
         String activeBackend = resolveActiveBackend(backendBlue, backendGreen);
         String db = checkDatabaseStatus();
 
         return new OpsDTO(
+                "SERVICE",
+                true,
+
                 activeBackend,
+
+                "-",
+                "-",
+
                 frontendBlue,
                 frontendGreen,
                 backendBlue,
                 backendGreen,
+
                 db,
                 nginx,
                 "SUCCESS"
@@ -47,6 +117,11 @@ public class OpsService {
     /* 무중단 배포 실행 */
     public DeployResponseDTO deploy() {
         log.info("무중단 배포 실행 service 진입");
+
+        if (!isServiceServer()) {
+            log.warn("테스트 서버에서 배포 실행 요청이 들어왔습니다.");
+            return new DeployResponseDTO(false, "테스트 서버에서는 무중단 배포를 실행할 수 없습니다.");
+        }
 
         try {
             Path requestPath = Paths.get("/app/ops/deploy-request.txt");
@@ -64,6 +139,10 @@ public class OpsService {
             log.error("배포 요청 파일 생성 실패", e);
             return new DeployResponseDTO(false, "배포 요청 등록 실패: " + e.getMessage());
         }
+    }
+
+    private boolean isServiceServer() {
+        return "SERVICE".equalsIgnoreCase(serverMode);
     }
 
     private String checkHealth(String url){

@@ -62,6 +62,26 @@ app:
     ${FRONTEND_BASE_URL:http://sku-community.duckdns.org:8000}
 
 
+ops:
+  server-mode: ${OPS_SERVER_MODE:TEST}
+
+  backend-health-url:
+    ${OPS_BACKEND_HEALTH_URL:http://backend-test:8080/actuator/health}
+  frontend-health-url:
+    ${OPS_FRONTEND_HEALTH_URL:http://frontend-test}
+  nginx-health-url:
+    ${OPS_NGINX_HEALTH_URL:http://nginx}
+
+  backend-blue-health-url:
+    ${OPS_BACKEND_BLUE_HEALTH_URL:http://backend-blue:8080/actuator/health}
+  backend-green-health-url:
+    ${OPS_BACKEND_GREEN_HEALTH_URL:http://backend-green:8080/actuator/health}
+  frontend-blue-health-url:
+    ${OPS_FRONTEND_BLUE_HEALTH_URL:http://frontend-blue}
+  frontend-green-health-url:
+    ${OPS_FRONTEND_GREEN_HEALTH_URL:http://frontend-green}
+
+
 
 #  # redis config
 #  data:
