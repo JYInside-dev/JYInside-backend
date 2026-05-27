@@ -116,7 +116,7 @@ public class OpsService {
 
     /* 무중단 배포 실행 */
     public DeployResponseDTO deploy() {
-        log.info("무중단 배포 실행 service 진입");
+        log.info("무중단 배포 실행 service 진입. serverMode={}", serverMode);
 
         if (!isServiceServer()) {
             log.warn("테스트 서버에서 배포 실행 요청이 들어왔습니다.");
@@ -124,17 +124,24 @@ public class OpsService {
         }
 
         try {
+            String backendBlue = checkHealth(backendBlueHealthUrl);
+            String backendGreen = checkHealth(backendGreenHealthUrl);
+            String activeBackend = resolveActiveBackend(backendBlue, backendGreen);
+            String targetBackend = resolveDeployTarget(activeBackend);
+
+            log.info("현재 activeBackend={}, 배포 targetBackend={}", activeBackend, targetBackend);
+
             Path requestPath = Paths.get("/app/ops/deploy-request.txt");
             log.info("요청 파일 절대 경로: {}", requestPath.toAbsolutePath());
 
             Files.createDirectories(requestPath.getParent());
             log.info("부모 디렉토리 생성/확인 완료: {}", requestPath.getParent());
 
-            String content = "REQUESTED " + System.currentTimeMillis();
+            String content = "TARGET=" + targetBackend + System.lineSeparator() + "REQUESTED " + System.currentTimeMillis();
             Files.writeString(requestPath, content);
             log.info("파일 쓰기 완료. 내용: {}", content);
 
-            return new DeployResponseDTO(true, "배포 요청 등록됨");
+            return new DeployResponseDTO(true, "배포 요청 등록됨. target=" + targetBackend);
         } catch (Exception e) {
             log.error("배포 요청 파일 생성 실패", e);
             return new DeployResponseDTO(false, "배포 요청 등록 실패: " + e.getMessage());
@@ -163,6 +170,18 @@ public class OpsService {
         if ("DOWN".equals(backendBlue) && "UP".equals(backendGreen)) return "green";
         if ("UP".equals(backendBlue) && "UP".equals(backendGreen)) return "both";
         return "unknown";
+    }
+
+    private String resolveDeployTarget(String activeBackend) {
+        if ("blue".equalsIgnoreCase(activeBackend)) {
+            return "green";
+        }
+
+        if ("green".equalsIgnoreCase(activeBackend)) {
+            return "blue";
+        }
+
+        throw new IllegalArgumentException("현재 active backend를 명확히 판단할 수 없습니다. activeBackend=" + activeBackend);
     }
 
     private String checkDatabaseStatus() {
