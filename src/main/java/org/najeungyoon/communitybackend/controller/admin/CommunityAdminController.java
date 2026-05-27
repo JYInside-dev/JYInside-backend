@@ -1,9 +1,11 @@
 package org.najeungyoon.communitybackend.controller.admin;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
@@ -85,8 +87,15 @@ public class CommunityAdminController {
     }
 
 
-
-
+    /* 카테고리 생성하기 */
+    @PostMapping("/category")
+    public ResponseEntity<Void> createCategory(
+            @PathVariable String urlPath,
+            @Valid @RequestBody CategoryCreateResponseDTO createResponseDTO
+            ){
+        communityAdminService.createCategory(urlPath,createResponseDTO);
+        return ResponseEntity.ok().build();
+    }
 
 
 

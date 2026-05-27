@@ -9,8 +9,10 @@ import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserCommunitySuspension;
 import org.najeungyoon.communitybackend.domain.app.user.UserWarning;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
+import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
+import org.najeungyoon.communitybackend.repository.CategoryRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
@@ -32,6 +34,9 @@ public class CommunityAdminService {
     private final UserWarningRepository userWarningRepository;
     private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
     private final BoardRepository boardRepository;
+    private final CategoryRepository categoryRepository;
+
+
 
     /* 이벤트발행 */
     private final NotificationEventPublisher notificationEventPublisher;
@@ -127,8 +132,24 @@ public class CommunityAdminService {
         return suspensionPage.map(page->{
             return SuspendedUserResponseDTO.from(page);
         });
-
     }
+
+
+    /* 카테고리 생성하기 */
+    @Transactional
+    public void createCategory(String urlPath, CategoryCreateResponseDTO createResponseDTO){
+
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+        if(categoryRepository.existsByBoardAndName(board, createResponseDTO.categoryName())){
+            throw new IllegalArgumentException("이미 존재하는 카테고리 입니다.");
+        }
+
+        categoryRepository.save(createResponseDTO.toEntity(board));
+    };
+
+
 
 
 }

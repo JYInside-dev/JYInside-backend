@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.model.post;
+package org.najeungyoon.communitybackend.model.category;
 
 import org.najeungyoon.communitybackend.domain.app.Category;
 

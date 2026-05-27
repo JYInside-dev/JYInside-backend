@@ -16,4 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findByBoardOrderByDisplayOrderAsc(Board board);
 
     Optional<Category> findByIdAndBoard(Long id, Board board);
+
+    boolean existsByBoardAndName(Board board, String name);
+
 }
