@@ -11,6 +11,8 @@ import org.najeungyoon.communitybackend.domain.app.user.UserCommunitySuspension;
 import org.najeungyoon.communitybackend.domain.app.user.UserWarning;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryStatusChangeDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.CategoryRepository;
@@ -212,9 +214,24 @@ public class CommunityAdminService {
     };
 
 
-    /* 카테고리 비활성화 시키기 */
+//    /* 카테고리 비활성화 시키기 */
+//    @Transactional
+//    public void deactivateCategory(String urlPath, Long categoryId){
+//
+//        Board board = boardRepository.findByUrlPath(urlPath)
+//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+//
+//
+//        Category target_category = categoryRepository.findByIdAndBoard(categoryId,board)
+//                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리 입니다. "));
+//
+//        target_category.deactivate();
+//    }
+
+
+    /* 카테고리 상태 변경하기 */
     @Transactional
-    public void deactivateCategory(String urlPath, Long categoryId){
+    public void changeCategoryStatus(String urlPath, Long categoryId, CategoryStatusChangeDTO dto){
 
         Board board = boardRepository.findByUrlPath(urlPath)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
@@ -223,9 +240,17 @@ public class CommunityAdminService {
         Category target_category = categoryRepository.findByIdAndBoard(categoryId,board)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리 입니다. "));
 
-        target_category.deactivate();
+
+        if(dto.active()){
+            target_category.activate();
+        }else {
+            target_category.deactivate();
+        }
 
     }
+
+
+
 
     /* 카테고리 순서 변경하기 */
     @Transactional
@@ -242,6 +267,15 @@ public class CommunityAdminService {
         }
     }
 
+    /* 모든 카테고리 목록 불러오기 */
+    @Transactional(readOnly = true)
+    public List<CategoryResponseDTO> getAllCategory(String urlPath){
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
 
+        return categoryRepository.findByBoardOrderByDisplayOrderAsc(board).stream().map(category -> {
+            return CategoryResponseDTO.from(category);
+        }).toList();
+    }
 
 }

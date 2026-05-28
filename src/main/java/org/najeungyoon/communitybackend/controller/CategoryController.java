@@ -18,10 +18,14 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+
+    /* 활성화 된 카테고리만 출력 */
     @GetMapping("/board/{urlPath}/categories")
     public ResponseEntity<List<CategoryResponseDTO>> getCategories(
             @PathVariable String urlPath
     ) {
         return ResponseEntity.ok(categoryService.getActiveCategories(urlPath));
     }
+
+
 }

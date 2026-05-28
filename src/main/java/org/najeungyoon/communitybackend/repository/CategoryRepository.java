@@ -22,6 +22,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean existsByBoardAndName(Board board, String name);
 
 
+
+
     @Query("SELECT COALESCE(MAX(c.displayOrder), -1) FROM Category c WHERE c.board = :board")
     int findMaxDisplayOrderByBoard(@Param("board") Board board);
 }

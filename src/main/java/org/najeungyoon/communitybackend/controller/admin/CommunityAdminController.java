@@ -7,6 +7,8 @@ import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
 import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
 import org.najeungyoon.communitybackend.model.category.CategoryReorderDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryStatusChangeDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
@@ -20,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/community/board/{urlPath}")
@@ -112,16 +116,18 @@ public class CommunityAdminController {
         return ResponseEntity.ok().build();
     }
 
-    /* 카테고리 비활성화 하기 */
-    @PatchMapping("/category/{categoryId}/deactivate")
+    /* 카테고리 상태 변경하기 */
+    @PatchMapping("/category/{categoryId}/status")
     public ResponseEntity<Void> deactivateCategory(
             @PathVariable String urlPath,
-            @PathVariable Long categoryId
-    ){
+            @PathVariable Long categoryId,
+            @RequestBody @Valid CategoryStatusChangeDTO statusChangeDTO
+            ){
 
-        communityAdminService.deactivateCategory(urlPath,categoryId);
+        communityAdminService.changeCategoryStatus(urlPath,categoryId,statusChangeDTO);
         return ResponseEntity.ok().build();
     }
+
 
 
     /* 카테고리 순서 바꾸기 하기 */
@@ -136,6 +142,14 @@ public class CommunityAdminController {
     }
 
 
+    /* 모든 카테고리 목록 가져오기 */
+    @GetMapping("/categories/all")
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(
+            @PathVariable String urlPath
+    ){
 
+        List<CategoryResponseDTO> categoryResponseDTOList= communityAdminService.getAllCategory(urlPath);
+        return ResponseEntity.ok(categoryResponseDTOList);
+    }
 
 }
