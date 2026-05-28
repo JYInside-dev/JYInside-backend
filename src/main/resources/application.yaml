@@ -81,6 +81,11 @@ ops:
   frontend-green-health-url:
     ${OPS_FRONTEND_GREEN_HEALTH_URL:http://frontend-green}
 
+  deploy-request-path:
+    ${OPS_DEPLOY_REQUEST_PATH:/app/ops/deploy-request.txt}
+  deploy-status-path:
+    ${OPS_DEPLOY_STATUS_PATH:/app/ops/deploy-status.txt}
+
 
 
 #  # redis config

@@ -45,6 +45,12 @@ public class OpsService {
     @Value("${ops.frontend-green-health-url}")
     private String frontendGreenHealthUrl;
 
+    @Value("${ops.deploy-request-path}")
+    private String deployRequestPath;
+
+    @Value("${ops.deploy-status-path}")
+    private String deployStatusPath;
+
 
     /* 운영 상태 요약 조회 */
     public OpsDTO getSummary() {
@@ -80,6 +86,9 @@ public class OpsService {
 
                 db,
                 nginx,
+                "-",
+
+                false,
                 "-"
         );
     }
@@ -93,6 +102,8 @@ public class OpsService {
         String nginx = checkHealth(nginxHealthUrl);
         String activeBackend = resolveActiveBackend(backendBlue, backendGreen);
         String db = checkDatabaseStatus();
+        String deployStatus = readDeployStatus();
+        boolean deployInProgress = isDeployInProgress(deployStatus);
 
         return new OpsDTO(
                 "SERVICE",
@@ -110,7 +121,10 @@ public class OpsService {
 
                 db,
                 nginx,
-                "SUCCESS"
+                deployStatus,
+
+                deployInProgress,
+                deployStatus
         );
     }
 
@@ -131,15 +145,27 @@ public class OpsService {
 
             log.info("현재 activeBackend={}, 배포 targetBackend={}", activeBackend, targetBackend);
 
-            Path requestPath = Paths.get("/app/ops/deploy-request.txt");
-            log.info("요청 파일 절대 경로: {}", requestPath.toAbsolutePath());
+            Path requestPath = Paths.get(deployRequestPath);
+            log.info("배포 요청 파일 절대 경로: {}", requestPath.toAbsolutePath());
+
+            Path statusPath = Paths.get(deployStatusPath);
+            log.info("배포 상태 파일 절대 경로: {}", statusPath.toAbsolutePath());
 
             Files.createDirectories(requestPath.getParent());
             log.info("부모 디렉토리 생성/확인 완료: {}", requestPath.getParent());
 
-            String content = "TARGET=" + targetBackend + System.lineSeparator() + "REQUESTED " + System.currentTimeMillis();
-            Files.writeString(requestPath, content);
-            log.info("파일 쓰기 완료. 내용: {}", content);
+            Files.createDirectories(statusPath.getParent());
+            log.info("부모 디렉토리 생성/확인 완료: {}", statusPath.getParent());
+
+            String now = String.valueOf(System.currentTimeMillis());
+
+            String requestContent = "TARGET=" + targetBackend + System.lineSeparator() + "REQUESTED " + now;
+            Files.writeString(requestPath, requestContent);
+            log.info("배포 요청 파일 생성 완료. 내용: {}", requestContent);
+
+            String statusContent = "PENDING target=" + targetBackend + " time=" + now;
+            Files.writeString(statusPath, statusContent);
+            log.info("배포 상태 파일 생성 완료. 내용: {}", statusContent);
 
             return new DeployResponseDTO(true, "배포 요청 등록됨. target=" + targetBackend);
         } catch (Exception e) {
@@ -192,5 +218,26 @@ public class OpsService {
             log.warn("DB 상태 체크 실패", e);
             return "DOWN";
         }
+    }
+
+    private String readDeployStatus() {
+        try {
+            Path path = Paths.get(deployStatusPath);
+
+            if (!Files.exists(path)) {
+                return "-";
+            }
+
+            return Files.readString(path).trim();
+        } catch (Exception e) {
+            log.warn("배포 상태 파일 읽기 실패", e);
+            return "UNKNOWN";
+        }
+    }
+
+    private boolean isDeployInProgress(String deployStatus) {
+        if (deployStatus == null) return false;
+
+        return deployStatus.startsWith("PENDING") || deployStatus.startsWith("RUNNING");
     }
 }

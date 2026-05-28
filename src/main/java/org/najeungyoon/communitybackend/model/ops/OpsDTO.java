@@ -19,6 +19,9 @@ public record OpsDTO(
 
         String db,
         String nginx,
-        String lastDeployResult
+        String lastDeployResult,
+
+        boolean deployInProgress,
+        String deployStatus
 ) {
 }
