@@ -46,6 +46,12 @@ public class UserCommunitySuspension {
         this.suspendUntil = LocalDateTime.now().plusDays(days);
     }
 
+    /* 정지 해제 메서드 */
+    public void liftSuspension(){
+        this.suspendUntil=null;
+    }
+
+
 
     /* 생성자 */
     public UserCommunitySuspension(User user, Board board) {

@@ -39,7 +39,7 @@ public class Category {
     public Category(Board board, String name, int displayOrder) {
         this.board = board;
         this.name = name;
-        this.displayOrder = displayOrder;
+        this.displayOrder=displayOrder;
         this.active = true;
     }
 

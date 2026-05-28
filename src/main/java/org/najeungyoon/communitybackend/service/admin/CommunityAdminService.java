@@ -68,6 +68,12 @@ public class CommunityAdminService {
     }
 
 
+
+    /*=======================================================================*/
+    /*                유저관리 API                                             */
+    /*=======================================================================*/
+
+
     /* 어드민 권한 유저 경고 처리 */
     @Transactional
     public void giveWarning(Long adminId, Long userId, String urlPath, String reason){
@@ -125,6 +131,41 @@ public class CommunityAdminService {
     }
 
 
+    /* 정지 해제 메서드 */
+    @Transactional
+    public void liftSuspension(Long adminId,Long userId,String urlPath){
+
+        User admin = userRepository.findById(adminId)
+                .orElseThrow(()->new IllegalArgumentException("관리자가 아닙니다."));
+
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다. "));
+
+
+        UserCommunitySuspension suspension =
+                userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath)
+                        .orElseThrow(()->new IllegalArgumentException("해당 유저의 정지 내역이 없습니다."));
+
+        if(!suspension.isSuspend()){
+            throw new IllegalArgumentException("유저가 정지 상태가 아닙니다. ");
+        }
+
+        /* 검증후에 정지상태 해제 메서드 호출*/
+        suspension.liftSuspension();
+
+        /* 알림 전송 */
+        notificationEventPublisher.publishEvent(
+                targetUser, admin, NotificationType.LIFT,
+                urlPath+"커뮤니티 이용 정지가 풀렸습니다.", null
+        );
+
+
+    }
+
+
+
+
+
     /* 밴당한 유저 불러오기 */
     @Transactional(readOnly = true)
     public Page<SuspendedUserResponseDTO> getSuspendedUsers(String urlPath, Pageable pageable){
@@ -137,6 +178,23 @@ public class CommunityAdminService {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*=======================================================================*/
+    /*                카테고리 API                                             */
+    /*=======================================================================*/
+
     /* 카테고리 생성하기 */
     @Transactional
     public void createCategory(String urlPath, CategoryCreateResponseDTO createResponseDTO){
@@ -148,7 +206,9 @@ public class CommunityAdminService {
             throw new IllegalArgumentException("이미 존재하는 카테고리 입니다.");
         }
 
-        categoryRepository.save(createResponseDTO.toEntity(board));
+        int nextOrder = categoryRepository.findMaxDisplayOrderByBoard(board);
+
+        categoryRepository.save(createResponseDTO.toEntity(board,nextOrder));
     };
 
 

@@ -74,6 +74,20 @@ public class CommunityAdminController {
     }
 
 
+    /* 정지 해제하기 */
+    @PatchMapping("/user/{userId}/liftSuspension")
+    public ResponseEntity<Void> liftSuspension(
+            @AuthenticationPrincipal Long adminId,
+            @PathVariable Long userId,
+            @PathVariable String urlPath
+    ){
+        communityAdminService.liftSuspension(adminId,userId,urlPath);
+        return ResponseEntity.ok().build();
+    }
+
+
+
+
 
     /* 글 고정/해제 */
     @PatchMapping("/posts/{postId}/pin")
@@ -84,6 +98,8 @@ public class CommunityAdminController {
         Long id = Long.parseLong(postId);
         return ResponseEntity.ok(postService.togglePinned(id));
     }
+
+
 
 
     /* 카테고리 생성하기 */
