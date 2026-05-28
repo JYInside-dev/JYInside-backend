@@ -1,7 +1,7 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.najeungyoon.communitybackend.model.post.CategoryResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryResponseDTO;
 import org.najeungyoon.communitybackend.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

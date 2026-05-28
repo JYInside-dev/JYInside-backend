@@ -3,14 +3,17 @@ package org.najeungyoon.communitybackend.service.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Comment;
 import org.najeungyoon.communitybackend.domain.app.NotificationType;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserCommunitySuspension;
 import org.najeungyoon.communitybackend.domain.app.user.UserWarning;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
+import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
+import org.najeungyoon.communitybackend.repository.CategoryRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -32,6 +36,9 @@ public class CommunityAdminService {
     private final UserWarningRepository userWarningRepository;
     private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
     private final BoardRepository boardRepository;
+    private final CategoryRepository categoryRepository;
+
+
 
     /* 이벤트발행 */
     private final NotificationEventPublisher notificationEventPublisher;
@@ -59,6 +66,12 @@ public class CommunityAdminService {
         log.info("관리자(ID: {})가 직권으로 댓글(ID: {})을 삭제함. 사유: {}", adminId, commentId, reason);
 
     }
+
+
+
+    /*=======================================================================*/
+    /*                유저관리 API                                             */
+    /*=======================================================================*/
 
 
     /* 어드민 권한 유저 경고 처리 */
@@ -118,6 +131,41 @@ public class CommunityAdminService {
     }
 
 
+    /* 정지 해제 메서드 */
+    @Transactional
+    public void liftSuspension(Long adminId,Long userId,String urlPath){
+
+        User admin = userRepository.findById(adminId)
+                .orElseThrow(()->new IllegalArgumentException("관리자가 아닙니다."));
+
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다. "));
+
+
+        UserCommunitySuspension suspension =
+                userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath)
+                        .orElseThrow(()->new IllegalArgumentException("해당 유저의 정지 내역이 없습니다."));
+
+        if(!suspension.isSuspend()){
+            throw new IllegalArgumentException("유저가 정지 상태가 아닙니다. ");
+        }
+
+        /* 검증후에 정지상태 해제 메서드 호출*/
+        suspension.liftSuspension();
+
+        /* 알림 전송 */
+        notificationEventPublisher.publishEvent(
+                targetUser, admin, NotificationType.LIFT,
+                urlPath+"커뮤니티 이용 정지가 풀렸습니다.", null
+        );
+
+
+    }
+
+
+
+
+
     /* 밴당한 유저 불러오기 */
     @Transactional(readOnly = true)
     public Page<SuspendedUserResponseDTO> getSuspendedUsers(String urlPath, Pageable pageable){
@@ -127,8 +175,73 @@ public class CommunityAdminService {
         return suspensionPage.map(page->{
             return SuspendedUserResponseDTO.from(page);
         });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*=======================================================================*/
+    /*                카테고리 API                                             */
+    /*=======================================================================*/
+
+    /* 카테고리 생성하기 */
+    @Transactional
+    public void createCategory(String urlPath, CategoryCreateResponseDTO createResponseDTO){
+
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+        if(categoryRepository.existsByBoardAndName(board, createResponseDTO.categoryName())){
+            throw new IllegalArgumentException("이미 존재하는 카테고리 입니다.");
+        }
+
+        int nextOrder = categoryRepository.findMaxDisplayOrderByBoard(board);
+
+        categoryRepository.save(createResponseDTO.toEntity(board,nextOrder));
+    };
+
+
+    /* 카테고리 비활성화 시키기 */
+    @Transactional
+    public void deactivateCategory(String urlPath, Long categoryId){
+
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+
+        Category target_category = categoryRepository.findByIdAndBoard(categoryId,board)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리 입니다. "));
+
+        target_category.deactivate();
 
     }
+
+    /* 카테고리 순서 변경하기 */
+    @Transactional
+    public void reorderCategory(String urlPath, List<Long> categoryIdList){
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+        for (int i=0; i<categoryIdList.size(); i++){
+
+            Category targetCategory = categoryRepository.findById(categoryIdList.get(i))
+                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+
+            targetCategory.changeOrder(i);
+        }
+    }
+
 
 
 }
