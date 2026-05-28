@@ -3,6 +3,7 @@ package org.najeungyoon.communitybackend.service.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.domain.app.Category;
 import org.najeungyoon.communitybackend.domain.app.Comment;
 import org.najeungyoon.communitybackend.domain.app.NotificationType;
 import org.najeungyoon.communitybackend.domain.app.user.User;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -149,6 +151,36 @@ public class CommunityAdminService {
         categoryRepository.save(createResponseDTO.toEntity(board));
     };
 
+
+    /* 카테고리 비활성화 시키기 */
+    @Transactional
+    public void deactivateCategory(String urlPath, Long categoryId){
+
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+
+        Category target_category = categoryRepository.findByIdAndBoard(categoryId,board)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리 입니다. "));
+
+        target_category.deactivate();
+
+    }
+
+    /* 카테고리 순서 변경하기 */
+    @Transactional
+    public void reorderCategory(String urlPath, List<Long> categoryIdList){
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 커뮤니티입니다."));
+
+        for (int i=0; i<categoryIdList.size(); i++){
+
+            Category targetCategory = categoryRepository.findById(categoryIdList.get(i))
+                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+
+            targetCategory.changeOrder(i);
+        }
+    }
 
 
 

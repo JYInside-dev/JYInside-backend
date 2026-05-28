@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
 import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryReorderDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
@@ -19,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/community/board/{urlPath}")
@@ -96,6 +95,30 @@ public class CommunityAdminController {
         communityAdminService.createCategory(urlPath,createResponseDTO);
         return ResponseEntity.ok().build();
     }
+
+    /* 카테고리 비활성화 하기 */
+    @PatchMapping("/category/{categoryId}/deactivate")
+    public ResponseEntity<Void> deactivateCategory(
+            @PathVariable String urlPath,
+            @PathVariable Long categoryId
+    ){
+
+        communityAdminService.deactivateCategory(urlPath,categoryId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    /* 카테고리 순서 바꾸기 하기 */
+    @PatchMapping("/category/reorder")
+    public ResponseEntity<Void> reorderCategory(
+            @PathVariable String urlPath,
+            @RequestBody CategoryReorderDTO reorderDTO
+            ){
+
+        communityAdminService.reorderCategory(urlPath,reorderDTO.categoryIdList());
+        return ResponseEntity.ok().build();
+    }
+
 
 
 
