@@ -35,6 +35,32 @@ spring:
         show-details: always
 
 
+  # kafka 설정
+  kafka:
+    consumer:
+      # 우리가 도커 호스트(로컬) 9092번 포트로 열어둔 카프카 주소
+      bootstrap-servers: localhost:9092
+
+      # 컨슈머 그룹 ID (이름은 원하는 대로 지어도 되지만 필수로 있어야 해!)
+      group-id: community-ranking-group
+
+      # 만약 서버가 꺼져있던 동안 쌓인 데이터가 있다면, 처음부터(earliest) 다 읽어오라는 뜻
+      auto-offset-reset: earliest
+
+      # 카프카에서 날아오는 바이트 데이터를 우리가 읽을 수 있는 문자열(String)로 변환
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  
+  # redis 설정
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+
+
+
 jwt:
   secret: this-is-a-very-long-jwt-secret-key-for-local-development-1234567890
   access-token-expiration: 1800000
@@ -63,28 +89,9 @@ app:
 
 
 
-#  # redis config
-#  data:
-#    redis:
-#      host: localhost
-#      port: 6379
-#
-#  # rabbitmq config
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: ${RABBIT_USER}
-#    password: ${RABBIT_PASSWORD}
-#
-#  # 제미나이 설정
-#  gemini:
-#    api:
-#      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
-#      key: ${GEMINI_API_KEY}
-#
-
-
 
 server:
   port: 8080
+
+
 
