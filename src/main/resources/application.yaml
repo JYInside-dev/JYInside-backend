@@ -39,7 +39,8 @@ spring:
   kafka:
     consumer:
       # 우리가 도커 호스트(로컬) 9092번 포트로 열어둔 카프카 주소
-      bootstrap-servers: localhost:9092
+      # 스프링은 29092로 접속
+      bootstrap-servers: localhost:29092
 
       # 컨슈머 그룹 ID (이름은 원하는 대로 지어도 되지만 필수로 있어야 해!)
       group-id: community-ranking-group
