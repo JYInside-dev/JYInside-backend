@@ -48,7 +48,7 @@ public class GlobalExceptionHandler{
     /* Spring Security - 인가(권한) 실패 예외 (403) */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
-        String errorMessage = "Access is denied".equals(e.getMessage())
+        String errorMessage = "Access Denied".equals(e.getMessage())
                 ? "해당 기능에 대한 접근 권한이 없습니다."
                 : e.getMessage();
 

@@ -55,7 +55,7 @@ public class PostController {
 
 
     /* 글 작성 */
-    @PreAuthorize("hasRole('USER') and @communitySecurity.checkNotSuspended(#urlPath)")
+    @PreAuthorize("@communitySecurity.checkNotSuspended(#urlPath)")
     @PostMapping("/write")
     public ResponseEntity<String> writePost(
             @PathVariable String urlPath,

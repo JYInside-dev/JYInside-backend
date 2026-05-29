@@ -18,6 +18,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static net.logstash.logback.argument.StructuredArguments.kv;
+
 @Aspect
 @Slf4j
 @Component
@@ -78,11 +80,13 @@ public class LoggingAspect {
             Object result = joinPoint.proceed();
 
             long methodEndTime = System.currentTimeMillis();
+            long executionTime = methodEndTime - methodStartTime;
 
             // [메서드 실행 후] 응답 시간 및 결과 로그 출력
-            log.info("[{}] ◀ [RES] {} {} | Time: {}ms | Result: {}",
-                    traceId, httpMethod, uri, (methodEndTime - methodStartTime), result);
-
+            // kv("executionTime", executionTime) 를 인자로 넘기면 JSON 필드로 독립 생성됩니다.
+            log.info("[{}] ◀ [RES] {} {} | Result: {}",
+                    traceId, httpMethod, uri, result,
+                    kv("executionTime", executionTime)); // 핵심 포인트
             /* 조인포인트 메서드 호출값 return */
             return result;
 

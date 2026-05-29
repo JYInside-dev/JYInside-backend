@@ -1,9 +1,14 @@
 package org.najeungyoon.communitybackend.controller.admin;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.model.admin.AdminCommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.admin.AdminWarningRequestDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryCreateResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryReorderDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryStatusChangeDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.user.SuspendedUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.user.UserCommunitySuspensionRepository;
@@ -73,6 +78,20 @@ public class CommunityAdminController {
     }
 
 
+    /* 정지 해제하기 */
+    @PatchMapping("/user/{userId}/liftSuspension")
+    public ResponseEntity<Void> liftSuspension(
+            @AuthenticationPrincipal Long adminId,
+            @PathVariable Long userId,
+            @PathVariable String urlPath
+    ){
+        communityAdminService.liftSuspension(adminId,userId,urlPath);
+        return ResponseEntity.ok().build();
+    }
+
+
+
+
 
     /* 글 고정/해제 */
     @PatchMapping("/posts/{postId}/pin")
@@ -87,7 +106,50 @@ public class CommunityAdminController {
 
 
 
+    /* 카테고리 생성하기 */
+    @PostMapping("/category")
+    public ResponseEntity<Void> createCategory(
+            @PathVariable String urlPath,
+            @Valid @RequestBody CategoryCreateResponseDTO createResponseDTO
+            ){
+        communityAdminService.createCategory(urlPath,createResponseDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    /* 카테고리 상태 변경하기 */
+    @PatchMapping("/category/{categoryId}/status")
+    public ResponseEntity<Void> deactivateCategory(
+            @PathVariable String urlPath,
+            @PathVariable Long categoryId,
+            @RequestBody @Valid CategoryStatusChangeDTO statusChangeDTO
+            ){
+
+        communityAdminService.changeCategoryStatus(urlPath,categoryId,statusChangeDTO);
+        return ResponseEntity.ok().build();
+    }
 
 
+
+    /* 카테고리 순서 바꾸기 하기 */
+    @PatchMapping("/category/reorder")
+    public ResponseEntity<Void> reorderCategory(
+            @PathVariable String urlPath,
+            @RequestBody CategoryReorderDTO reorderDTO
+            ){
+
+        communityAdminService.reorderCategory(urlPath,reorderDTO.categoryIdList());
+        return ResponseEntity.ok().build();
+    }
+
+
+    /* 모든 카테고리 목록 가져오기 */
+    @GetMapping("/categories/all")
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(
+            @PathVariable String urlPath
+    ){
+
+        List<CategoryResponseDTO> categoryResponseDTOList= communityAdminService.getAllCategory(urlPath);
+        return ResponseEntity.ok(categoryResponseDTOList);
+    }
 
 }

@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.security;
+package org.najeungyoon.communitybackend.configuration.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

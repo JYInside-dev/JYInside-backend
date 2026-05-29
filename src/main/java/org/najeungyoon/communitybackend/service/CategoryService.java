@@ -2,7 +2,7 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.domain.app.Board;
-import org.najeungyoon.communitybackend.model.post.CategoryResponseDTO;
+import org.najeungyoon.communitybackend.model.category.CategoryResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
