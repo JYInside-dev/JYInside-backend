@@ -1,4 +1,4 @@
-package org.najeungyoon.communitybackend.aspects;
+package org.najeungyoon.communitybackend.aop.aspects;
 
 
 import jakarta.servlet.http.HttpServletRequest;

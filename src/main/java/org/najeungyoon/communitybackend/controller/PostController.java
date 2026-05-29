@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.najeungyoon.communitybackend.aop.annotation.TrackView;
 import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
@@ -72,12 +73,13 @@ public class PostController {
 
 
     /* 클릭했을 때 글 상세 페이지로 이동 */
-    @GetMapping("/post/{id}")
+    @TrackView
+    @GetMapping("/post/{postId}")
     public ResponseEntity<PostResponseDTO> getPost(
             @PathVariable String urlPath,
-            @PathVariable Long id){
-        log.info("{}커뮤니티 {}번 글 상세페이지 요청 들어옴.",urlPath,id);
-        PostResponseDTO dto = postService.getPostById(urlPath,id);
+            @PathVariable Long postId){
+        log.info("{}커뮤니티 {}번 글 상세페이지 요청 들어옴.",urlPath,postId);
+        PostResponseDTO dto = postService.getPostById(urlPath,postId);
         return ResponseEntity.ok(dto);
     }
 
