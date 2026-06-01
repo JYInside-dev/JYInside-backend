@@ -40,3 +40,4 @@ out/
 
 # 로그폴더
 ./logs
+!**/kafka-data/**

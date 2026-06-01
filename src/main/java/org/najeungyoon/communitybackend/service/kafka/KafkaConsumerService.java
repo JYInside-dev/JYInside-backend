@@ -31,7 +31,7 @@ public class KafkaConsumerService {
             // Fluentd가 파싱해서 넘겨준 JSON 구조의 최상단에서 MDC 값들을 바로 꺼냅니다.
             if (jsonNode.has("urlPath") && jsonNode.has("postId")) {
                 String urlPath = jsonNode.get("urlPath").asString();
-                long postId = jsonNode.get("postId").asLong();
+                Long postId = jsonNode.get("postId").asLong();
 
                 // 💡 안전한 로그: 무한 루프 키워드가 없으며, 필요한 데이터만 깔끔하게 출력합니다.
                 log.info("🎯 [타겟 발견] 커뮤니티: {}, 게시글 ID: {} 조회수 증가 준비 완료!", urlPath, postId);
