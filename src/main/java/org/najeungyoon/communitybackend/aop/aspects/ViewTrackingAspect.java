@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.aop.aspects;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import java.util.Map;
 
+@Slf4j
 @Aspect
 @Component
 public class ViewTrackingAspect {
@@ -44,6 +46,12 @@ public class ViewTrackingAspect {
                 MDC.put("postId", pathVariables.get("postId"));
                 mdcAdded=true;
             }
+
+            // 💡 3. 값 추출이 잘 되었는지 확인하는 로그 한 줄 추가!
+            if (mdcAdded) {
+                log.info("🎯 [@TrackView AOP 작동] MDC 저장 완료 - urlPath: {}, postId: {}",
+                        MDC.get("urlPath"), MDC.get("postId"));
+            }
         }
 
 
@@ -53,7 +61,7 @@ public class ViewTrackingAspect {
         } finally {
             // 스레드 풀 오염 방지를 위해 썼던 MDC 값은 반드시 청소해 줍니다.
             if (mdcAdded) {
-                MDC.remove("boardId");
+                MDC.remove("urlPath");
                 MDC.remove("postId");
             }
         }
