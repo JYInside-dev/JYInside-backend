@@ -28,6 +28,7 @@ dependencies {
 
     // JWT를 쓰기 위한 jjwt 의존성
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
@@ -64,6 +65,16 @@ dependencies {
     /* Json형식 로그 저장을 위한 라이브러리 */
     // Source: https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
     implementation 'net.logstash.logback:logstash-logback-encoder:9.0'
+
+    /* redis db*/
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+
+    /* kafka */
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+
 }
 
 tasks.named('test') {
