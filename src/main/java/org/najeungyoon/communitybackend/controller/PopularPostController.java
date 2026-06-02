@@ -23,14 +23,15 @@ public class PopularPostController {
     private final PostLikeService postLikeService;
     private final RealTimePopService realTimePopService;
 
+
     @GetMapping("/")
     public ResponseEntity<List<PostResponseDTO>> getAllPopularPost(){
         return ResponseEntity.ok(postLikeService.getPopularPost());
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<List<PostResponseDTO>> getTop5PopularPost(){
-        return ResponseEntity.ok(postLikeService.getTop5PopularPost());
+    public ResponseEntity<List<RTPostCacheDTO>> top5RealTimePopularPost(){
+        return ResponseEntity.ok(realTimePopService.getTopRealTimePosts(5));
     }
 
     @GetMapping("/realtime-popular")
