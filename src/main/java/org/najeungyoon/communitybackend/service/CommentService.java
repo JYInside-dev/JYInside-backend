@@ -39,9 +39,6 @@ public class CommentService {
     private final NotificationEventPublisher notificationEventPublisher;
 
 
-    /* 댓글이 생성되면 이벤트 발생 */
-    private final ApplicationEventPublisher eventPublisher;
-
 
     /* Post가 정말 유효한 경로에서 요청이 들어온건지 보안 검증 확인 후에 반환 */
     private Post getValidatedPost(String urlPath, Long postId){

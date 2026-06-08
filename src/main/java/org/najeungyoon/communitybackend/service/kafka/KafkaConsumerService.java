@@ -36,7 +36,7 @@ public class KafkaConsumerService {
                 // 💡 안전한 로그: 무한 루프 키워드가 없으며, 필요한 데이터만 깔끔하게 출력합니다.
                 log.info("🎯 [타겟 발견] 커뮤니티: {}, 게시글 ID: {} 조회수 증가 준비 완료!", urlPath, postId);
 
-                // TODO: Redis에 접속해서 점수를 +1 증가시킨다.
+                // Redis에 접속해서 점수를 +1 증가시킨다.
                 realTimePopService.incrementPostView(urlPath,postId);
             }
         } catch (Exception e) {
