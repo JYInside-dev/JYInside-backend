@@ -165,8 +165,9 @@ public class CommentService {
         /* 알림 발송 */
         notificationEventPublisher.publishEvent(receiver,sender, NotificationType.COMMENT,
                 message,targetUrl);
-
     }
+
+
 
 
 
