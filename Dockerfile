@@ -5,30 +5,17 @@ WORKDIR /app
 # xargs가 포함된 findutils 패키지 설치
 RUN dnf install -y findutils
 
+# 1. 💡 레이어 분리(캐싱)를 잠시 포기하고 전체 소스 코드를 한 번에 통째로 복사
+COPY . .
 
-# Gradle 래퍼와 설정 파일들을 먼저 복사 (캐시 활용을 통한 빌드 속도 향상)
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle settings.gradle ./
-
-# gradlew 실행 권한 부여
+# 2. 실행 권한 부여 및 바로 스프링 부트 최종 빌드
 RUN chmod +x gradlew
-
-RUN ./gradlew dependencies --no-daemon
-
-# 💡 --info 와 --stacktrace 옵션을 추가해서 도커 빌드 중 그래들이 죽은 정확한 이유를 출력하게 만듦
-RUN ./gradlew dependencies --no-daemon --info --stacktrace
-
-# 소스 복사 및 빌드
-COPY src src
 RUN ./gradlew bootJar --no-daemon
 
 # 배포환경
 FROM amazoncorretto:21.0.10-al2023-headless
 WORKDIR /app
 
-
-# jar 만 빼와서 컨테이너에 싣기
 COPY --from=build /app/build/libs/*.jar community-backend.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "community-backend.jar"]
