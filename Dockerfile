@@ -19,11 +19,9 @@ RUN ./gradlew dependencies --no-daemon
 # 💡 --info 와 --stacktrace 옵션을 추가해서 도커 빌드 중 그래들이 죽은 정확한 이유를 출력하게 만듦
 RUN ./gradlew dependencies --no-daemon --info --stacktrace
 
-
 # 소스 복사 및 빌드
 COPY src src
 RUN ./gradlew bootJar --no-daemon
-
 
 # 배포환경
 FROM amazoncorretto:21.0.10-al2023-headless
