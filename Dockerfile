@@ -29,5 +29,3 @@ WORKDIR /app
 COPY --from=build /app/build/libs/*.jar community-backend.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "community-backend.jar"]
-
-
