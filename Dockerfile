@@ -14,7 +14,12 @@ COPY build.gradle settings.gradle ./
 # gradlew 실행 권한 부여
 RUN chmod +x gradlew
 
+RUN apk add --no-cache bash dos2unix
+# gradlew 파일 줄 바꿈 변환 (CRLF -> LF) 및 실행 권한 부여
+RUN dos2unix gradlew && chmod +x gradlew
+
 RUN ./gradlew dependencies --no-daemon
+
 # 소스 복사 및 빌드
 COPY src src
 RUN ./gradlew bootJar --no-daemon
