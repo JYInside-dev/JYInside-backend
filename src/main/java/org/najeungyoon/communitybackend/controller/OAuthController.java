@@ -13,7 +13,6 @@ import org.najeungyoon.communitybackend.service.OAuth.NaverOAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -25,12 +24,12 @@ public class OAuthController {
 
     private final GoogleOAuthProperties googleOAuthProperties;
     private final GoogleOAuthService googleOAuthService;
-    private final NaverOAuthProperties naverOAuthProperties;
-    private final NaverOAuthService naverOAuthService;
+//    private final NaverOAuthProperties naverOAuthProperties;
+//    private final NaverOAuthService naverOAuthService;
     private final KakaoOAuthProperties kakaoOAuthProperties;
     private final KakaoOAuthService kakaoOAuthService;
 
-    // 사용자를 구글 로그인 페이지로 보내는 시작점
+    // 사용자를 구글 로그인 페이지로 보내는 시작점dd
     @GetMapping("/google/login")
     public ResponseEntity<Void> googleLogin() {
         // OAuth 로그인 요청을 보낼때 state를 같이 보내고 callback으로 돌아왔을 때
@@ -88,54 +87,54 @@ public class OAuthController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/naver/login")
-    public ResponseEntity<Void> naverLogin() {
-        String state = UUID.randomUUID().toString();
-
-        String naverAuthUrl = UriComponentsBuilder
-                .fromUriString("https://nid.naver.com/oauth2.0/authorize")
-                .queryParam("client_id", naverOAuthProperties.clientId())
-                .queryParam("redirect_uri", naverOAuthProperties.redirectUri())
-                .queryParam("response_type", "code")
-                .queryParam("state", state)
-                .encode(StandardCharsets.UTF_8)
-                .build()
-                .toUriString();
-
-        return ResponseEntity.status(302)
-                .location(URI.create(naverAuthUrl))
-                .build();
-    }
-
-    @GetMapping("/naver/callback")
-    public ResponseEntity<Void> naverCallback(
-            @RequestParam String code,
-            @RequestParam String state
-    ) {
-        String redirectUrl = naverOAuthService.handleNaverCallback(code, state);
-
-        return ResponseEntity.status(302)
-                .location(URI.create(redirectUrl))
-                .build();
-    }
-
-    @GetMapping("/naver/signup-info")
-    public ResponseEntity<NaverSignupInfoResponseDTO> getNaverSignupInfo(
-            @RequestParam String ticket
-    ) {
-        NaverSignupInfoResponseDTO response = naverOAuthService.getNaverSignupInfo(ticket);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/naver/signup/complete")
-    public ResponseEntity<JwtTokenResponseDTO> completeNaverSignup(
-            @RequestBody NaverSignupCompleteRequestDTO dto
-    ) {
-        JwtTokenResponseDTO response = naverOAuthService.completeNaverSignup(dto);
-
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("/naver/login")
+//    public ResponseEntity<Void> naverLogin() {
+//        String state = UUID.randomUUID().toString();
+//
+//        String naverAuthUrl = UriComponentsBuilder
+//                .fromUriString("https://nid.naver.com/oauth2.0/authorize")
+//                .queryParam("client_id", naverOAuthProperties.clientId())
+//                .queryParam("redirect_uri", naverOAuthProperties.redirectUri())
+//                .queryParam("response_type", "code")
+//                .queryParam("state", state)
+//                .encode(StandardCharsets.UTF_8)
+//                .build()
+//                .toUriString();
+//
+//        return ResponseEntity.status(302)
+//                .location(URI.create(naverAuthUrl))
+//                .build();
+//    }
+//
+//    @GetMapping("/naver/callback")
+//    public ResponseEntity<Void> naverCallback(
+//            @RequestParam String code,
+//            @RequestParam String state
+//    ) {
+//        String redirectUrl = naverOAuthService.handleNaverCallback(code, state);
+//
+//        return ResponseEntity.status(302)
+//                .location(URI.create(redirectUrl))
+//                .build();
+//    }
+//
+//    @GetMapping("/naver/signup-info")
+//    public ResponseEntity<NaverSignupInfoResponseDTO> getNaverSignupInfo(
+//            @RequestParam String ticket
+//    ) {
+//        NaverSignupInfoResponseDTO response = naverOAuthService.getNaverSignupInfo(ticket);
+//
+//        return ResponseEntity.ok(response);
+//    }
+//
+//    @PostMapping("/naver/signup/complete")
+//    public ResponseEntity<JwtTokenResponseDTO> completeNaverSignup(
+//            @RequestBody NaverSignupCompleteRequestDTO dto
+//    ) {
+//        JwtTokenResponseDTO response = naverOAuthService.completeNaverSignup(dto);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping("/kakao/login")
     public ResponseEntity<Void> kakaoLogin() {
