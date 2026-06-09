@@ -13,10 +13,12 @@ COPY build.gradle settings.gradle ./
 # 💡 수정: dos2unix로 CRLF 변환 후 권한 부여 (apk 명령어 삭제)
 RUN dos2unix gradlew && chmod +x gradlew
 
+# 소스 복사
+COPY src src
+
 RUN ./gradlew dependencies --no-daemon
 
-# 소스 복사 및 빌드
-COPY src src
+# 빌드
 RUN ./gradlew bootJar --no-daemon
 
 # 배포환경
