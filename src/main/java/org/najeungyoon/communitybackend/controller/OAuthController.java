@@ -13,7 +13,6 @@ import org.najeungyoon.communitybackend.service.OAuth.NaverOAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class OAuthController {
     private final KakaoOAuthProperties kakaoOAuthProperties;
     private final KakaoOAuthService kakaoOAuthService;
 
-    // 사용자를 구글 로그인 페이지로 보내는 시작점
+    // 사용자를 구글 로그인 페이지로 보내는 시작점dd
     @GetMapping("/google/login")
     public ResponseEntity<Void> googleLogin() {
         // OAuth 로그인 요청을 보낼때 state를 같이 보내고 callback으로 돌아왔을 때
