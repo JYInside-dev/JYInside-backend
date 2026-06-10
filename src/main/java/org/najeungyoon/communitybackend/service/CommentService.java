@@ -10,21 +10,20 @@ import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentUpdateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.CommentRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -37,7 +36,7 @@ public class CommentService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final BoardAdminRepository boardAdminRepository;
     private final NotificationEventPublisher notificationEventPublisher;
-
+    private final PasswordEncoder passwordEncoder;
 
 
     /* Post가 정말 유효한 경로에서 요청이 들어온건지 보안 검증 확인 후에 반환 */
@@ -76,21 +75,7 @@ public class CommentService {
 
         return PageResponseDTO.from(dtoPage);
     }
-    /*
-    @Transactional(readOnly = true)
-    public List<CommentResponseDTO> getCommentsByPostId(String urlPath,Long postId){
 
-        getValidatedPost(urlPath, postId);
-
-        List<Comment> rootComments = commentRepository.findByPostIdAndParentIsNull(postId);
-
-        return rootComments.stream().map(
-                rootComment -> {
-                    return CommentResponseDTO.from(rootComment);
-                }
-        ).toList();
-    };
-*/
 
 
     /* 댓글 생성하는 API로직 */
@@ -214,6 +199,7 @@ public class CommentService {
                 if(!BCrypt.checkpw(deleteRequestDTO.password(),comment.getPassword())){
                     throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
                 }
+                verifyPassword(deleteRequestDTO.password(),commentId);
             }
         }
 
@@ -224,8 +210,60 @@ public class CommentService {
 
 
 
-    /* 댓글 수정 api*/
+    /* 비밀번호 체크 */
+    @Transactional(readOnly = true)
+    public void verifyPassword(String password, Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당id 댓글은 없습니다."));
+        if (!passwordEncoder.matches(password, comment.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+        }
+    }
 
+    /* 댓글 수정 api*/
+    @Transactional
+    public void updateComment(Long postId, String urlPath, Long commentId,Long userId,
+                            CommentUpdateRequestDTO dto){
+        Post post = getValidatedPost(urlPath, postId);
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 댓글을 찾을 수 없습니다."));
+
+        boolean isAdmin = false;
+
+        // 1. 관리자 권한 확인 로직
+        if (userId != null) {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("로그인된 유저를 찾을 수 없습니다."));
+
+            if (user.getRole() == UserRole.SUPER_ADMIN) {
+                isAdmin = true;
+            }
+
+            if (user.getRole() == UserRole.COMMUNITY_ADMIN) {
+                isAdmin = boardAdminRepository.existsByUserAndBoard(user, post.getBoard());
+            }
+        }
+
+        // 2. 권한 검증 로직 (삭제와 동일)
+        if (!isAdmin) {
+            /* 댓글을 로그인 유저가 작성했을 때 */
+            if (comment.getUser() != null) {
+                /* 익명회원, 다른 로그인 유저가 댓글을 수정하려 할 때 */
+                if (userId == null || !userId.equals(comment.getUser().getId())) {
+                    throw new IllegalArgumentException("본인이 작성한 댓글만 수정 가능합니다.");
+                }
+            }
+            /* 익명 댓글일 경우에 */
+            else {
+                verifyPassword(dto.password(), commentId);
+            }
+        }
+
+        // 3. 댓글 내용 업데이트 (JPA 변경 감지)
+        comment.update(dto.content());
+        log.info("댓글 성공적으로 수정됨.");
+    }
 }
 
 
