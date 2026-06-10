@@ -79,6 +79,13 @@ public class Post {
     }
 
 
+    /* 게시글 내용 업데이트*/
+    public void update(String title,String content){
+        this.title=title;
+        this.content=content;
+    }
+
+
     /* 익명 사용자용 Post 생성자*/
     public Post(
             String title,

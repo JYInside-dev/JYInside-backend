@@ -1,9 +1,11 @@
 package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.model.PasswordVerifyRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentDeleteRequestDTO;
 import org.najeungyoon.communitybackend.model.comment.CommentResponseDTO;
+import org.najeungyoon.communitybackend.model.comment.CommentUpdateRequestDTO;
 import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.service.CommentService;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,13 @@ public class CommentController {
     private final CommentService commentService;
 
 
-    @PreAuthorize("hasRole('USER') and @communitySecurity.checkNotSuspended(#urlPath)")
+    @PreAuthorize("isAnonymous() or (isAuthenticated() and @communitySecurity.checkNotSuspended(#urlPath))")
     @PostMapping("/write")
     public ResponseEntity<String > writeComment(
             @PathVariable String urlPath,
             @PathVariable Long postId,
             @RequestBody CommentCreateRequestDTO commentCreateRequestDTO,
+
             /* 토큰이 검증된 회원이면 ID에 값이 들어가고
             *  아니면 null */
             @AuthenticationPrincipal Long userId
@@ -48,16 +51,9 @@ public class CommentController {
                 commentService.getCommentsByPostId(urlPath, postId, page, size)
         );
     }
-    /*
-    @GetMapping("/getComments")
-    public ResponseEntity<List<CommentResponseDTO>> getComments(
-            @PathVariable Long postId,
-            @PathVariable String urlPath
-    ){
-        return ResponseEntity.ok(commentService.getCommentsByPostId(urlPath, postId));
-    }
-    */
 
+
+    /* 댓글 삭제하기 */
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(
             @PathVariable Long postId,
@@ -68,6 +64,33 @@ public class CommentController {
             ){
         commentService.deleteComment(postId, urlPath, commentId, userId,deleteRequestDTO);
         return ResponseEntity.ok("댓글 삭제 완료");
+    }
+
+    /* 댓글 비밀번호 검증 */
+    @PostMapping(("/{commentId}/verify-password"))
+    public ResponseEntity<Void> verifyCommentPassword(
+            @PathVariable String urlPath,
+            @PathVariable Long commentId,
+            @RequestBody PasswordVerifyRequestDTO dto
+    ) {
+        // 서비스에 만들어둔 verifyPassword 호출
+        commentService.verifyPassword(dto.password(), commentId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    /* 댓글 수정하기 */
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Void> updateComment(
+            @PathVariable String urlPath,
+            @PathVariable Long commentId,
+            @PathVariable Long postId,
+            @RequestBody CommentUpdateRequestDTO dto,
+            @AuthenticationPrincipal Long userId
+    ) {
+
+        commentService.updateComment(postId, urlPath, commentId, userId, dto);
+        return ResponseEntity.ok().build(); // 수정 성공 시 200 OK 반환
     }
 
 }

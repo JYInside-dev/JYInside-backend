@@ -8,6 +8,7 @@ import java.util.List;
 /* 프론트엔드에 띄울 댓글 데이터를 담을 DTO */
 public record CommentResponseDTO(
         Long id,
+        Long userId,
         String content,
         String authorName,
         String mentionedName,
@@ -30,9 +31,11 @@ public record CommentResponseDTO(
             childDTOs = List.of(); // null 대신 빈 리스트를 반환하여 프론트엔드의 렌더링 에러 방지
         }
 
+        Long writerId = comment.getUser() != null ? comment.getUser().getId() : null;
 
         CommentResponseDTO dto = new CommentResponseDTO(
                 comment.getId(),
+                writerId,
                 comment.getContent(),
                 comment.getAuthorName(),
                 comment.getMentionedName(),

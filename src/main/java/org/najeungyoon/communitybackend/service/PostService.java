@@ -8,10 +8,8 @@ import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.domain.app.*;
-import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
-import org.najeungyoon.communitybackend.model.post.PostCreateRequestDTO;
-import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
-import org.najeungyoon.communitybackend.model.post.PostDeleteRequestDTO;
+import org.najeungyoon.communitybackend.model.PasswordVerifyRequestDTO;
+import org.najeungyoon.communitybackend.model.post.*;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
@@ -21,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -39,6 +38,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final BoardAdminRepository boardAdminRepository;
     private final CategoryRepository categoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -82,37 +82,6 @@ public class PostService {
 
         return PageResponseDTO.from(dtoPage);
     }
-
-/*
-    특정 커뮤니티의 모든글을 조회하는 API
-    @Transactional(readOnly = true)
-    public List<PostResponseDTO> getAllPostsByBoard(String urlPath, Long categoryId, String sort){
-
-        String sortMode = sort == null ? "latest" : sort;
-
-        List<Post> allPosts;
-
-        if (categoryId == null) {
-            allPosts = switch(sortMode) {
-                case "view" -> postRepository.findByBoard_UrlPathOrderByViewCountDescCreateAtDesc(urlPath);
-                case "latest" -> postRepository.findByBoard_UrlPathOrderByCreateAtDesc(urlPath);
-                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
-            };
-        } else {
-            allPosts = switch(sortMode) {
-                case "view" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByViewCountDescCreateAtDesc(urlPath, categoryId);
-                case "latest" -> postRepository.findByBoard_UrlPathAndCategory_IdOrderByCreateAtDesc(urlPath, categoryId);
-                default -> throw new IllegalArgumentException("지원하지 않는 정렬 방식입니다.");
-            };
-        }
-
-//        List<Post> allPosts = postRepository.findByBoard_UrlPath(urlPath);
-        log.info("{} 에서 조회한 게시글 수: {}",urlPath, allPosts.size());
-        return allPosts.stream()
-                    .map(PostResponseDTO::from)
-                    .toList();
-    }
-    */
 
 
     /* 글 생성 API*/
@@ -212,12 +181,12 @@ public class PostService {
                     throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
                 }
             }
-            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-            else {
-                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
-                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-                }
-            }
+//            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
+//            else {
+//                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
+//                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+//                }
+//            }
         }
 
         postRepository.delete(post);
@@ -225,6 +194,42 @@ public class PostService {
 
     }
 
+
+    /* 글 수정 API */
+    @Transactional
+    public PostResponseDTO updatePost(String urlPath, Long id, PostUpdateRequestDTO dto, Long userId){
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당id글은 없습니다."));
+
+        /* 존재하는 게시판인지 검증 */
+        getBoardByUrlPath(urlPath);
+
+        /* 해당 갤러리에서 요청한게 맞는지 확인 */
+        if(!post.getBoard().getUrlPath().equals(urlPath)){
+            throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
+        }
+
+        if(post.getUser() != null){
+            /* 비로그인회원이거나 다른 회원이 지우려고 할 떄 */
+            if(userId == null || !post.getUser().getId().equals(userId)){
+                throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
+            }
+        }
+
+        post.update(dto.title(),dto.content());
+        return PostResponseDTO.from(post);
+    }
+
+    /* 비밀번호 체크 */
+    @Transactional(readOnly = true)
+    public void verifyPassword(PasswordVerifyRequestDTO dto,Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당id글은 없습니다."));
+        if (!passwordEncoder.matches(dto.password(), post.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+        }
+    }
 
     /* 해당 ID 의 글 불러오기 */
     @Transactional // 클래스 전체에 적용

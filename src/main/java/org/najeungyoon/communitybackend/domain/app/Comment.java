@@ -57,6 +57,11 @@ public class Comment {
 
 
 
+    /* 댓글 내용 수정/업데이트 */
+    public void update(String content){
+        this.content=content;
+    }
+
     /* 비회원용 댓글 생성자
     *   authorName, password 존재함. */
     public Comment(String content, String authorName, String password, Post post,String mentionedName,Comment parent) {
