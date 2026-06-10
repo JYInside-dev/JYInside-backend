@@ -3,6 +3,7 @@ package org.najeungyoon.communitybackend.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.aop.annotation.TrackView;
+import org.najeungyoon.communitybackend.model.PasswordVerifyRequestDTO;
 import org.najeungyoon.communitybackend.model.post.*;
 import org.najeungyoon.communitybackend.service.PostService;
 import org.springframework.http.ResponseEntity;
@@ -105,6 +106,16 @@ public class PostController {
 
         PostResponseDTO responseDTO = postService.updatePost(urlPath,id,requestDTO,userId);
         return ResponseEntity.ok(responseDTO);
+    }
+
+    /* 글 비밀번호 확인 */
+    @PostMapping("/post/{id}/verify-password")
+    public ResponseEntity<Void> verifyPassword(
+            @PathVariable Long id,
+            @RequestBody PasswordVerifyRequestDTO dto
+            ){
+        postService.verifyPassword(dto,id);
+        return ResponseEntity.ok().build();
     }
 
     /* 글 검색 */

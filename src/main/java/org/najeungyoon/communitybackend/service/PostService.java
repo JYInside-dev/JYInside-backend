@@ -8,6 +8,7 @@ import org.najeungyoon.communitybackend.domain.app.Post;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.domain.app.*;
+import org.najeungyoon.communitybackend.model.PasswordVerifyRequestDTO;
 import org.najeungyoon.communitybackend.model.post.*;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -36,6 +38,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final BoardAdminRepository boardAdminRepository;
     private final CategoryRepository categoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -178,12 +181,12 @@ public class PostService {
                     throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
                 }
             }
-            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-            else {
-                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
-                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-                }
-            }
+//            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
+//            else {
+//                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
+//                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+//                }
+//            }
         }
 
         postRepository.delete(post);
@@ -213,18 +216,20 @@ public class PostService {
                 throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
             }
         }
-        /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-        else {
-            if(!BCrypt.checkpw(dto.password(),post.getPassword())){
-                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-            }
-        }
 
         post.update(dto.title(),dto.content());
         return PostResponseDTO.from(post);
     }
 
-
+    /* 비밀번호 체크 */
+    @Transactional(readOnly = true)
+    public void verifyPassword(PasswordVerifyRequestDTO dto,Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당id글은 없습니다."));
+        if (!passwordEncoder.matches(dto.password(), post.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+        }
+    }
 
     /* 해당 ID 의 글 불러오기 */
     @Transactional // 클래스 전체에 적용
