@@ -2,6 +2,9 @@ package org.najeungyoon.communitybackend.service;
 
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.domain.app.user.UserStatus;
+import org.najeungyoon.communitybackend.model.user.FindUsernameRequestDTO;
+import org.najeungyoon.communitybackend.model.user.FindUsernameResponseDTO;
+import org.najeungyoon.communitybackend.model.user.ResetPasswordRequestDTO;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,5 +102,27 @@ public class AuthService {
         if (userRepository.existsByNickname(dto.nickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
+    }
+
+
+    @Transactional(readOnly = true)
+    public FindUsernameResponseDTO findUsername(FindUsernameRequestDTO dto) {
+        User user = userRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일로 가입된 계정을 찾을 수 없습니다."));
+
+        return new FindUsernameResponseDTO(user.getUsername());
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDTO dto) {
+        User user = userRepository.findByUsernameAndEmail(dto.username(), dto.email())
+                .orElseThrow(() -> new IllegalArgumentException("아이디와 이메일이 일치하는 계정을 찾을 수 없습니다."));
+
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            throw new IllegalArgumentException("소셜 로그인 계정은 비밀번호를 재설정할 수 없습니다.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(dto.newPassword());
+        user.changePassword(encodedPassword);
     }
 }

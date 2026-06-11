@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.auth.JwtTokenResponseDTO;
 import org.najeungyoon.communitybackend.model.auth.LoginRequestDTO;
 import org.najeungyoon.communitybackend.model.auth.SignupRequestDTO;
+import org.najeungyoon.communitybackend.model.user.FindUsernameRequestDTO;
+import org.najeungyoon.communitybackend.model.user.FindUsernameResponseDTO;
+import org.najeungyoon.communitybackend.model.user.ResetPasswordRequestDTO;
 import org.najeungyoon.communitybackend.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,5 +42,23 @@ public class AuthController {
         log.info("로그인 API 요청 들어옴");
         JwtTokenResponseDTO response = authService.login(dto);
         return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/find-username")
+    public ResponseEntity<FindUsernameResponseDTO> findUsername(
+            @Validated @RequestBody FindUsernameRequestDTO dto
+    ) {
+        FindUsernameResponseDTO response = authService.findUsername(dto);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(
+            @Validated @RequestBody ResetPasswordRequestDTO dto
+    ) {
+        authService.resetPassword(dto);
+        return ResponseEntity.ok("비밀번호가 재설정되었습니다.");
     }
 }
