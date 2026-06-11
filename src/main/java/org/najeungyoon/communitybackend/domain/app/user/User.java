@@ -49,6 +49,16 @@ public class User {
         this.role=role;
     }
 
+    /* 닉네임 변경 메서드 */
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    /* 비밀번호 변경 메서드 */
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
 
     /* 생성자 */
     public User(String username, String email, String password, String nickname, UserRole role,UserStatus userStatus) {
