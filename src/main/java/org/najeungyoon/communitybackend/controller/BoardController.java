@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.najeungyoon.communitybackend.model.board.BoardNavResponseDTO;
 import org.najeungyoon.communitybackend.model.board.BoardResponseDTO;
 import org.najeungyoon.communitybackend.service.BoardService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,15 @@ public class BoardController {
             @PathVariable String urlPath
     ){
         BoardResponseDTO dto = boardService.getBoardByUrlPath(urlPath);
+        return ResponseEntity.ok(dto);
+    }
+
+
+    /* 게시판 네비게이션 바 정보 요청 */
+    @GetMapping("/{urlPath}/nav")
+    public ResponseEntity<BoardNavResponseDTO> getBoardNavByUrlPath(
+            @PathVariable String urlPath){
+        BoardNavResponseDTO dto = boardService.getBoardNavInfo(urlPath);
         return ResponseEntity.ok(dto);
     }
 

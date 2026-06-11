@@ -181,12 +181,6 @@ public class PostService {
                     throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
                 }
             }
-//            /* 비로그인 회원 글일시 비밀번호 대조 후 삭제*/
-//            else {
-//                if(!BCrypt.checkpw(dto.password(),post.getPassword())){
-//                    throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-//                }
-//            }
         }
 
         postRepository.delete(post);

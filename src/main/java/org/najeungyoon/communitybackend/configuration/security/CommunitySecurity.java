@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
+
 @Slf4j
 @Component("communitySecurity")
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class CommunitySecurity {
 
     private final BoardAdminRepository boardAdminRepository;
     private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
 
 
@@ -57,7 +60,8 @@ public class CommunitySecurity {
             userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath).ifPresent((suspension)->{
                 if(suspension.isSuspend()){
                     log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId,urlPath);
-                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + suspension.getSuspendUntil());
+                    String formattedDate = suspension.getSuspendUntil().format(formatter);
+                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + formattedDate);
                 }
             });
             return true;

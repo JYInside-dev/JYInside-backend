@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.najeungyoon.communitybackend.domain.app.Board;
+import org.najeungyoon.communitybackend.model.board.BoardNavResponseDTO;
 import org.najeungyoon.communitybackend.model.board.BoardResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,17 @@ public class BoardService {
 
         return BoardResponseDTO.from(board);
     }
+
+
+    /* 게시판 전용 네비게이션 바 데이터 출력 */
+    @Transactional(readOnly = true)
+    public BoardNavResponseDTO getBoardNavInfo(String urlPath){
+        Board board = boardRepository.findByUrlPath(urlPath)
+                .orElseThrow(()->new IllegalArgumentException(urlPath+"커뮤니티는 없습니다."));
+
+        return BoardNavResponseDTO.from(board);
+    }
+
+
 
 }
