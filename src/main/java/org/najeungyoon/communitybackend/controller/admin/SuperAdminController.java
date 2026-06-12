@@ -4,15 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
 import org.najeungyoon.communitybackend.model.grant.GrantCommunityAdminRequestDTO;
+import org.najeungyoon.communitybackend.model.user.BoardAdminUserResponseDTO;
 import org.najeungyoon.communitybackend.service.admin.SuperAdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -41,4 +41,24 @@ public class SuperAdminController {
         superAdminService.grantCommunityAdmin(dto.userId(), dto.boardUrlPath());
         return ResponseEntity.ok("커뮤니티 관리자 권한이 성공적으로 부여됬습니다.");
     }
+
+
+    /* 관리자 유저 리스트 불러오기 */
+    @GetMapping("/board-admins")
+    public ResponseEntity<List<BoardAdminUserResponseDTO>> getBoardAdmins(){
+        List<BoardAdminUserResponseDTO> adminList = superAdminService.getAllAdmins();
+        return ResponseEntity.ok(adminList);
+    }
+
+
+    /* 관리자 권한 박탈하기 */
+    @DeleteMapping("/{urlPath}/board-admins/{userId}")
+    public ResponseEntity<Void> revokeAdminRole(
+            @PathVariable String urlPath,
+            @PathVariable Long userId
+    ){
+        superAdminService.revokeAdminRole(userId,urlPath);
+        return ResponseEntity.noContent().build();
+    }
+
 }
