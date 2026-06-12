@@ -7,11 +7,14 @@ import org.najeungyoon.communitybackend.domain.app.BoardAdmin;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.domain.app.user.UserRole;
 import org.najeungyoon.communitybackend.model.board.BoardCreateRequestDTO;
+import org.najeungyoon.communitybackend.model.user.BoardAdminUserResponseDTO;
 import org.najeungyoon.communitybackend.repository.BoardAdminRepository;
 import org.najeungyoon.communitybackend.repository.BoardRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -65,5 +68,38 @@ public class SuperAdminService {
         log.info("{}가 {}커뮤니티 관리자로 임명 되었습니다.",user.getNickname(),board.getName());
 
     }
+
+
+    /* 관리자 유저 리스트 불러오기 */
+    @Transactional(readOnly = true)
+    public List<BoardAdminUserResponseDTO> getAllAdmins(){
+        return boardAdminRepository.findAllWithUserAndBoard().stream().map(BoardAdminUserResponseDTO::from).toList();
+    }
+
+
+    /* 관리자 권한 박탈 */
+    @Transactional
+    public void revokeAdminRole(Long userId, String urlPath){
+
+        // 1. BoardAdmin 매핑 데이터 조회 및 삭제
+        BoardAdmin boardAdmin = boardAdminRepository.findByUser_IdAndBoard_UrlPath(userId, urlPath)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시판의 관리자 권한을 찾을 수 없습니다."));
+
+        boardAdminRepository.delete(boardAdmin);
+
+        // 2. 삭제 후, 이 유저가 관리하는 다른 게시판이 남아있는지 확인
+        long remainingAdminCount = boardAdminRepository.countByUser_Id(userId);
+
+        // 3. 더 이상 관리하는 게시판이 없다면 일반 유저로 권한 강등
+        if (remainingAdminCount == 0) {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+            user.changeRole(UserRole.USER); // UserRole 갱신
+        }
+
+    }
+
+
 
 }
