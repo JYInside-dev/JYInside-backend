@@ -57,7 +57,6 @@ public class CommunitySecurity {
 
 
     /* 정지인지 확인 */
-
     @Transactional(readOnly = true)
     public boolean checkNotSuspended(String urlPath){
 
@@ -93,7 +92,7 @@ public class CommunitySecurity {
                         log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도 - 캐시 사용", userId, urlPath);
                         throw new AccessDeniedException(
                                 "해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: "
-                                        + cached.suspendUntil().formatted(formatter)
+                                        + cached.suspendUntil()
                         );
                     }
 
@@ -111,7 +110,7 @@ public class CommunitySecurity {
             if (suspensionOptional.isPresent() && suspensionOptional.get().isSuspend()) {
                 var suspension = suspensionOptional.get();
 
-                String suspendUntil = String.valueOf(suspension.getSuspendUntil()).formatted(formatter);
+                String suspendUntil = suspension.getSuspendUntil().format(formatter);
 
                 suspensionCache.put(
                         cacheKey,

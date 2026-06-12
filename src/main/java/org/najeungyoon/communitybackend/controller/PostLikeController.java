@@ -18,7 +18,7 @@ public class PostLikeController {
 
     private final PostLikeService postLikeService;
 
-    @PreAuthorize("hasRole('USER') and @communitySecurity.checkNotSuspended(#urlPath)")
+    @PreAuthorize("isAuthenticated() and @communitySecurity.checkNotSuspended(#urlPath)")
     @PostMapping("/addLike")
     public ResponseEntity<Void> addLike(
             @PathVariable Long id,

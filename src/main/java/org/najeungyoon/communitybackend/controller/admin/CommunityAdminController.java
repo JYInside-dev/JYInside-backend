@@ -37,7 +37,6 @@ public class CommunityAdminController {
     private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
 
 
-
     /* 어드민 권한으로 댓글 삭제 */
     @DeleteMapping("/post/{postId}/comment/{commentId}")
     public ResponseEntity<Void> deleteCommentByAdmin(
@@ -64,6 +63,9 @@ public class CommunityAdminController {
         communityAdminService.giveWarning(adminId,targetUserId,urlPath,requestDTO.reason());
         return ResponseEntity.ok().build();
     }
+
+
+
 
 
     /* 정지된 유저 가져오기 */

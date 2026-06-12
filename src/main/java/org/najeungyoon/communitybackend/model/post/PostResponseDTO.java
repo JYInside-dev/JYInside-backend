@@ -17,7 +17,9 @@ public record PostResponseDTO(
         String categoryName,
         Long viewCount,
 
-        String boardUrlPath
+        String boardUrlPath,
+
+        Integer commentCount
 ){
 
     public static PostResponseDTO from(Post post){
@@ -34,10 +36,9 @@ public record PostResponseDTO(
                 post.getCategory() != null ? post.getCategory().getName() : null,
                 post.getViewCount(),
 
-                /* TODO
-                 *   n+1 문제 나중에 해결해야함
-                 *   DTO에서 다른 table을 참조하는게 바람직하지 x*/
-                post.getBoard().getUrlPath()
+
+                post.getBoard().getUrlPath(),
+                post.getComments() != null ? post.getComments().size() : 0
         );
     }
 }
