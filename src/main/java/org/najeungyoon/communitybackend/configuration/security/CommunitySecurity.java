@@ -74,13 +74,13 @@ public class CommunitySecurity {
 
         try {
             Long userId = Long.parseLong(authentication.getName());
-            userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath).ifPresent((suspension)->{
-                if(suspension.isSuspend()){
-                    log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId,urlPath);
-                    String formattedDate = suspension.getSuspendUntil().format(formatter);
-                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + formattedDate);
-                }
-            });
+//            userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath).ifPresent((suspension)->{
+//                if(suspension.isSuspend()){
+//                    log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId,urlPath);
+//                    String formattedDate = suspension.getSuspendUntil().format(formatter);
+//                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + formattedDate);
+//                }
+//            });
 
             String cacheKey = userId + ":" + urlPath;
             long now = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class CommunitySecurity {
                         log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도 - 캐시 사용", userId, urlPath);
                         throw new AccessDeniedException(
                                 "해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: "
-                                        + cached.suspendUntil()
+                                        + cached.suspendUntil().formatted(formatter)
                         );
                     }
 
@@ -111,7 +111,7 @@ public class CommunitySecurity {
             if (suspensionOptional.isPresent() && suspensionOptional.get().isSuspend()) {
                 var suspension = suspensionOptional.get();
 
-                String suspendUntil = String.valueOf(suspension.getSuspendUntil());
+                String suspendUntil = String.valueOf(suspension.getSuspendUntil()).formatted(formatter);
 
                 suspensionCache.put(
                         cacheKey,
@@ -140,12 +140,6 @@ public class CommunitySecurity {
                     )
             );
 
-//            userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath).ifPresent((suspension)->{
-//                if(suspension.isSuspend()){
-//                    log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId,urlPath);
-//                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + suspension.getSuspendUntil());
-//                }
-//            });
             return true;
         } catch (NumberFormatException e) {
             log.error("유저 ID 파싱 실패: {}", authentication.getName());
