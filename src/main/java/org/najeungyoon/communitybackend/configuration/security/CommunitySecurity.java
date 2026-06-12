@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Slf4j
 @Component("communitySecurity")
 @RequiredArgsConstructor
@@ -21,6 +24,20 @@ public class CommunitySecurity {
     private final UserCommunitySuspensionRepository userCommunitySuspensionRepository;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
+
+    private static final long SUSPENSION_CACHE_TTL_MS = 30_000L;
+
+    private final Map<String, SuspensionCacheValue> suspensionCache = new ConcurrentHashMap<>();
+
+    private record SuspensionCacheValue(
+            boolean suspended,
+            String suspendUntil,
+            long expiresAtMillis
+    ) {
+        boolean isExpired(long now) {
+            return expiresAtMillis <= now;
+        }
+    }
 
 
     /* manager인지 확인 */
@@ -64,6 +81,71 @@ public class CommunitySecurity {
                     throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + formattedDate);
                 }
             });
+
+            String cacheKey = userId + ":" + urlPath;
+            long now = System.currentTimeMillis();
+
+            /* 캐시가 있다면 여기서 검사 */
+            SuspensionCacheValue cached = suspensionCache.get(cacheKey);
+            if (cached != null) {
+                if (!cached.isExpired(now)) {
+                    if (cached.suspended()) {
+                        log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도 - 캐시 사용", userId, urlPath);
+                        throw new AccessDeniedException(
+                                "해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: "
+                                        + cached.suspendUntil()
+                        );
+                    }
+
+                    return true;
+                }
+
+                suspensionCache.remove(cacheKey, cached);
+            }
+
+            /* DB 검사 */
+            var suspensionOptional =
+                    userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId, urlPath);
+
+            /* 정지 유저라면 */
+            if (suspensionOptional.isPresent() && suspensionOptional.get().isSuspend()) {
+                var suspension = suspensionOptional.get();
+
+                String suspendUntil = String.valueOf(suspension.getSuspendUntil());
+
+                suspensionCache.put(
+                        cacheKey,
+                        new SuspensionCacheValue(
+                                true,
+                                suspendUntil,
+                                now + SUSPENSION_CACHE_TTL_MS
+                        )
+                );
+
+                log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId, urlPath);
+
+                throw new AccessDeniedException(
+                        "해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: "
+                                + suspendUntil
+                );
+            }
+
+            /* 정지 유저가 아니라면 */
+            suspensionCache.put(
+                    cacheKey,
+                    new SuspensionCacheValue(
+                            false,
+                            null,
+                            now + SUSPENSION_CACHE_TTL_MS
+                    )
+            );
+
+//            userCommunitySuspensionRepository.findByUser_IdAndBoard_UrlPath(userId,urlPath).ifPresent((suspension)->{
+//                if(suspension.isSuspend()){
+//                    log.warn("정지된 유저({})가 커뮤니티({}) 접근 시도", userId,urlPath);
+//                    throw new AccessDeniedException("해당 커뮤니티에서 활동이 정지된 사용자입니다. 정지 해제 일시: " + suspension.getSuspendUntil());
+//                }
+//            });
             return true;
         } catch (NumberFormatException e) {
             log.error("유저 ID 파싱 실패: {}", authentication.getName());
