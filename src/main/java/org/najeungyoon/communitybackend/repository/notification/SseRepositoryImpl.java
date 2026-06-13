@@ -3,6 +3,8 @@ package org.najeungyoon.communitybackend.repository.notification;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,5 +29,10 @@ public class SseRepositoryImpl implements SseRepository{
     @Override
     public Optional<SseEmitter> findById(Long userId) {
         return Optional.ofNullable(emitters.get(userId));
+    }
+
+    @Override
+    public Map<Long, SseEmitter> findAllEmitters() {
+        return Collections.unmodifiableMap(emitters);
     }
 }

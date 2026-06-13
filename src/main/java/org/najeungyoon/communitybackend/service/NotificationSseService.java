@@ -6,12 +6,14 @@ import org.najeungyoon.communitybackend.domain.app.Notification;
 import org.najeungyoon.communitybackend.model.notification.NotificationResponseDTO;
 import org.najeungyoon.communitybackend.repository.notification.NotificationRepository;
 import org.najeungyoon.communitybackend.repository.notification.SseRepositoryImpl;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -76,6 +78,27 @@ public class NotificationSseService {
         // Notification 엔티티에 만들어둔 setRead() 호출
         notificationRepository.findById(notificationId)
                 .ifPresent(Notification::setRead);
+    }
+
+
+    @Scheduled(fixedRate = 45000)
+    public void sendHeartbeat() {
+        // 💡 sseRepository에 저장된 모든 Emitter를 가져오는 로직이 필요합니다.
+        // 만약 SseRepositoryImpl에 findAll() 같은 메서드가 없다면 추가해주세요.
+        Map<Long, SseEmitter> emitters = sseRepository.findAllEmitters();
+
+        emitters.forEach((userId, emitter) -> {
+            try {
+                // 프론트엔드(React)에서는 'ping' 이벤트를 수신해도 무시하도록 처리해야 합니다.
+                emitter.send(SseEmitter.event()
+                        .name("ping")
+                        .data("keep-alive"));
+            } catch (IOException e) {
+                // 전송 실패 시 연결이 끊어진 것으로 간주하고 삭제
+                log.debug("SSE 하트비트 전송 실패 (연결 종료됨) - User ID: {}", userId);
+                sseRepository.deleteById(userId);
+            }
+        });
     }
 
 }
