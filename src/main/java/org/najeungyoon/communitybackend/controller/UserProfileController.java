@@ -20,6 +20,8 @@ public class UserProfileController {
 
     private final MyPageService myPageService;
 
+
+
     @GetMapping("/{userId}/profile")
     public ResponseEntity<UserPublicProfileResponseDTO> getProfile(
             @PathVariable Long userId
