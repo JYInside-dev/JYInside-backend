@@ -24,7 +24,7 @@ public class MyPageController {
     public ResponseEntity<List<PostResponseDTO>> getMyPosts(
             @AuthenticationPrincipal Long userId
     ){
-        List<PostResponseDTO> myPosts = myPageService.getMyPosts(userId);
+        List<PostResponseDTO> myPosts = myPageService.getPostsByUserId(userId);
 
         return ResponseEntity.ok(myPosts);
     }
@@ -36,7 +36,7 @@ public class MyPageController {
     public ResponseEntity<List<MyPageCommentResponseDTO>> getMyComments(
             @AuthenticationPrincipal Long userId
     ){
-        List<MyPageCommentResponseDTO> myComments = myPageService.getMyComments(userId);
+        List<MyPageCommentResponseDTO> myComments = myPageService.getCommentsByUserId(userId);
 
         return ResponseEntity.ok(myComments);
     }
