@@ -36,10 +36,23 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     *  TODO
     *   로컬에서 index를 만들어서 조회가 빠른데
     *   나중에 도커나 클라우드 환경에서도 index를 직접 만들어줘야함. */
-    List<Post> findByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+    /*
+        List<Post> findByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+        */
+    /* 메인화면에서 인기글 5개 목록 보여줌.*//*
 
-    /* 메인화면에서 인기글 5개 목록 보여줌.*/
-    List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+        List<Post> findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(int threshold);
+    */
+
+
+
+    /* 일정 추천수 이상의 글을 띄우는 개념글 찾기 */
+    Page<Post> findByBoard_UrlPathAndLikeCountGreaterThanEqualOrderByCreateAtDesc(
+            String urlPath,
+            int threshold,
+            Pageable pageable
+    );
+
 
 
     /* 고정글 조회 */

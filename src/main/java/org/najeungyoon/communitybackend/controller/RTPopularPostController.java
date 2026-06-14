@@ -2,7 +2,6 @@ package org.najeungyoon.communitybackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.model.post.RTPostCacheDTO;
 import org.najeungyoon.communitybackend.service.PostLikeService;
 import org.najeungyoon.communitybackend.service.RealTimePopService;
@@ -18,16 +17,12 @@ import java.util.List;
 @RequestMapping("/api/community/board/popular")
 @RequiredArgsConstructor
 @Slf4j
-public class PopularPostController {
+public class RTPopularPostController {
 
     private final PostLikeService postLikeService;
     private final RealTimePopService realTimePopService;
 
 
-    @GetMapping("/")
-    public ResponseEntity<List<PostResponseDTO>> getAllPopularPost(){
-        return ResponseEntity.ok(postLikeService.getPopularPost());
-    }
 
     @GetMapping("/top5")
     public ResponseEntity<List<RTPostCacheDTO>> top5RealTimePopularPost(){

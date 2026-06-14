@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.aop.annotation.TrackView;
 import org.najeungyoon.communitybackend.model.PasswordVerifyRequestDTO;
 import org.najeungyoon.communitybackend.model.post.*;
+import org.najeungyoon.communitybackend.service.PostLikeService;
 import org.najeungyoon.communitybackend.service.PostService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +23,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-
+    private final PostLikeService postLikeService;
 
     /* 페이지로 나눠서 게시글 보기 */
     @GetMapping("/allPost")
@@ -37,20 +40,17 @@ public class PostController {
     }
 
 
-    /*
-    특정 커뮤니티의 모든 글 보기
-    @GetMapping("/allPost")
-    public ResponseEntity<List<PostResponseDTO>> getAllPost(
+    /* 개념글(인기글) 목록 보기 */
+    @GetMapping("/popular")
+    public ResponseEntity<PageResponseDTO<PostResponseDTO>> getAllPopularPost(
             @PathVariable String urlPath,
-            @RequestParam(required = false) Long categoryId,
-            @RequestParam(defaultValue = "latest") String sort
+            @PageableDefault(size = 10, page = 0) Pageable pageable // 프론트의 page, size 요청 자동 매핑
     ) {
-        List<PostResponseDTO> posts = postService.getAllPostsByBoard(urlPath, categoryId, sort);
-
-        // 200ok
-        return ResponseEntity.ok(posts);
+        PageResponseDTO<PostResponseDTO> response = postLikeService.getPopularPost(urlPath, pageable);
+        return ResponseEntity.ok(response);
     }
- */
+
+
 
 
     /* 글 작성 */

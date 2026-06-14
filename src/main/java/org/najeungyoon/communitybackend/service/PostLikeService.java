@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.najeungyoon.communitybackend.domain.app.*;
 import org.najeungyoon.communitybackend.domain.app.user.User;
 import org.najeungyoon.communitybackend.event.NotificationEventPublisher;
+import org.najeungyoon.communitybackend.model.post.PageResponseDTO;
 import org.najeungyoon.communitybackend.model.post.PostResponseDTO;
 import org.najeungyoon.communitybackend.repository.PostLikeRepository;
 import org.najeungyoon.communitybackend.repository.PostRepository;
 import org.najeungyoon.communitybackend.repository.user.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,25 +74,32 @@ public class PostLikeService {
 
     /* 인기게시글 출력 */
     @Transactional(readOnly = true)
-    public List<PostResponseDTO> getPopularPost(){
-        List<Post> popularPosts = postRepository.findByLikeCountGreaterThanEqualOrderByCreateAtDesc(POPULAR_THRESHOLD);
-        return popularPosts.stream().map(
-                post -> {
-                    return PostResponseDTO.from(post);
-                }
-        ).toList();
+    public PageResponseDTO<PostResponseDTO> getPopularPost(String urlPath, Pageable pageable){
+        Page<Post> popularPosts = postRepository.findByBoard_UrlPathAndLikeCountGreaterThanEqualOrderByCreateAtDesc(
+                urlPath,
+                POPULAR_THRESHOLD,
+                pageable
+        );
+
+        Page<PostResponseDTO> postResponseDTOS=popularPosts.map(PostResponseDTO::from);
+
+        return PageResponseDTO.from(postResponseDTOS);
     }
 
-    /* 인기게시글 출력 상위 5개만! */
-    @Transactional(readOnly = true)
-    public List<PostResponseDTO> getTop5PopularPost(){
-        List<Post> popularPosts = postRepository.findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(POPULAR_THRESHOLD);
-        return popularPosts.stream().map(
-                post -> {
-                    return PostResponseDTO.from(post);
-                }
-        ).toList();
-    }
+
+
+
+
+//    /* 인기게시글 출력 상위 5개만! */
+//    @Transactional(readOnly = true)
+//    public List<PostResponseDTO> getTop5PopularPost(){
+//        List<Post> popularPosts = postRepository.findTop5ByLikeCountGreaterThanEqualOrderByCreateAtDesc(POPULAR_THRESHOLD);
+//        return popularPosts.stream().map(
+//                post -> {
+//                    return PostResponseDTO.from(post);
+//                }
+//        ).toList();
+//    }
 
 
 }
