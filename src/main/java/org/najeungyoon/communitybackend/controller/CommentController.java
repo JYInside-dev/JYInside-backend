@@ -23,7 +23,7 @@ public class CommentController {
     private final CommentService commentService;
 
 
-    @PreAuthorize("isAnonymous() or (isAuthenticated() and @communitySecurity.checkNotSuspended(#urlPath))")
+    @PreAuthorize("@communitySecurity.checkNotSuspended(#urlPath)")
     @PostMapping("/write")
     public ResponseEntity<String > writeComment(
             @PathVariable String urlPath,

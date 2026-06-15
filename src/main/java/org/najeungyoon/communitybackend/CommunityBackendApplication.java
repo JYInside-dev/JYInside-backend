@@ -28,6 +28,7 @@ import java.util.TimeZone;
 public class CommunityBackendApplication {
 
 
+
     @PostConstruct
     public void setTimezone() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
