@@ -1,5 +1,6 @@
 package org.najeungyoon.communitybackend;
 
+import jakarta.annotation.PostConstruct;
 import org.najeungyoon.communitybackend.configuration.GoogleOAuthProperties;
 import org.najeungyoon.communitybackend.configuration.KakaoOAuthProperties;
 import org.najeungyoon.communitybackend.configuration.NaverOAuthProperties;
@@ -10,6 +11,8 @@ import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.TimeZone;
 
 // 설정 클래스를 실제 빈으로 등록해서 사용할 수 있도록 설정
 @EnableConfigurationProperties({
@@ -24,6 +27,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class CommunityBackendApplication {
 
+
+    @PostConstruct
+    public void setTimezone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
     public static void main(String[] args) {
         SpringApplication.run(CommunityBackendApplication.class, args);
     }
