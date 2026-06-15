@@ -20,14 +20,14 @@ public class NotificationEventPublisher {
                              String message, String targetUrl){
 
         /* 나->나로 가는 알림이 아닌 경우 종료 */
-        if(receiver == null || (receiver.getId().equals(sender.getId()))){
+        if (receiver == null || (sender != null && receiver.getId().equals(sender.getId()))) {
             return;
         }
 
         NotificationEvent notificationEvent = new NotificationEvent(
                 receiver,  // 수신자 (게시글 작성자)
                 sender,    // 발신자 (익명이면 null이 안전하게 들어감)
-                NotificationType.COMMENT,
+                type,
                 message,
                 targetUrl
         );
