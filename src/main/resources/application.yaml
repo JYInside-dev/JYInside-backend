@@ -4,6 +4,9 @@ spring:
     config:
       import: optional:file:.env[.properties]
 
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # docker compose에서 db 변수 소스를 주지 않았을 때 로컬로 실행해보기 위해서
@@ -117,6 +120,7 @@ ops:
 
 server:
   port: 8080
+  shutdown: graceful
 
 
 

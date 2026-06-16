@@ -16,9 +16,7 @@ public record PostResponseDTO(
         Long categoryId,
         String categoryName,
         Long viewCount,
-
         String boardUrlPath,
-
         Integer commentCount
 ){
 
