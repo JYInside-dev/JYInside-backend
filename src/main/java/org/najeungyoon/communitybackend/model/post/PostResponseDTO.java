@@ -39,4 +39,45 @@ public record PostResponseDTO(
                 post.getComments() != null ? post.getComments().size() : 0
         );
     }
+
+
+
+    /* 게시글 조회시 n+1 문제를 처리하귀 위해 사용하는 메서드 */
+    public static PostResponseDTO from(Post post, int commentCount) {
+        return new PostResponseDTO(
+                post.getId(),
+                post.getUser() != null ? post.getUser().getId() : null,
+                post.getTitle(),
+                post.getContent(),
+                post.getAuthorName(),
+                post.getCreateAt(),
+                post.getLikeCount(),
+                post.isPinned(),
+                post.getCategory() != null ? post.getCategory().getId() : null,
+                post.getCategory() != null ? post.getCategory().getName() : null,
+                post.getViewCount(),
+                post.getBoard().getUrlPath(),
+                commentCount
+        );
+    }
+
+
+    /* 조회수만 교체 */
+    public PostResponseDTO withViewCount(long currentViewCount) {
+        return new PostResponseDTO(
+                id,
+                userId,
+                title,
+                content,
+                authorName,
+                createAt,
+                likeCount,
+                pinned,
+                categoryId,
+                categoryName,
+                currentViewCount,
+                boardUrlPath,
+                commentCount
+        );
+    }
 }

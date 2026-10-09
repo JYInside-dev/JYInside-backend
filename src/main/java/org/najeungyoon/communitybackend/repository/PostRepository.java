@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -96,5 +97,15 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Modifying
     @Query("UPDATE Post p SET p.viewCount = p.viewCount + 1 WHERE p.id = :postId")
     void increaseViewCount(@Param("postId") Long postId);
+
+
+
+    /* 현재 보여지는 조회수와 DB동기화 쿼리 */
+    @Modifying
+    @Transactional
+    @Query("UPDATE Post p set p.viewCount = :redisTotal where p.id = :postId AND p.viewCount < :redisTotal")
+    int syncViewCount(@Param("postId") Long postId, @Param("redisTotal") long redisTotal);
+
+
 
 }

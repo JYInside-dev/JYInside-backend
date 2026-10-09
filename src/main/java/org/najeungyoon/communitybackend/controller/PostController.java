@@ -32,7 +32,7 @@ public class PostController {
             @RequestParam(required = false) Long categoryId,
             @RequestParam(defaultValue = "latest") String sort,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "50") int size
     ) {
         return ResponseEntity.ok(
                 postService.getPosts(urlPath, categoryId, sort, page, size)
@@ -70,7 +70,7 @@ public class PostController {
     }
 
 
-    /* 클릭했을 때 글 상세 페이지로 이동 */
+    /* 글 상세 페이지 */
     @TrackView
     @GetMapping("/post/{postId}")
     public ResponseEntity<PostResponseDTO> getPost(

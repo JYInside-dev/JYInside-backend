@@ -2,6 +2,7 @@ package org.najeungyoon.communitybackend.repository;
 
 import org.najeungyoon.communitybackend.domain.app.Comment;
 import org.najeungyoon.communitybackend.domain.app.user.User;
+import org.najeungyoon.communitybackend.model.post.PostCommentCountDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,19 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
             " JOIN FETCH p.board b" +
             " where c.user.id = :userId")
     List<Comment> findAllByUserIdWithPostAndBoard(@Param("userId") Long userId);
+
+
+    @Query("""
+    SELECT new org.najeungyoon.communitybackend.model.post.PostCommentCountDTO(
+        c.post.id,
+        COUNT(c.id)
+    )
+    FROM Comment c
+    WHERE c.post.id IN :postIds
+    GROUP BY c.post.id
+""")
+    List<PostCommentCountDTO> countByPostIds(
+            @Param("postIds") List<Long> postIds
+    );
+
 }

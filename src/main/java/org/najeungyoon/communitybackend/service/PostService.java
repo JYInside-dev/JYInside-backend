@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -39,6 +40,8 @@ public class PostService {
     private final BoardAdminRepository boardAdminRepository;
     private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CommentRepository commentRepository;
+    private final PostRedisService postRedisService;
 
 
     /* url을 이용해서 post가 종속될 커뮤니티 Board 호출*/
@@ -78,7 +81,27 @@ public class PostService {
             postPage = postRepository.findByBoard_UrlPathAndCategory_Id(urlPath, categoryId, pageable);
         }
 
-        Page<PostResponseDTO> dtoPage = postPage.map(PostResponseDTO::from);
+
+
+        /* 게시글 조회시 n+1 문제 해결을 위해 게시글id, 게시글 댓글 수를 한꺼번에 모아 쿼리로 날림.*/
+        List<Long> postIds = postPage.getContent().stream()
+                .map(Post::getId)
+                .toList();
+
+        Map<Long, Integer> commentCountByPostId = postIds.isEmpty()
+                ? Map.of()
+                : commentRepository.countByPostIds(postIds).stream()
+                .collect(Collectors.toMap(
+                        PostCommentCountDTO::postId,
+                        result -> Math.toIntExact(result.commentCount())
+                ));
+
+        Page<PostResponseDTO> dtoPage = postPage.map(post ->
+                PostResponseDTO.from(
+                        post,
+                        commentCountByPostId.getOrDefault(post.getId(), 0)
+                )
+        );
 
         return PageResponseDTO.from(dtoPage);
     }
@@ -226,7 +249,7 @@ public class PostService {
     }
 
     /* 해당 ID 의 글 불러오기 */
-    @Transactional // 클래스 전체에 적용
+    @Transactional(readOnly = true) // 클래스 전체에 적용
     public PostResponseDTO getPostById(String urlPath, Long id) {
         log.info("{}커뮤니티의 {} 번호 글 상세보기 요청 들어옴.",urlPath,id);
 
@@ -238,9 +261,17 @@ public class PostService {
             throw new IllegalArgumentException("해당 갤러리에 속한 글이 아닙니다.");
         }
 
-        postRepository.increaseViewCount(id);
 
-        return PostResponseDTO.from(post);
+        /* 수정할 조회수 로직 */
+//        postRepository.increaseViewCount(id);
+
+        PostResponseDTO response = PostResponseDTO.from(post);
+        long currentViewCount = postRedisService.incrementAndGet(
+                post.getId(),
+                post.getViewCount()
+        );
+
+        return  response.withViewCount(currentViewCount);
     }
 
 

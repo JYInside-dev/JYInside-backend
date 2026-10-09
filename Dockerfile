@@ -4,7 +4,6 @@ WORKDIR /app
 
 ## curl 설치 명령어 추가
 #RUN dnf install -y curl
-#
 
 # 💡 수정: dnf를 이용해 findutils와 dos2unix를 한 번에 설치
 RUN dnf install -y findutils dos2unix
